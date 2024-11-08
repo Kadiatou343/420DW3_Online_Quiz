@@ -59,7 +59,8 @@ class User
      * @param int|null $id
      * @param DateTime|null $registrationDate
      */
-    public function __construct(string $lastName, string $firstName, string $email, string $passwordHash, UserRole $role, int $id = null, DateTime $registrationDate = null){
+    public function __construct(string $lastName, string $firstName, string $email, string $passwordHash, UserRole $role, int $id = null, DateTime $registrationDate = null)
+    {
         $this->lastName = $lastName;
         $this->firstName = $firstName;
         $this->email = $email;
