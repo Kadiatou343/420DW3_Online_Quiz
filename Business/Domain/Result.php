@@ -40,18 +40,18 @@ class Result
      * Constructeur orienté coté code (celui qui ne prend pas en compte les paramètres optionnels)
      * Constructeur orienté coté base de données (celui qui prend en compte tous les paramètres)
      * @param int $score
-     * @param DateTime $dateCreated
      * @param Quiz $quiz
      * @param User $user
      * @param int|null $id
+     * @param DateTime|null $dateCreated
      */
-    public function __construct(int $score, DateTime $dateCreated, Quiz $quiz, User $user, int $id = null)
+    public function __construct(int $score, Quiz $quiz, User $user, int $id = null, ?DateTime $dateCreated = null)
     {
         $this->score = $score;
-        $this->dateCreated = $dateCreated;
         $this->quiz = $quiz;
         $this->user = $user;
-        $this->id = $id;
+        $this->id = $id ?? 0;
+        $this->dateCreated = $dateCreated ?? new DateTime();
     }
 
     /**
@@ -113,7 +113,7 @@ class Result
      */
     public function __toString(): string
     {
-        return "Id : $this->id - Score : $this->score - DateCreated : $this->dateCreated";
+        return "Id : $this->id - Score : $this->score";
     }
 
 

@@ -39,12 +39,12 @@ class Quiz
      * @param int|null $id
      * @param DateTime|null $dateCreated
      */
-    public function __construct(string $title, string $description, int $id = null, DateTime $dateCreated = null)
+    public function __construct(string $title, string $description, ?int $id = null, ?DateTime $dateCreated = null)
     {
         $this->title = $title;
         $this->description = $description;
-        $this->id = $id;
-        $this->dateCreated = $dateCreated;
+        $this->id = $id ?? 0;
+        $this->dateCreated = $dateCreated ?? new DateTime();
     }
 
     /**
@@ -96,7 +96,7 @@ class Quiz
      */
     public function __toString(): string
     {
-        return "Titre : $this->title, Description : $this->description, Date Created : $this->dateCreated";
+        return "Titre : $this->title, Description : $this->description";
     }
 
 
