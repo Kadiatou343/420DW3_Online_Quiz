@@ -4,12 +4,22 @@ declare(strict_types=1);
 namespace Business\Domain;
 
 use DateTime;
+use ProjectUtilities\ArgumentOutOfRange;
 
 /**
  * Classe représentant un quiz
  */
 class Quiz
 {
+    /**
+     * La longueur maximale du titre du quiz
+     */
+    public const QUIZ_TITLE_MAX_LENGTH = 128;
+    /**
+     * La longueur maximale de la description du quiz
+     */
+    public const QUIZ_DESCRIPTION_MAX_LENGTH = 256;
+
     /**
      * @var int
      * L'identifiant du quiz
@@ -65,8 +75,14 @@ class Quiz
         return $this->title;
     }
 
+    /**
+     * @throws ArgumentOutOfRange
+     */
     public function setTitle(string $title): void
     {
+        if (!$this->validateTitle($title)) {
+            throw new ArgumentOutOfRange("La taille du titre devrait être inférieure à " . self::QUIZ_TITLE_MAX_LENGTH . " !");
+        }
         $this->title = $title;
     }
 
@@ -75,8 +91,14 @@ class Quiz
         return $this->description;
     }
 
+    /**
+     * @throws ArgumentOutOfRange
+     */
     public function setDescription(string $description): void
     {
+        if (!$this->validateDescription($description)) {
+            throw new ArgumentOutOfRange("La taille de la description devrait être inférieure à " . self::QUIZ_DESCRIPTION_MAX_LENGTH . " !");
+        }
         $this->description = $description;
     }
 
@@ -88,6 +110,26 @@ class Quiz
     public function setDateCreated(DateTime $dateCreated): void
     {
         $this->dateCreated = $dateCreated;
+    }
+
+    /**
+     * @param string $title
+     * @return bool
+     * La méthode pour valider la taille du titre
+     */
+    public function validateTitle(string $title): bool
+    {
+        return mb_strlen($title, "UTF-8") <= self::QUIZ_TITLE_MAX_LENGTH;
+    }
+
+    /**
+     * @param string $description
+     * @return bool
+     * La méthode pour valider la taille de la description
+     */
+    public function validateDescription(string $description): bool
+    {
+        return mb_strlen($description, "UTF-8") <= self::QUIZ_DESCRIPTION_MAX_LENGTH;
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Business\Domain;
 
 use DateTime;
+use ProjectUtilities\ArgumentOutOfRange;
 use ProjectUtilities\ListResult;
 use ProjectUtilities\UserRole;
 
@@ -12,6 +13,23 @@ use ProjectUtilities\UserRole;
  */
 class User
 {
+    /**
+     * La longueur maximale du nom de famille de l'utilisateur
+     */
+    public const USER_LASTNAME_MAX_LENGTH = 100;
+    /**
+     * La longueur maximale du prénom de l'utilisateur
+     */
+    public const USER_FIRSTNAME_MAX_LENGTH = 100;
+    /**
+     * La longueur maximale du hash du mot de passe de l'utilisateur
+     */
+    public const USER_PASSWORD_HASH_MAX_LENGTH = 128;
+    /**
+     * La longueur maximale de l'email de l'utilisateur
+     */
+    public const USER_EMAIL_MAX_LENGTH = 128;
+
     /**
      * @var int
      * L'identifiant de l'utilisateur
@@ -91,8 +109,14 @@ class User
         return $this->lastName;
     }
 
+    /**
+     * @throws ArgumentOutOfRange
+     */
     public function setLastName(string $lastName): void
     {
+        if (!$this->validateLastName($lastName)) {
+            throw new ArgumentOutOfRange("La taille du nom de famille devrait être inférieure à " . self::USER_LASTNAME_MAX_LENGTH . " !");
+        }
         $this->lastName = $lastName;
     }
 
@@ -101,8 +125,14 @@ class User
         return $this->firstName;
     }
 
+    /**
+     * @throws ArgumentOutOfRange
+     */
     public function setFirstName(string $firstName): void
     {
+        if (!$this->validateFirstName($firstName)) {
+            throw new ArgumentOutOfRange("La taille du prénom devrait être inférieure à " . self::USER_FIRSTNAME_MAX_LENGTH . " !");
+        }
         $this->firstName = $firstName;
     }
 
@@ -111,8 +141,17 @@ class User
         return $this->email;
     }
 
+    /**
+     * @throws ArgumentOutOfRange
+     */
     public function setEmail(string $email): void
     {
+        if (!$this->validateEmail($email)) {
+            throw new ArgumentOutOfRange("La taille de l'email devrait être inférieure à " . self::USER_EMAIL_MAX_LENGTH . " !");
+        }
+        elseif (!$this->validateEmailFormat($email)) {
+            throw new \InvalidArgumentException("Le format de l'email n'est pas valide !");
+        }
         $this->email = $email;
     }
 
@@ -121,8 +160,14 @@ class User
         return $this->passwordHash;
     }
 
+    /**
+     * @throws ArgumentOutOfRange
+     */
     public function setPasswordHash(string $passwordHash): void
     {
+        if (!$this->validatePasswordHash($passwordHash)) {
+            throw new ArgumentOutOfRange("La taille du hash du mot de passe devrait être inférieure a " . self::USER_PASSWORD_HASH_MAX_LENGTH . " !");
+        }
         $this->passwordHash = $passwordHash;
     }
 
@@ -144,6 +189,52 @@ class User
     public function setRegistrationDate(DateTime $registrationDate): void
     {
         $this->registrationDate = $registrationDate;
+    }
+
+    /**
+     * @param string $lastName
+     * @return bool
+     * La méthode pour valider la taille du nom de famille
+     */
+    public function validateLastName(string $lastName): bool
+    {
+        return strlen($lastName) <= self::USER_LASTNAME_MAX_LENGTH;
+    }
+
+    /**
+     * @param string $firstName
+     * @return bool
+     * La méthode pour valider la taille du prénom
+     */
+    public function validateFirstName(string $firstName): bool {
+        return strlen($firstName) <= self::USER_FIRSTNAME_MAX_LENGTH;
+    }
+
+    /**
+     * @param string $passwordHash
+     * @return bool
+     * La méthode pour valider la taille le hash du mot de passe
+     */
+    public function validatePasswordHash(string $passwordHash): bool {
+        return strlen($passwordHash) <= self::USER_PASSWORD_HASH_MAX_LENGTH;
+    }
+
+    /**
+     * @param string $email
+     * @return bool
+     * La méthode pour valider le format de l'email
+     */
+    public function validateEmailFormat(string $email): bool {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    /**
+     * @param string $email
+     * @return bool
+     * La méthode pour valider la taille de l'email
+     */
+    public function validateEmail(string $email): bool {
+        return $email <= self::USER_EMAIL_MAX_LENGTH;
     }
 
     /**
