@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Business\Domain;
 
 use DateTime;
+use InvalidArgumentException;
 use ProjectUtilities\ArgumentOutOfRange;
 use ProjectUtilities\ListResult;
 use ProjectUtilities\UserRole;
@@ -150,7 +151,7 @@ class User
             throw new ArgumentOutOfRange("La taille de l'email devrait être inférieure à " . self::USER_EMAIL_MAX_LENGTH . " !");
         }
         elseif (!$this->validateEmailFormat($email)) {
-            throw new \InvalidArgumentException("Le format de l'email n'est pas valide !");
+            throw new InvalidArgumentException("Le format de l'email n'est pas valide !");
         }
         $this->email = $email;
     }

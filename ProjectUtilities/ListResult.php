@@ -18,7 +18,7 @@ class ListResult
 
     /**
      * @return Result[]
-     * Le getters pour l'array de Result
+     * Le getter pour l'array de Result
      */
     public function getListResults(): array
     {
