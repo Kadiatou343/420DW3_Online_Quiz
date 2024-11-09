@@ -15,6 +15,7 @@ class DbConnectionProvider
     public static function getConnection(): PDO
     {
         if (self::$connection === null) {
+            // TODO Add a try-catch block
             self::$connection = new PDO(self::$connection_string, self::$username, self::$password);
         }
         return self::$connection;
