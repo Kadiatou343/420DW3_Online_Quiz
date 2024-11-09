@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Business\Domain;
 
 use DateTime;
+use ProjectUtilities\ListResult;
 use ProjectUtilities\UserRole;
 
 /**
@@ -46,7 +47,11 @@ class User
      * La date de création de l'utilisateur
      */
     private DateTime $registrationDate;
-    // private Result $results;
+    /**
+     * @var ListResult
+     * Les résultats associés à l'utilisateur
+     */
+    private ListResult $results;
 
     /**
      * Constructeur orienté coté code (celui qui ne prend pas en compte les paramètres optionnels)
