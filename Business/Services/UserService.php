@@ -6,6 +6,7 @@ namespace Business\Services;
 use Business\Domain\User;
 use DataAccess\DAOs\UserDAO;
 use Exception;
+use InvalidArgumentException;
 use ProjectUtilities\ListUser;
 use ProjectUtilities\UserRole;
 
@@ -20,6 +21,9 @@ class UserService
      */
     private UserDAO $userDAO;
 
+    /**
+     * Le constructeur initialise le DAO
+     */
     public function __construct()
     {
         $this->userDAO = new UserDAO();
@@ -42,6 +46,26 @@ class UserService
     {
         $user = new User($lastName, $firstName, $email, $role, $passwordHash);
         return $this->userDAO->create($user);
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     * Verifier les credentials d'un utilisateur lors de la connexion
+     */
+    public function logInUserGamer(string $email, string $password) : bool
+    {
+        $user = $this->userDAO->getByEmail($email);
+
+        if ($user === null) {
+            throw new InvalidArgumentException("User not found !");
+        }
+
+        if (password_verify($password, $user->getPasswordHash())){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -92,6 +116,16 @@ class UserService
     public function getAllUsers() : ListUser
     {
         return $this->userDAO->getAll();
+    }
+
+    /**
+     * @param int $id
+     * @return User
+     * Obtenir un utilisateur par son identifiant
+     */
+    public function getUserById(int $id) : User
+    {
+        return $this->userDAO->getById($id);
     }
 
 

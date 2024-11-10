@@ -66,7 +66,7 @@ class Question
      * @param int|null $id
      * @param string|null $imageUrl
      */
-    public function __construct(string $questionText, string $correctAnswer, string $wrongAnswer1, string $wrongAnswer2, string $wrongAnswer3, Quiz $quiz, ?int $id = null, ?string $imageUrl = null)
+    public function __construct(string $questionText, string $correctAnswer, string $wrongAnswer1, string $wrongAnswer2, string $wrongAnswer3, Quiz $quiz, ?string $imageUrl = null, ?int $id = null)
     {
         $this->questionText = $questionText;
         $this->correctAnswer = $correctAnswer;
@@ -74,8 +74,8 @@ class Question
         $this->wrongAnswer2 = $wrongAnswer2;
         $this->wrongAnswer3 = $wrongAnswer3;
         $this->quiz = $quiz;
-        $this->id = $id ?? 0;
         $this->imageUrl = $imageUrl ?? '';
+        $this->id = $id ?? 0;
     }
 
     /**

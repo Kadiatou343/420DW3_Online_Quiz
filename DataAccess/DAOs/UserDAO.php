@@ -37,7 +37,7 @@ class UserDAO
     /**
      * @param int $id
      * @return User|null
-     * La méthode pour obtenir un utilisateur par son identifiant
+     * La méthode pour obtenir un utilisateur par son identifiant.
      * Elle retourne null si l'identifiant passé en paramètre n'existe pas dans la table 'users'
      */
     public function getById(int $id): ?User
@@ -149,5 +149,33 @@ class UserDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete user with id {$user->getId()}. No rows deleted !");
         }
+    }
+
+    /**
+     * @param string $email
+     * @return User|null
+     * La méthode qui retourne un utilisateur par son email.
+     * Elle retourne null si l'email passé en paramètre ne correspond à aucun tuple dans la table
+     */
+    public function getByEmail(string $email): ?User
+    {
+        $query = "SELECT * FROM $this->tableName WHERE Email = :email ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":email", $email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return new User(
+                $result[0]['LastName'],
+                $result[0]['FirstName'],
+                $result[0]['Email'],
+                $result[0]['Role'],
+                $result[0]['PasswordHash'],
+                (int)$result[0]['Id'],
+                DateTimeFromString::createDateTimeFromString($result[0]['RegistrationDate'])
+            );
+        }
+        return null;
     }
 }

@@ -62,8 +62,8 @@ class QuestionDAO
                 $result[0]['WrongAnswer2'],
                 $result[0]['WrongAnswer3'],
                 $quiz,
-                $result[0]['Id'],
-                $result[0]['ImageUrl']);
+                $result[0]['ImageUrl'],
+                (int)$result[0]['Id']);
         }
 
         return null;
@@ -90,8 +90,8 @@ class QuestionDAO
                 $question['WrongAnswer2'],
                 $question['WrongAnswer3'],
                 $quiz,
-                (int)$question['Id'],
                 $question['ImageUrl'],
+                (int)$question['Id'],
             ));
         }
         return $questions;
