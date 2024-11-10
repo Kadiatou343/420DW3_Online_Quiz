@@ -57,10 +57,10 @@ class User
      */
     private string $passwordHash;
     /**
-     * @var UserRole
+     * @var string|UserRole
      * Le role de l'utilisateur
      */
-    private UserRole $role;
+    private string|UserRole $role;
     /**
      * @var DateTime
      * La date de création de l'utilisateur
@@ -78,16 +78,18 @@ class User
      * @param string $lastName
      * @param string $firstName
      * @param string $email
-     * @param UserRole $role
+     * @param string|UserRole $role
+     * @param string|null $passwordHash
      * @param int|null $id
      * @param DateTime|null $registrationDate
      */
-    public function __construct(string $lastName, string $firstName, string $email, UserRole $role, ?int $id = null, ?DateTime $registrationDate = null)
+    public function __construct(string $lastName, string $firstName, string $email, string|UserRole $role, ?string $passwordHash = null, ?int $id = null, ?DateTime $registrationDate = null)
     {
         $this->lastName = $lastName;
         $this->firstName = $firstName;
         $this->email = $email;
         $this->role = $role;
+        $this->passwordHash = $passwordHash ?? "";
         $this->id = $id ?? 0;
         $this->registrationDate = $registrationDate ?? new DateTime();
     }

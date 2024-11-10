@@ -5,6 +5,6 @@ namespace ProjectUtilities;
 
 enum UserRole: string
 {
-    case Admin = 'admin';
-    case Gamer = 'gamer';
+    case ADMIN = 'admin';
+    case GAMER = 'gamer';
 }
