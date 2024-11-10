@@ -6,6 +6,9 @@ namespace DataAccess;
 use PDO;
 use PDOException;
 
+/**
+ * Classe qui gère la connexion avec la base de données
+ */
 class DbConnectionProvider
 {
     private static ?PDO $connection = null;
@@ -13,6 +16,10 @@ class DbConnectionProvider
     private static string $username = "root";
     private static string $password = "";
 
+    /**
+     * @return PDO
+     * La méthode qui fournit la connexion
+     */
     public static function getConnection(): PDO
     {
         if (self::$connection === null) {
