@@ -42,7 +42,7 @@ class QuizDAO
      */
     public function getById(int $id): ?Quiz
     {
-        $query = "SELECT * FROM {$this->tableName} WHERE Id = :id;";
+        $query = "SELECT * FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(":id", $id);
         $statement->execute();
@@ -65,7 +65,7 @@ class QuizDAO
      */
     public function getAll(): ListQuiz
     {
-        $query = "SELECT * FROM {$this->tableName};";
+        $query = "SELECT * FROM $this->tableName ;";
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -87,14 +87,14 @@ class QuizDAO
      */
     public function create(Quiz $quiz): Quiz
     {
-        $query = "INSERT INTO {$this->tableName} (Title, Description) VALUES (:title, :description);)";
+        $query = "INSERT INTO $this->tableName (Title, Description) VALUES (:title, :description) ;)";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":title", $quiz->getTitle());
         $statement->bindValue(":description", $quiz->getDescription());
         $statement->execute();
-        $quizId = (int)$this->connection->lastInsertId();
+        $createdId = (int)$this->connection->lastInsertId();
 
-        return $this->getById($quizId);
+        return $this->getById($createdId);
     }
 
     /**
@@ -105,7 +105,7 @@ class QuizDAO
      */
     public function update(Quiz $quiz): Quiz
     {
-        $query = "UPDATE {$this->tableName} SET Title = :title, Description = :description WHERE Id = :id;";
+        $query = "UPDATE $this->tableName SET Title = :title, Description = :description WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":title", $quiz->getTitle());
         $statement->bindValue(":description", $quiz->getDescription());
@@ -126,7 +126,7 @@ class QuizDAO
      */
     public function delete(Quiz $quiz): void
     {
-        $query = "DELETE FROM {$this->tableName} WHERE Id = :id;";
+        $query = "DELETE FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":id", $quiz->getId());
         $statement->execute();

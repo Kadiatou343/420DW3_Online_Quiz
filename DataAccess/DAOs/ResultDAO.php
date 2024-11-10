@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace DataAccess\DAOs;
 
-use Business\Domain\Quiz;
 use Business\Domain\Result;
 use DataAccess\DbConnectionProvider;
 use Exception;
@@ -56,7 +55,7 @@ class ResultDAO
      */
     public function getById(int $id) : ?Result
     {
-        $query = "SELECT * FROM {$this->tableName} WHERE id = :id;";
+        $query = "SELECT * FROM $this->tableName WHERE id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -70,7 +69,7 @@ class ResultDAO
                 $quiz,
                 $user,
                 (int)$result[0]['Id'],
-                DateTimeFromString::createDateTimeFromString($result[0]['CreatedAt'])
+                DateTimeFromString::createDateTimeFromString($result[0]['Date'])
             );
         }
 
@@ -83,7 +82,7 @@ class ResultDAO
      */
     public function getAll() : ListResult
     {
-        $query = "SELECT * FROM {$this->tableName};";
+        $query = "SELECT * FROM $this->tableName ;";
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $queryResults = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -111,7 +110,7 @@ class ResultDAO
      */
     public function create(Result $result) : Result
     {
-        $query = "INSERT INTO {$this->tableName} (UserId, QuizId, Score) VALUES (:userId, :quizId, :score);";
+        $query = "INSERT INTO $this->tableName (UserId, QuizId, Score) VALUES (:userId, :quizId, :score) ;";
         $statement = $this->connection->prepare($query);
 
         $statement->bindValue(":userId", $result->getUser()->getId());
@@ -119,8 +118,8 @@ class ResultDAO
         $statement->bindValue(":score", $result->getScore());
         $statement->execute();
 
-        $lastInsertId = (int)$this->connection->lastInsertId();
-        return $this->getById($lastInsertId);
+        $createdId = (int)$this->connection->lastInsertId();
+        return $this->getById($createdId);
     }
 
     /**
@@ -131,7 +130,7 @@ class ResultDAO
      */
     public function update(Result $result) : Result
     {
-        $query = "UPDATE {$this->tableName} SET UserId = :userId, QuizId = :quizId, Score = :score WHERE Id = :id;";
+        $query = "UPDATE $this->tableName SET UserId = :userId, QuizId = :quizId, Score = :score WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
 
         $statement->bindValue(":userId", $result->getUser()->getId());
@@ -154,7 +153,7 @@ class ResultDAO
      */
     public function delete(Result $result) : void
     {
-        $query = "DELETE FROM {$this->tableName} WHERE Id = :id;";
+        $query = "DELETE FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":id", $result->getId());
         $statement->execute();

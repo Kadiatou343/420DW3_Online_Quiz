@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace DataAccess\DAOs;
 
 use Business\Domain\Question;
-use Business\Domain\Quiz;
 use DataAccess\DbConnectionProvider;
 use Exception;
 use PDO;
@@ -32,7 +31,7 @@ class QuestionDAO
     private QuizDAO $quizDAO;
 
     /**
-     * Le contructeur initiale la connection avec la classe fournisseur
+     * Le contructeur initialise la connection avec la classe fournisseur
      */
     public function __construct()
     {
@@ -48,7 +47,7 @@ class QuestionDAO
      */
     public function getById(int $id): ?Question
     {
-        $query = "SELECT * FROM {$this->tableName} WHERE Id = :id;";
+        $query = "SELECT * FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(":id", $id);
         $statement->execute();
@@ -76,7 +75,7 @@ class QuestionDAO
      */
     public function getAll(): ListQuestion
     {
-        $query = "SELECT * FROM {$this->tableName};";
+        $query = "SELECT * FROM $this->tableName ;";
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -105,9 +104,9 @@ class QuestionDAO
      */
     public function create(Question $question): Question
     {
-        $query = "INSERT INTO {$this->tableName} (QuestionText, CorrectAnswer, WrongAnswer1, " .
+        $query = "INSERT INTO $this->tableName (QuestionText, CorrectAnswer, WrongAnswer1, " .
             "WrongAnswer2, WrongAnswer3, QuizId, ImageUrl) VALUES " .
-            "(:questionText, :correctAnswer, :wrongAnswer1, :wrongAnswer2, :wrongAnswer3, :quizId, :imageUrl);";
+            "(:questionText, :correctAnswer, :wrongAnswer1, :wrongAnswer2, :wrongAnswer3, :quizId, :imageUrl) ;";
 
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":questionText", $question->getQuestionText());
@@ -120,8 +119,8 @@ class QuestionDAO
 
         $statement->execute();
 
-        $questionId = (int)$this->connection->lastInsertId();
-        return $this->getById($questionId);
+        $createdId = (int)$this->connection->lastInsertId();
+        return $this->getById($createdId);
     }
 
     /**
@@ -132,10 +131,10 @@ class QuestionDAO
      */
     public function update(Question $question): Question
     {
-        $query = "UPDATE {$this->tableName} SET QuestionText = :questionText, " .
+        $query = "UPDATE $this->tableName SET QuestionText = :questionText, " .
         "CorrectAnswer = :correctAnswer, WrongAnswer1 = :wrongAnswer1, " .
         "WrongAnswer2 = :wrongAnswer2, WrongAnswer3 = :wrongAnswer3, " .
-        "QuizId = :quizId, ImageUrl = :imageUrl WHERE Id = :id;";
+        "QuizId = :quizId, ImageUrl = :imageUrl WHERE Id = :id ;";
 
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":questionText", $question->getQuestionText());
@@ -163,7 +162,7 @@ class QuestionDAO
      */
     public function delete(Question $question): void
     {
-        $query = "DELETE FROM {$this->tableName} WHERE Id = :id;";
+        $query = "DELETE FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":id", $question->getId());
         $statement->execute();

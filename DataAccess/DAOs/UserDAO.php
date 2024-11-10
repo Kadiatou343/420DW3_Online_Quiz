@@ -42,7 +42,7 @@ class UserDAO
      */
     public function getById(int $id): ?User
     {
-        $query = "SELECT Id, LastName, FirstName, Email, Role, RegistrationDate FROM $this->tableName WHERE id = :id ;";
+        $query = "SELECT * FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(":id", $id);
         $statement->execute();
@@ -53,6 +53,7 @@ class UserDAO
                 $result[0]['FirstName'],
                 $result[0]['Email'],
                 $result[0]['Role'],
+                $result[0]['PasswordHash'],
                 (int)$result[0]['Id'],
                 DateTimeFromString::createDateTimeFromString($result[0]['RegistrationDate']));
         }
@@ -76,6 +77,7 @@ class UserDAO
                 $user['FirstName'],
                 $user['Email'],
                 $user['Role'],
+                $user['PasswordHash'],
                 (int)$user['Id'],
                 DateTimeFromString::createDateTimeFromString($user['RegistrationDate'])));
         }
@@ -89,12 +91,13 @@ class UserDAO
      */
     public function create(User $user): User
     {
-        $query = "INSERT INTO $this->tableName (LastName, FirstName, Email, Role) " .
-            "VALUES (:lastName, :firstName, :email, :role) ;";
+        $query = "INSERT INTO $this->tableName (LastName, FirstName, Email, PasswordHash, Role) " .
+            "VALUES (:lastName, :firstName, :email, :passwordHash, :role) ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":lastName", $user->getLastName());
         $statement->bindValue(":firstName", $user->getFirstName());
         $statement->bindValue(":email", $user->getEmail());
+        $statement->bindValue(":passwordHash", $user->getPasswordHash());
         $statement->bindValue(":role", $user->getRole());
         $statement->execute();
         $createdId = (int)$this->connection->lastInsertId();
@@ -138,7 +141,7 @@ class UserDAO
      */
     public function delete(User $user): void
     {
-        $query = "DELETE FROM $this->tableName WHERE Id = :id;";
+        $query = "DELETE FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":id", $user->getId());
         $statement->execute();
