@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Business\Domain;
 
 use DateTime;
-use ProjectUtilities\ArgumentOutOfRange;
+use ProjectUtilities\ArgumentOutOfRangeException;
 
 /**
  * Classe représentant un quiz
@@ -76,12 +76,12 @@ class Quiz
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setTitle(string $title): void
     {
         if (!$this->validateTitle($title)) {
-            throw new ArgumentOutOfRange("La taille du titre devrait être inférieure à " . self::QUIZ_TITLE_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille du titre devrait être inférieure à " . self::QUIZ_TITLE_MAX_LENGTH . " !");
         }
         $this->title = $title;
     }
@@ -92,12 +92,12 @@ class Quiz
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setDescription(string $description): void
     {
         if (!$this->validateDescription($description)) {
-            throw new ArgumentOutOfRange("La taille de la description devrait être inférieure à " . self::QUIZ_DESCRIPTION_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille de la description devrait être inférieure à " . self::QUIZ_DESCRIPTION_MAX_LENGTH . " !");
         }
         $this->description = $description;
     }

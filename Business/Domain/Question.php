@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Business\Domain;
 
-use ProjectUtilities\ArgumentOutOfRange;
+use ProjectUtilities\ArgumentOutOfRangeException;
 
 /**
  * Classe représentant une question
@@ -107,12 +107,12 @@ class Question
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setCorrectAnswer(string $correctAnswer): void
     {
         if (!$this->validateCorrectAnswer($correctAnswer)) {
-            throw new ArgumentOutOfRange("La taille de la bonne réponse devrait être inférieure à " . self::QUESTION_CORRECT_ANSWER_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille de la bonne réponse devrait être inférieure à " . self::QUESTION_CORRECT_ANSWER_MAX_LENGTH . " !");
         }
         $this->correctAnswer = $correctAnswer;
     }
@@ -123,12 +123,12 @@ class Question
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setWrongAnswer1(string $wrongAnswer1): void
     {
         if (!$this->validateWrongAnswer($wrongAnswer1)) {
-            throw new ArgumentOutOfRange("La taille des mauvaises réponse devrait être inférieure à " . self::QUESTION_WRONG_ANSWER_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille des mauvaises réponse devrait être inférieure à " . self::QUESTION_WRONG_ANSWER_MAX_LENGTH . " !");
         }
         $this->wrongAnswer1 = $wrongAnswer1;
     }
@@ -139,12 +139,12 @@ class Question
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setWrongAnswer2(string $wrongAnswer2): void
     {
         if (!$this->validateWrongAnswer($wrongAnswer2)) {
-            throw new ArgumentOutOfRange("La taille des mauvaises réponse devrait être inférieure à " . self::QUESTION_WRONG_ANSWER_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille des mauvaises réponse devrait être inférieure à " . self::QUESTION_WRONG_ANSWER_MAX_LENGTH . " !");
         }
         $this->wrongAnswer2 = $wrongAnswer2;
     }
@@ -155,12 +155,12 @@ class Question
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setWrongAnswer3(string $wrongAnswer3): void
     {
         if (!$this->validateWrongAnswer($wrongAnswer3)) {
-            throw new ArgumentOutOfRange("La taille des mauvaises réponse devrait être inférieure à " . self::QUESTION_WRONG_ANSWER_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille des mauvaises réponse devrait être inférieure à " . self::QUESTION_WRONG_ANSWER_MAX_LENGTH . " !");
         }
         $this->wrongAnswer3 = $wrongAnswer3;
     }
@@ -181,12 +181,12 @@ class Question
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setImageUrl(string $imageUrl): void
     {
         if (!$this->validateImageUrl($imageUrl)) {
-            throw new ArgumentOutOfRange("La taille de l'url devrait être inférieure à " . self::QUESTION_IMAGE_URL_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille de l'url devrait être inférieure à " . self::QUESTION_IMAGE_URL_MAX_LENGTH . " !");
         }
         $this->imageUrl = $imageUrl;
     }

@@ -5,7 +5,7 @@ namespace Business\Domain;
 
 use DateTime;
 use InvalidArgumentException;
-use ProjectUtilities\ArgumentOutOfRange;
+use ProjectUtilities\ArgumentOutOfRangeException;
 use ProjectUtilities\ListResult;
 use ProjectUtilities\UserRole;
 
@@ -111,12 +111,12 @@ class User
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setLastName(string $lastName): void
     {
         if (!$this->validateLastName($lastName)) {
-            throw new ArgumentOutOfRange("La taille du nom de famille devrait être inférieure à " . self::USER_LASTNAME_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille du nom de famille devrait être inférieure à " . self::USER_LASTNAME_MAX_LENGTH . " !");
         }
         $this->lastName = $lastName;
     }
@@ -127,12 +127,12 @@ class User
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setFirstName(string $firstName): void
     {
         if (!$this->validateFirstName($firstName)) {
-            throw new ArgumentOutOfRange("La taille du prénom devrait être inférieure à " . self::USER_FIRSTNAME_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille du prénom devrait être inférieure à " . self::USER_FIRSTNAME_MAX_LENGTH . " !");
         }
         $this->firstName = $firstName;
     }
@@ -143,12 +143,12 @@ class User
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setEmail(string $email): void
     {
         if (!$this->validateEmail($email)) {
-            throw new ArgumentOutOfRange("La taille de l'email devrait être inférieure à " . self::USER_EMAIL_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille de l'email devrait être inférieure à " . self::USER_EMAIL_MAX_LENGTH . " !");
         }
         elseif (!$this->validateEmailFormat($email)) {
             throw new InvalidArgumentException("Le format de l'email n'est pas valide !");
@@ -162,12 +162,12 @@ class User
     }
 
     /**
-     * @throws ArgumentOutOfRange
+     * @throws ArgumentOutOfRangeException
      */
     public function setPasswordHash(string $passwordHash): void
     {
         if (!$this->validatePasswordHash($passwordHash)) {
-            throw new ArgumentOutOfRange("La taille du hash du mot de passe devrait être inférieure a " . self::USER_PASSWORD_HASH_MAX_LENGTH . " !");
+            throw new ArgumentOutOfRangeException("La taille du hash du mot de passe devrait être inférieure a " . self::USER_PASSWORD_HASH_MAX_LENGTH . " !");
         }
         $this->passwordHash = $passwordHash;
     }
