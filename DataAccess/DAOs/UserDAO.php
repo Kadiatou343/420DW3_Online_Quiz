@@ -26,6 +26,9 @@ class UserDAO
      */
     private string $tableName = "users";
 
+    /**
+     * Le contructeur initiale la connection avec la classe fournisseur
+     */
     public function __construct()
     {
         $this->connection = DbConnectionProvider::getConnection();
@@ -69,12 +72,12 @@ class UserDAO
         $users = new ListUser();
         foreach ($results as $id => $user) {
             $users->addUser(new User(
-                $user[$id]['LastName'],
-                $user[$id]['FirstName'],
-                $user[$id]['Email'],
-                $user[$id]['Role'],
-                (int)$user[$id]['Id'],
-                DateTimeFromString::createDateTimeFromString($user[$id]['RegistrationDate'])));
+                $user['LastName'],
+                $user['FirstName'],
+                $user['Email'],
+                $user['Role'],
+                (int)$user['Id'],
+                DateTimeFromString::createDateTimeFromString($user['RegistrationDate'])));
         }
         return $users;
     }
@@ -121,8 +124,7 @@ class UserDAO
         $statement->bindValue(":id", $user->getId());
         $statement->execute();
 
-        $rowsModified = $statement->rowCount();
-        if ($rowsModified < 0) {
+        if ($statement->rowCount() === 0) {
             throw new Exception("Unable to update user with id {$user->getId()}. No rows modified !");
         }
         return $this->getById($user->getId());
@@ -140,9 +142,8 @@ class UserDAO
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":id", $user->getId());
         $statement->execute();
-        $rowsDeleted = $statement->rowCount();
 
-        if ($rowsDeleted < 0) {
+        if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete user with id {$user->getId()}. No rows deleted !");
         }
     }
