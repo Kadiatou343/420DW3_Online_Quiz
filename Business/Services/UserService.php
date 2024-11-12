@@ -128,5 +128,15 @@ class UserService
         return $this->userDAO->getById($id);
     }
 
+    /**
+     * @param string $criteria
+     * @return ListUser|null
+     * Faire une recherche d'utilisateurs à partir d'une chaine de recherche
+     */
+    public function searchUsersByString(string $criteria) : ?ListUser
+    {
+        return $this->userDAO->searchByString($criteria);
+    }
+
 
 }

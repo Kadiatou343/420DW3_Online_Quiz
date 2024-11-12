@@ -5,6 +5,7 @@ namespace Business\Domain;
 
 use DateTime;
 use ProjectUtilities\ArgumentOutOfRangeException;
+use ProjectUtilities\ListQuestion;
 use ProjectUtilities\ListResult;
 
 /**
@@ -46,6 +47,11 @@ class Quiz
      * Les résultats liés au quiz
      */
     private ListResult $results;
+    /**
+     * @var ListQuestion
+     * Les questions liées au quiz
+     */
+    private ListQuestion $questions;
 
     /**
      * Constructeur orienté coté code (celui qui ne prend pas en compte les paramètres optionnels)
@@ -126,6 +132,16 @@ class Quiz
     public function setResults(ListResult $results): void
     {
         $this->results = $results;
+    }
+
+    public function getQuestions(): ListQuestion
+    {
+        return $this->questions;
+    }
+
+    public function setQuestions(ListQuestion $questions): void
+    {
+        $this->questions = $questions;
     }
 
     /**

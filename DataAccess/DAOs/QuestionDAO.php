@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DataAccess\DAOs;
 
 use Business\Domain\Question;
+use Business\Domain\Quiz;
 use DataAccess\DbConnectionProvider;
 use Exception;
 use PDO;
@@ -37,6 +38,16 @@ class QuestionDAO
     {
         $this->connection = DbConnectionProvider::getConnection();
         $this->quizDAO = new QuizDAO();
+    }
+
+    public function getQuizDAO(): QuizDAO
+    {
+        return $this->quizDAO;
+    }
+
+    public function setQuizDAO(QuizDAO $quizDAO): void
+    {
+        $this->quizDAO = $quizDAO;
     }
 
     /**
@@ -171,4 +182,36 @@ class QuestionDAO
             throw new Exception("Unable to delete question with id {$question->getId()}. No rows deleted !");
         }
     }
+
+    /**
+     * @param Quiz $quiz
+     * @return ListQuestion
+     * La méthode qui retourne les questions en fonction d'un quiz
+     */
+    public function filterByQuiz(Quiz $quiz): ListQuestion
+    {
+        $query = "SELECT * FROM $this->tableName WHERE QuizId = :quizId ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindValue(":quizId", $quiz->getId());
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $id => $question) {
+            $quiz->getQuestions()->addQuestion(
+                new Question(
+                    $question['QuestionText'],
+                    $question['CorrectAnswer'],
+                    $question['WrongAnswer1'],
+                    $question['WrongAnswer2'],
+                    $question['WrongAnswer3'],
+                    $quiz,
+                    $question['ImageUrl'],
+                    (int)$question['Id'],
+                )
+            );
+        }
+        return $quiz->getQuestions();
+    }
+
+
 }

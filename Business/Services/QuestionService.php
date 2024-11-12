@@ -93,4 +93,15 @@ class QuestionService
     {
         $this->questionDAO->delete($question);
     }
+
+    /**
+     * @param int $quizId
+     * @return ListQuestion
+     * Retourne les questions en fonction de l'identifiant d'un quiz
+     */
+    public function filterQuestionsByQuizId(int $quizId): ListQuestion
+    {
+        $quiz = $this->questionDAO->getQuizDAO()->getById($quizId);
+        return $this->questionDAO->filterByQuiz($quiz);
+    }
 }

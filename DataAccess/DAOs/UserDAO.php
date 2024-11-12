@@ -178,4 +178,36 @@ class UserDAO
         }
         return null;
     }
+
+    /**
+     * @param string $criteria
+     * @return ListUser|null
+     * La méthode qui retourne les utilisateurs en fonction d'une chaine de caractères de recherche
+     */
+    public function searchByString(string $criteria): ?ListUser
+    {
+        $query = "SELECT * FROM $this->tableName WHERE LastName LIKE :criteria " .
+        "OR FirstName LIKE :criteria OR Email LIKE :criteria ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindValue(":criteria", "%$criteria%");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $users = new ListUser();
+
+        if ($result){
+            foreach ($result as $user){
+                $users->addUser(new User(
+                    $user['LastName'],
+                    $user['FirstName'],
+                    $user['Email'],
+                    $user['Role'],
+                    $user['PasswordHash'],
+                    (int)$user['Id'],
+                    DateTimeFromString::createDateTimeFromString($user['RegistrationDate'])
+                ));
+            }
+            return $users;
+        }
+        return null;
+    }
 }
