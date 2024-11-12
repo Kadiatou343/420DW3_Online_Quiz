@@ -194,6 +194,16 @@ class User
         $this->registrationDate = $registrationDate;
     }
 
+    public function getResults(): ListResult
+    {
+        return $this->results;
+    }
+
+    public function setResults(ListResult $results): void
+    {
+        $this->results = $results;
+    }
+
     /**
      * @param string $lastName
      * @return bool

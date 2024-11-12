@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace DataAccess\DAOs;
 
+use Business\Domain\Quiz;
 use Business\Domain\Result;
+use Business\Domain\User;
 use DataAccess\DbConnectionProvider;
 use Exception;
 use PDO;
@@ -45,6 +47,26 @@ class ResultDAO
         $this->connection = DbConnectionProvider::getConnection();
         $this->quizDAO = new QuizDAO();
         $this->userDAO = new UserDAO();
+    }
+
+    public function getQuizDAO(): QuizDAO
+    {
+        return $this->quizDAO;
+    }
+
+    public function setQuizDAO(QuizDAO $quizDAO): void
+    {
+        $this->quizDAO = $quizDAO;
+    }
+
+    public function getUserDAO(): UserDAO
+    {
+        return $this->userDAO;
+    }
+
+    public function setUserDAO(UserDAO $userDAO): void
+    {
+        $this->userDAO = $userDAO;
     }
 
     /**
@@ -161,5 +183,61 @@ class ResultDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete result with id {$result->getId()}. No rows deleted !");
         }
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return ListResult
+     * La méthode qui retourne les résultats en fonction d'un quiz
+     */
+    public function filterByQuiz(Quiz $quiz) : ListResult
+    {
+        $query = "SELECT * FROM $this->tableName WHERE QuizId = :quizId ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindValue(":quizId", $quiz->getId());
+        $statement->execute();
+        $queryResults = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($queryResults as $id => $result) {
+            $quiz->getResults()->addResult(
+                new Result(
+                    $result['Score'],
+                    $quiz,
+                    $this->userDAO->getById($result['UserId']),
+                    (int)$result['Id'],
+                    DateTimeFromString::createDateTimeFromString($result['Date'])
+                )
+            );
+        }
+
+        return $quiz->getResults();
+    }
+
+    /**
+     * @param User $user
+     * @return ListResult
+     * La méthode qui retourne les résultats en fonction d'un utilisateur
+     */
+    public function filterByUser(User $user) : ListResult
+    {
+        $query = "SELECT * FROM $this->tableName WHERE UserId = :userId ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindValue(":userId", $user->getId());
+        $statement->execute();
+        $queryResults = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($queryResults as $id => $result) {
+            $user->getResults()->addResult(
+                new Result(
+                 $result['Score'],
+                 $this->quizDAO->getById($result['QuizId']),
+                 $user,
+                 (int)$result['Id'],
+                 DateTimeFromString::createDateTimeFromString($result['Date'])
+                )
+            );
+        }
+
+        return $user->getResults();
     }
 }

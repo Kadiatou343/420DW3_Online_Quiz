@@ -83,5 +83,27 @@ class ResultService
         $this->resultDAO->delete($result);
     }
 
+    /**
+     * @param int $quizId
+     * @return ListResult
+     * Retourne les resultats à partir de l'id d'un quiz
+     */
+    public function filterResultsByQuizId(int $quizId) : ListResult
+    {
+        $quiz = $this->resultDAO->getQuizDAO()->getById($quizId);
+        return $this->resultDAO->filterByQuiz($quiz);
+    }
+
+    /**
+     * @param int $userId
+     * @return ListResult
+     * Retourne les résultats à partir de l'id d'un utilisateur
+     */
+    public function filterResultsByUserId(int $userId) : ListResult
+    {
+        $user = $this->resultDAO->getUserDAO()->getById($userId);
+        return $this->resultDAO->filterByUser($user);
+    }
+
 
 }
