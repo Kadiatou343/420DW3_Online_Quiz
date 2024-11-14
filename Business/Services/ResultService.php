@@ -16,10 +16,10 @@ use ProjectUtilities\ListResult;
 class ResultService
 {
     /**
-     * @var ResultDAO
+     * @var ?ResultDAO
      * Le DAO du résultat
      */
-    private ResultDAO $resultDAO;
+    private ?ResultDAO $resultDAO;
 
     /**
      * Le constructeur initialise le DAO
@@ -103,6 +103,14 @@ class ResultService
     {
         $user = $this->resultDAO->getUserDAO()->getById($userId);
         return $this->resultDAO->filterByUser($user);
+    }
+
+    /**
+     * Desctructeur du service
+     */
+    public function __destruct()
+    {
+        $this->resultDAO = null;
     }
 
 

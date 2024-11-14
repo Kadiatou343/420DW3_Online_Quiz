@@ -14,10 +14,10 @@ use ProjectUtilities\ListQuiz;
 class QuizService
 {
     /**
-     * @var QuizDAO
+     * @var ?QuizDAO
      * Le DAO du quiz
      */
-    private QuizDAO $quizDAO;
+    private ?QuizDAO $quizDAO;
 
     /**
      * Le constructeur initialise le DAO
@@ -77,5 +77,13 @@ class QuizService
     public function deleteQuiz(Quiz $quiz) : void
     {
         $this->quizDAO->delete($quiz);
+    }
+
+    /**
+     * Desctructeur du service
+     */
+    public function __destruct()
+    {
+        $this->quizDAO = null;
     }
 }

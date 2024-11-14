@@ -15,10 +15,10 @@ use ProjectUtilities\ListQuestion;
 class QuestionService
 {
     /**
-     * @var QuestionDAO
+     * @var ?QuestionDAO
      * Le DAO de la question
      */
-    private QuestionDAO $questionDAO;
+    private ?QuestionDAO $questionDAO;
 
     /**
      * Le constructeur initialise le DAO
@@ -103,5 +103,13 @@ class QuestionService
     {
         $quiz = $this->questionDAO->getQuizDAO()->getById($quizId);
         return $this->questionDAO->filterByQuiz($quiz);
+    }
+
+    /**
+     * Desctructeur du service
+     */
+    public function __destruct()
+    {
+        $this->questionDAO = null;
     }
 }

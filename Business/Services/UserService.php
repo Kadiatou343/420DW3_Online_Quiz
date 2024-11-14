@@ -16,10 +16,10 @@ use ProjectUtilities\UserRole;
 class UserService
 {
     /**
-     * @var UserDAO
+     * @var ?UserDAO
      * Le DAO de l'utilisateur
      */
-    private UserDAO $userDAO;
+    private ?UserDAO $userDAO;
 
     /**
      * Le constructeur initialise le DAO
@@ -150,6 +150,11 @@ class UserService
     public function searchUsersByString(string $criteria) : ?ListUser
     {
         return $this->userDAO->searchByString($criteria);
+    }
+
+    public function __destruct()
+    {
+        $this->userDAO = null;
     }
 
 
