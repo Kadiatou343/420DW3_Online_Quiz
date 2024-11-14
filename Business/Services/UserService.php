@@ -51,10 +51,10 @@ class UserService
     /**
      * @param string $email
      * @param string $password
-     * @return bool
+     * @return bool|User
      * Verifier les credentials d'un utilisateur lors de la connexion
      */
-    public function logInUserGamer(string $email, string $password) : bool
+    public function logInUser(string $email, string $password) : bool|User
     {
         $user = $this->userDAO->getByEmail($email);
 
@@ -63,9 +63,23 @@ class UserService
         }
 
         if (password_verify($password, $user->getPasswordHash())){
-            return true;
+            return $user;
         }
         return false;
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     * La methode pour verifier le role d'un utilisateur.
+     * Elle retourne true si l'utilisateur a le rôle d'admin et false pour rôle de gamer
+     */
+    public function VerifyUserRoleAfterLogIn(User $user) : bool
+    {
+        if ($user->getRole() == UserRole::GAMER->value){
+            return false;
+        }
+        return true;
     }
 
     /**
