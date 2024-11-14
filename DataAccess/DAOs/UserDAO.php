@@ -210,4 +210,13 @@ class UserDAO
         }
         return null;
     }
+
+    /**
+     * Desctructeur du DAO.
+     * La méthode ferme la connexion
+     */
+    public function __destruct()
+    {
+        unset($this->connection);
+    }
 }

@@ -135,4 +135,13 @@ class QuizDAO
             throw new Exception("Unable to delete quiz with id {$quiz->getId()}. No row deleted !");
         }
     }
+
+    /**
+     * Desctructeur du DAO.
+     * La méthode ferme la connexion
+     */
+    public function __destruct()
+    {
+        unset($this->connection);
+    }
 }

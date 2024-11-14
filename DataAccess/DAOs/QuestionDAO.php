@@ -213,5 +213,14 @@ class QuestionDAO
         return $quiz->getQuestions();
     }
 
+    /**
+     * Desctructeur du DAO.
+     * La méthode ferme la connexion
+     */
+    public function __destruct()
+    {
+        unset($this->connection);
+    }
+
 
 }
