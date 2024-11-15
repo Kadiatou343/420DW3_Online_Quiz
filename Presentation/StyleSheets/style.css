@@ -1,0 +1,94 @@
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #B2A59F, #023459,#1E646E,#002C2F);
+    font-family: Georgia, sans-serif;
+}
+
+.login-form, .register-form{
+    width: 350px;
+    height: 600px;
+    background: #1E646E;
+    border: 1px solid #0000;
+    border-radius: 15px;
+    box-shadow: 5px 15px 20px #0000;
+}
+
+.login-form form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-form form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2{
+    color: #023459;
+    font-size: 2.3 em;
+    text-align: center;
+    margin: 50px;
+    font-weight: bold;
+}
+
+input{
+    width: 80%;
+    height: 20px;
+    margin: 20px auto;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.register-form input{
+    margin: 10px auto;
+}
+
+img{
+    width: 130px;
+    height: 60px;
+}
+
+.section-captcha{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+
+.section-captcha input{
+    width: 85%;
+}
+
+button{
+    width: 40%;
+    height: 40px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #023459;
+    color: #B2A59F;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 40px;
+}
+
+span {
+    color: #B2A59F;
+}
+
+a {
+    color: #B2A59F;
+}
+
+.question{
+    margin-top: 10px;
+}
