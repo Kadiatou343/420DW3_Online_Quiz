@@ -50,10 +50,10 @@ class QuizDAO
 
         if ($result) {
             return new Quiz(
-                $result[0]['Title'],
-                $result[0]['Description'],
-                $result[0]['Id'],
-                DateTimeFromString::createDateTimeFromString($result[0]['DateCreated'])
+                $result['Title'],
+                $result['Description'],
+                $result['Id'],
+                DateTimeFromString::createDateTimeFromString($result['DateCreated'])
             );
         }
         return null;
@@ -134,6 +134,33 @@ class QuizDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete quiz with id {$quiz->getId()}. No row deleted !");
         }
+    }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     * @return ListQuiz
+     * Obtenir les tuples de quiz selon une limite et le point de départ
+     */
+    public function getQuizzesByLimitAndOffset(int $limit, int $offset): ListQuiz
+    {
+        $query = "SELECT * FROM $this->tableName LIMIT :limit OFFSET :offset ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":limit", $limit);
+        $statement->bindParam(":offset", $offset);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $quizzes = new ListQuiz();
+
+        foreach ($results as $id => $quiz) {
+            $quizzes->addQuiz(new Quiz(
+                $quiz['Title'],
+                $quiz['Description'],
+                (int)$quiz['Id'],
+                DateTimeFromString::createDateTimeFromString($quiz['DateCreated'])
+            ));
+        }
+        return $quizzes;
     }
 
     /**

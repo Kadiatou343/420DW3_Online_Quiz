@@ -41,7 +41,7 @@ class CaptchaDAO
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result){
-            return new Captcha((int)$result[0]['Id'], $result[0]['Code'], $result[0]['Image']);
+            return new Captcha((int)$result['Id'], $result['Code'], $result['Image']);
         }
 
         return null;
@@ -53,12 +53,12 @@ class CaptchaDAO
      */
     public function getNumberOfTuples() : int
     {
-        $query = "SELECT COUNT(*) FROM $this->tableName ;";
+        $query = "SELECT COUNT(*) AS total FROM $this->tableName ;";
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        return (int)$result[0]['COUNT(*)'];
+        return (int)$result['total'];
     }
 
     /**

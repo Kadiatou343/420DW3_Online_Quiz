@@ -49,13 +49,13 @@ class UserDAO
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             return new User(
-                $result[0]['LastName'],
-                $result[0]['FirstName'],
-                $result[0]['Email'],
-                $result[0]['Role'],
-                $result[0]['PasswordHash'],
-                (int)$result[0]['Id'],
-                DateTimeFromString::createDateTimeFromString($result[0]['RegistrationDate']));
+                $result['LastName'],
+                $result['FirstName'],
+                $result['Email'],
+                $result['Role'],
+                $result['PasswordHash'],
+                (int)$result['Id'],
+                DateTimeFromString::createDateTimeFromString($result['RegistrationDate']));
         }
         return null;
     }
@@ -167,13 +167,13 @@ class UserDAO
 
         if ($result) {
             return new User(
-                $result[0]['LastName'],
-                $result[0]['FirstName'],
-                $result[0]['Email'],
-                $result[0]['Role'],
-                $result[0]['PasswordHash'],
-                (int)$result[0]['Id'],
-                DateTimeFromString::createDateTimeFromString($result[0]['RegistrationDate'])
+                $result['LastName'],
+                $result['FirstName'],
+                $result['Email'],
+                $result['Role'],
+                $result['PasswordHash'],
+                (int)$result['Id'],
+                DateTimeFromString::createDateTimeFromString($result['RegistrationDate'])
             );
         }
         return null;

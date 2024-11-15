@@ -67,14 +67,14 @@ class QuestionDAO
         if ($result){
             $quiz = $this->quizDAO->getById((int)$result[0]['QuizId']); // ?? new Quiz("",""); Double Check
             return new Question(
-                $result[0]['QuestionText'],
-                $result[0]['CorrectAnswer'],
-                $result[0]['WrongAnswer1'],
-                $result[0]['WrongAnswer2'],
-                $result[0]['WrongAnswer3'],
+                $result['QuestionText'],
+                $result['CorrectAnswer'],
+                $result['WrongAnswer1'],
+                $result['WrongAnswer2'],
+                $result['WrongAnswer3'],
                 $quiz,
-                $result[0]['ImageUrl'],
-                (int)$result[0]['Id']);
+                $result['ImageUrl'],
+                (int)$result['Id']);
         }
 
         return null;

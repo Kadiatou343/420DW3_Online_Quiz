@@ -87,11 +87,11 @@ class ResultDAO
             $quiz = $this->quizDAO->getById($result[0]['QuizId']);
             $user = $this->userDAO->getById($result[0]['UserId']);
             return new Result(
-                $result[0]['Score'],
+                $result['Score'],
                 $quiz,
                 $user,
-                (int)$result[0]['Id'],
-                DateTimeFromString::createDateTimeFromString($result[0]['Date'])
+                (int)$result['Id'],
+                DateTimeFromString::createDateTimeFromString($result['Date'])
             );
         }
 
@@ -118,7 +118,7 @@ class ResultDAO
                 $quiz,
                 $user,
                 (int)$result['Id'],
-                DateTimeFromString::createDateTimeFromString($result[0]['Date'])
+                DateTimeFromString::createDateTimeFromString($result['Date'])
             ));
         }
 
