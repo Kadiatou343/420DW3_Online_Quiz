@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once "../../psr4_autoloader.php";
+
 use Business\Domain\User;
 use Business\Services\UserService;
 use ProjectUtilities\ArgumentOutOfRangeException;
@@ -45,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     } catch (ArgumentOutOfRangeException|InvalidArgumentException|Exception $e) {
-        echo "<p class='error'>" . $e->getMessage() . "</p>";
+        $error = $e->getMessage();
     }
 }
 ?>
@@ -65,13 +67,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="register-form">
         <h2>Online&nbsp;Quiz&nbsp;-&nbsp;Inscription</h2>
         <form action="#" method="post">
-            <input type="text" name="firstName" id="firstName" required placeholder="Prénom">
-            <input type="text" name="lastName" id="lastName" required placeholder="Nom de Famille">
+            <input type="text" name="firstName" id="firstName" required placeholder="Prénom" min="2">
+            <input type="text" name="lastName" id="lastName" required placeholder="Nom de Famille" min="5">
             <input type="email" name="email" id="email" required placeholder="Email">
-            <input type="password" name="password" id="password" required placeholder="Mot de passe">
+            <input type="password" name="password" id="password" required placeholder="Mot de passe" min="8">
             <input type="password" name="confirmPassword" id="confirmPassword" required
                    placeholder="Confirmer Mot de passe">
-
+            <?php if (isset($error)) {
+                echo "<p class='error'>" . $error . "</p>";
+            } ?>
             <button type="submit">S'inscrire</button>
 
             <div class="question">

@@ -241,7 +241,10 @@ class User
      * La méthode pour valider le format de l'email
      */
     public function validateEmailFormat(string $email): bool {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+             return false;
+         }
+         return true;
     }
 
     /**
@@ -250,7 +253,7 @@ class User
      * La méthode pour valider la taille de l'email
      */
     public function validateEmail(string $email): bool {
-        return $email <= self::USER_EMAIL_MAX_LENGTH;
+        return strlen($email) <= self::USER_EMAIL_MAX_LENGTH;
     }
 
     /**

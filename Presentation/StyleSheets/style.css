@@ -10,7 +10,7 @@ body{
 
 .login-form, .register-form{
     width: 400px;
-    height: 620px;
+    height: 650px;
     background: #1E646E;
     border: 1px solid #0000;
     border-radius: 15px;
@@ -107,4 +107,10 @@ a {
 button:hover{
     background: #B2A59F;
     color: #023459;
+}
+
+.error{
+    color: #B2A59F;
+    font-weight: bold;
+    font-size: 1em;
 }

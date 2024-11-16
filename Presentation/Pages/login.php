@@ -19,10 +19,10 @@ require_once "../../psr4_autoloader.php";
  * Redirection vers page d'accueil si c'est le cas
  */
 
-if (CookieManager::doesUserCookieExist()){
-    if (CookieManager::IsUserRoleAdmin()){
+if (CookieManager::doesUserCookieExist()) {
+    if (CookieManager::IsUserRoleAdmin()) {
         header("location: adminHome.php");
-    }else{
+    } else {
         header("location: gamerHome.php");
     }
     exit();
@@ -54,16 +54,17 @@ if ($captcha !== null) {
 }
 
 /**
- * Verification de informations de connexion
+ * Verification des informations de connexion
  * Redirection, si utilisateur reconnu, vers la bonne page d'acceuil en fontion de son role
  */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = htmlspecialchars($_POST["email"]);
     $password = htmlspecialchars($_POST["password"]);
     $captchaUser = htmlspecialchars($_POST["captcha"]);
-    $user = $userService->logInUser($email, $password);
 
     try {
+        // Appel de la méthode du service en charge de la connexion d'un utilisateur
+        $user = $userService->logInUser($email, $password);
         if ($user === false) {
             throw new Exception("Mot de passe incorrect!");
         }
@@ -72,24 +73,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             throw new Exception("Captcha incorrect! La validation robot n'a pas marché !");
         }
 
+        if (isset($_POST['remember']) && $_POST["remember"] === "accepted") {
+            CookieManager::createUserCookie($user->getEmail(), $user->getRole());
+            SessionManager::createUserSession($user->getEmail(), $user->getRole());
+        }
+
+        if ($user !== false) {
+            if ($user->getRole() === UserRole::GAMER->value) {
+                header("Location: gamerHome.php");
+            } else {
+                header("Location: adminHome.php");
+            }
+            exit();
+        }
 
     } catch (InvalidArgumentException|Exception $e) {
-        echo "<p class='error'>" . $e->getMessage() . "</p>";
+        $error = $e->getMessage();
     }
-
-    if (isset($_POST['remember']) && $_POST["remember"] === "accepted") {
-        CookieManager::createUserCookie($user->getEmail(), $user->getRole());
-        SessionManager::createUserSession($user->getEmail(), $user->getRole());
-    }
-
-    if ($user->getRole() === UserRole::GAMER->value)
-    {
-        header("Location: gamerHome.php");
-    }else{
-        header("Location: adminHome.php");
-    }
-    exit();
-
 
 }
 
@@ -122,6 +122,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <p><span>Se rappeler de moi?</span></p>
                 <input type="checkbox" name="remember" id="remember" value="accepted">
             </div>
+            <?php if (isset($error)) {
+                echo "<p class='error'>" . $error . "</p>";
+            } ?>
             <button type="submit">Se connecter</button>
             <br>
             <span>Vous n'avez pas de compte ?&nbsp;<a href="./register.php">Inscrivez-vous ici</a></span>
