@@ -1,5 +1,27 @@
 <?php
+declare(strict_types=1);
+
+use ProjectUtilities\CaptchaDAO;
+
 require_once "../../psr4_autoloader.php";
+
+$captchaDao = new CaptchaDao();
+
+$numberOfTuples = $captchaDao->getNumberOfTuples();
+
+$randomCaptcha = mt_rand(1, $numberOfTuples);
+
+$captcha = $captchaDao->getById($randomCaptcha);
+
+$base64Image = null;
+$imageSrc = null;
+
+if ($captcha !== null)
+{
+    $base64Image = base64_encode($captcha->getImageBlob());
+
+    $imageSrc = "data:image/png;base64," . $base64Image;
+}
 
 ?>
 
@@ -17,17 +39,22 @@ require_once "../../psr4_autoloader.php";
 
     <div class="container">
     <div class="login-form">
-        <h2>Connexion</h2>
+        <h2>Online&nbsp;Quiz&nbsp;-&nbsp;Connexion</h2>
         <form action="#" method="post">
             <input type="email" name="email" id="email" required placeholder="Email">
             <input type="password" name="password" id="password" required placeholder="Mot de passe">
             
             <div class="section-captcha">
-                <img src="../../../img_two.png" alt="captcha">
+                <img src="<?php echo $imageSrc ?? '../../../img_two.png' ?>" alt="captcha">
                 <input type="text" name="captcha" id="captcha" required placeholder="Entrez le texte de l'image">
-            </div> <br>
+            </div>
+            <div class="check">
+                <p><span>Se rappeler de moi?</span></p>
+                <input type="checkbox" name="remember" id="remember">
+            </div>
+            <button type="submit">Se connecter</button> <br> 
             <span>Vous n'avez pas de compte ?&nbsp;<a href="./register.php">Inscrivez-vous ici</a></span>
-            <button type="submit">Se connecter</button>
+            
         </form>
     </div>
     </div>
