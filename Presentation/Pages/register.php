@@ -1,5 +1,53 @@
-<?php 
+<?php
+declare(strict_types=1);
 
+use Business\Domain\User;
+use Business\Services\UserService;
+use ProjectUtilities\ArgumentOutOfRangeException;
+use ProjectUtilities\UserRole;
+
+/**
+ * L'objet service user pour faire l'operation d'enregistrement dans la base de données
+ */
+$userService = new UserService();
+
+/**
+ * Verifier que la méthode d'envoie du server est bien post
+ * Recupération des données du formulaire dans des variables locales
+ * Certaines validations sont gérés du côté HTML (required, min)
+ * Gestion des exceptions possibles d'être levées
+ */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $lastName = htmlspecialchars($_POST["lastName"]);
+    $firstName = htmlspecialchars($_POST["firstName"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $password = htmlspecialchars($_POST["password"]);
+    $confirmPassword = htmlspecialchars($_POST["confirmPassword"]);
+
+    try {
+        $user = new User('', '', '', '');
+        $user->setLastName($lastName);
+        $user->setFirstName($firstName);
+        $user->setEmail($email);
+        $user->setRole(UserRole::GAMER->value);
+
+        if (!User::confirmPassword($password, $confirmPassword)) {
+            throw new Exception("Les mot de passes ne correspondent pas");
+        }
+
+        $user->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
+
+        $newUser = $userService->registerUserGamer($user);
+
+        if ($newUser !== null) {
+            header("Location: login.php");
+            exit;
+        }
+
+    } catch (ArgumentOutOfRangeException|InvalidArgumentException|Exception $e) {
+        echo "<p class='error'>" . $e->getMessage() . "</p>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,25 +61,26 @@
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
     <div class="register-form">
         <h2>Online&nbsp;Quiz&nbsp;-&nbsp;Inscription</h2>
         <form action="#" method="post">
-            <input type="text" name="first_name" id="first_name" required placeholder="Prénom">
-            <input type="text" name="last_name" id="last_name" required placeholder="Nom de Famille">
+            <input type="text" name="firstName" id="firstName" required placeholder="Prénom">
+            <input type="text" name="lastName" id="lastName" required placeholder="Nom de Famille">
             <input type="email" name="email" id="email" required placeholder="Email">
             <input type="password" name="password" id="password" required placeholder="Mot de passe">
-            <input type="password" name="conf_password" id="conf_password" required placeholder="Confirmer Mot de passe">
-            
+            <input type="password" name="confirmPassword" id="confirmPassword" required
+                   placeholder="Confirmer Mot de passe">
+
             <button type="submit">S'inscrire</button>
-            
+
             <div class="question">
                 <span>Vous avez un compte ?&nbsp;<a href="./login.php">Connectez-vous ici</a></span>
             </div>
-            
+
         </form>
     </div>
-    </div>
-    
+</div>
+
 </body>
 </html>

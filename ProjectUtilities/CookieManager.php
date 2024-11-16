@@ -36,4 +36,16 @@ class CookieManager
         }
         return false;
     }
+
+    /**
+     * @return bool
+     * Determiner le role du cookie utilisateur
+     */
+    public static function IsUserRoleAdmin(): bool
+    {
+        if ($_COOKIE["role"] === UserRole::ADMIN->value) {
+            return true;
+        }
+        return false;
+    }
 }

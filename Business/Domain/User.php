@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Business\Domain;
 
 use DateTime;
+use Exception;
 use InvalidArgumentException;
 use ProjectUtilities\ArgumentOutOfRangeException;
 use ProjectUtilities\ListResult;
@@ -174,15 +175,17 @@ class User
         $this->passwordHash = $passwordHash;
     }
 
-    public function getRole(): UserRole
+    public function getRole(): UserRole|string
     {
         return $this->role;
     }
 
-    public function setRole(UserRole $role): void
+    public function setRole(UserRole|string $role): void
     {
         $this->role = $role;
     }
+
+
 
     public function getRegistrationDate(): DateTime
     {
@@ -248,6 +251,21 @@ class User
      */
     public function validateEmail(string $email): bool {
         return $email <= self::USER_EMAIL_MAX_LENGTH;
+    }
+
+    /**
+     * @param string $password
+     * @param string $confirmPassword
+     * @return bool
+     * La méthode pour verifier si le mot de passe et la confirmation de mot de passe sont pareils
+     */
+    public static function confirmPassword(string $password, string $confirmPassword): bool
+    {
+        if ($password === $confirmPassword) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

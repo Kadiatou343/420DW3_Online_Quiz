@@ -30,21 +30,12 @@ class UserService
     }
 
     /**
-     * @param string $lastName
-     * @param string $firstName
-     * @param string $email
-     * @param string $passwordHash
-     * @param string|UserRole $role
+     * @param User $user
      * @return User
      * La méthode pour créer un nouvel utilisateur (joueur)
      */
-    public function registerUserGamer(string          $lastName,
-                                      string          $firstName,
-                                      string          $email,
-                                      string          $passwordHash,
-                                      string|UserRole $role = UserRole::GAMER->value): User
+    public function registerUserGamer(User $user): User
     {
-        $user = new User($lastName, $firstName, $email, $role, $passwordHash);
         return $this->userDAO->create($user);
     }
 
@@ -83,21 +74,12 @@ class UserService
     }
 
     /**
-     * @param string $lastName
-     * @param string $firstName
-     * @param string $email
-     * @param string $passwordHash
-     * @param string|UserRole $role
+     * @param User $user
      * @return User
      * La méthode pour ajouter un utilisateur (admin)
      */
-    public function addUserAdmin(string          $lastName,
-                                 string          $firstName,
-                                 string          $email,
-                                 string          $passwordHash,
-                                 string|UserRole $role = UserRole::ADMIN->value): User
+    public function addUserAdmin(User $user): User
     {
-        $user = new User($lastName, $firstName, $email, $role, $passwordHash);
         return $this->userDAO->create($user);
     }
 
