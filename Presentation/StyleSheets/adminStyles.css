@@ -10,13 +10,17 @@
     justify-content: space-between;
 }
 
-.list-quiz {
+.list-quiz, .list-user {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.list-quiz .filter {
+.list-quiz, .list-result {
+    background: #f1f1f1;
+}
+
+.list-quiz .filter, .list-user .filter, .list-result .filter {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -37,6 +41,16 @@
     flex-direction: row;
     justify-content: space-around;
     border-bottom: 2px solid #E1DCD9;
+    align-items: center;
+}
+
+.table-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #E1DCD9;
+    height: 50px;
 }
 
 .add-quiz {
@@ -48,12 +62,35 @@
     margin-right: 10px;
 }
 
+.add-admin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.admin {
+    padding-left: 200px;
+    padding-right: 200px;
+    height: auto;
+    background: #f1f1f1;
+}
+
+.admin .form-gr {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto;
+    gap : 10px
+}
+
 .add-quiz .quiz, .add-quiz .question {
     border: 1px solid slategray;
     width: 48%;
 }
 
-.add-quiz .quiz {
+.add-quiz .quiz, .add-admin .admin {
     margin-left: 20px;
 }
 .form-gr {
@@ -106,5 +143,18 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
+.details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+span {
+    color: #023459;
+    font-weight: bold;
+}
+
+
 
 
