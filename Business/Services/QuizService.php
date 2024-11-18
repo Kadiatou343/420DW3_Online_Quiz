@@ -52,7 +52,7 @@ class QuizService
      * @return ListQuiz
      * Obtenir tous les quiz
      */
-    public function getAllQuiz() : ListQuiz
+    public function getAllQuizzes() : ListQuiz
     {
         return $this->quizDAO->getAll();
     }
@@ -77,6 +77,26 @@ class QuizService
     public function deleteQuiz(Quiz $quiz) : void
     {
         $this->quizDAO->delete($quiz);
+    }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     * @return ListQuiz
+     * Obtenir les enregistrements de quiz selon une limite et un point de départ
+     */
+    public function getQuizzesByLimitAndOffset(int $limit, int $offset) : ListQuiz
+    {
+        return $this->quizDAO->getByLimitAndOffset($limit, $offset);
+    }
+
+    /**
+     * @return int
+     * Obtenir le nombre d'enregistrement de la table De Quiz
+     */
+    public function getQuizzesCount() : int
+    {
+        return $this->quizDAO->getCount();
     }
 
     /**

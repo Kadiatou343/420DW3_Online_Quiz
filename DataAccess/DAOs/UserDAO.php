@@ -9,6 +9,7 @@ use Exception;
 use PDO;
 use ProjectUtilities\DateTimeFromString;
 use ProjectUtilities\ListUser;
+use ProjectUtilities\UserRole;
 
 /**
  * Classe représentant les interactions entre l'entité 'User' et la table 'users' dans la base de données
@@ -209,6 +210,33 @@ class UserDAO
             return $users;
         }
         return null;
+    }
+
+    /**
+     * @param string $filter
+     * @return ListUser
+     * Filtrer les utilisateurs par leur role
+     */
+    public function filterByRole(string $filter) : ListUser
+    {
+        $query = "SELECT * FROM $this->tableName WHERE Role = :filter ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":filter", $filter);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $users = new ListUser();
+        foreach ($result as $id => $user){
+            $users->addUser(new User(
+                $user['LastName'],
+                $user['FirstName'],
+                $user['Email'],
+                $user['Role'],
+                $user['PasswordHash'],
+                (int)$user['Id'],
+                DateTimeFromString::createDateTimeFromString($user['RegistrationDate'])
+            ));
+        }
+        return $users;
     }
 
     /**

@@ -142,7 +142,7 @@ class QuizDAO
      * @return ListQuiz
      * Obtenir les tuples de quiz selon une limite et le point de départ
      */
-    public function getQuizzesByLimitAndOffset(int $limit, int $offset): ListQuiz
+    public function getByLimitAndOffset(int $limit, int $offset): ListQuiz
     {
         $query = "SELECT * FROM $this->tableName LIMIT :limit OFFSET :offset ;";
         $statement = $this->connection->prepare($query);
@@ -161,6 +161,20 @@ class QuizDAO
             ));
         }
         return $quizzes;
+    }
+
+    /**
+     * @return int
+     * Obtenir le nombre d'enregistrement de quizzes
+     */
+    public function getCount(): int
+    {
+        $query = "SELECT COUNT(*) AS total FROM $this->tableName ;";
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return (int) $result["total"];
     }
 
     /**
