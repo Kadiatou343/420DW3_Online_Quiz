@@ -21,7 +21,7 @@ require_once "../../psr4_autoloader.php";
 
 if (CookieManager::doesUserCookieExist()) {
     if (CookieManager::IsUserRoleAdmin()) {
-        header("location: adminHome.php");
+        header("location: adminQuiz.php");
     } else {
         header("location: gamerHome.php");
     }
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($user->getRole() === UserRole::GAMER->value) {
                 header("Location: gamerHome.php");
             } else {
-                header("Location: adminHome.php");
+                header("Location: adminQuiz.php");
             }
             exit();
         }
