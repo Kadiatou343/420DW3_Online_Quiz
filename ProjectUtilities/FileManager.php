@@ -15,7 +15,7 @@ class FileManager
     /**
      * Le dossier dans lequel les fichiers seront stockés
      */
-    private const TARGET_DIR = "../Uploads/";
+    public const TARGET_DIR = "../Uploads/";
     private const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
 
     /**

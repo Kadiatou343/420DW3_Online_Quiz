@@ -28,28 +28,23 @@ class QuestionService
         $this->questionDAO = new QuestionDAO();
     }
 
+    public function getQuestionDAO(): ?QuestionDAO
+    {
+        return $this->questionDAO;
+    }
+
+    public function setQuestionDAO(?QuestionDAO $questionDAO): void
+    {
+        $this->questionDAO = $questionDAO;
+    }
+
     /**
-     * @param string $questionText
-     * @param string $correctAnswer
-     * @param string $wrongAnswer1
-     * @param string $wrongAnswer2
-     * @param string $wrongAnswer3
-     * @param Quiz $quiz
-     * @param string|null $imageUrl
+     * @param Question $question
      * @return Question
      * Créer une question
      */
-    public function createQuestion(string $questionText,
-                                   string $correctAnswer,
-                                   string $wrongAnswer1,
-                                   string $wrongAnswer2,
-                                   string $wrongAnswer3,
-                                   Quiz $quiz,
-                                   ?string $imageUrl = null): Question
+    public function createQuestion(Question $question): Question
     {
-        $question = new Question($questionText, $correctAnswer, $wrongAnswer1,
-            $wrongAnswer2, $wrongAnswer3, $quiz, $imageUrl ?? 'No image');
-
         return $this->questionDAO->create($question);
     }
 
@@ -102,6 +97,9 @@ class QuestionService
     public function filterQuestionsByQuizId(int $quizId): ListQuestion
     {
         $quiz = $this->questionDAO->getQuizDAO()->getById($quizId);
+        if ($quiz === null) {
+            return new ListQuestion();
+        }
         return $this->questionDAO->filterByQuiz($quiz);
     }
 

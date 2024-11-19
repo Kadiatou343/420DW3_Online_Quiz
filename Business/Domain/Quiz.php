@@ -67,6 +67,8 @@ class Quiz
         $this->description = $description;
         $this->id = $id ?? 0;
         $this->dateCreated = $dateCreated ?? new DateTime();
+        $this->results = new ListResult();
+        $this->questions = new ListQuestion();
     }
 
     /**

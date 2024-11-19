@@ -93,6 +93,7 @@ class User
         $this->passwordHash = $passwordHash ?? "";
         $this->id = $id ?? 0;
         $this->registrationDate = $registrationDate ?? new DateTime();
+        $this->results = new ListResult();
     }
 
     /**
