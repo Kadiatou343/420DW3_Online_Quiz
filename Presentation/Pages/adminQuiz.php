@@ -25,7 +25,6 @@ $listQuizzes = $quizService->getAllQuizzes();
 /**
  * L'instruction qui va entrainer la fermeture de la connexion a travers le DAO
  */
-$quizService = null;
 
 /**
  * L'envoi du formulaire par post
@@ -33,7 +32,6 @@ $quizService = null;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Verification pour determiner si c'est le bouton pour ajouter un quiz
     if ($_POST['btn'] === 'quiz') {
-        $quizService = new QuizService();
         $title = htmlspecialchars($_POST["title"]);
         $description = htmlspecialchars($_POST["description"]);
 
@@ -106,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              * Creation de l'objet Question qui va contenir toutes les informations
              */
             $question = new Question('', '', '',
-                '', '', $quiz ?? new Quiz('',''));
+                '', '', $quiz ?? new Quiz('', ''));
 
             $question->setQuestionText($questionText);
             $question->setCorrectAnswer($correctAnswer);
@@ -158,9 +156,38 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == 'edit' && isset($_GET['quizId'])) {
         $quizId = (int)$_GET['quizId'];
-        $quizToUpdate = $questionService->getQuestionDAO()->getById($quizId);
+        $quizToUpdate = $quizService->getQuizById($quizId);
+
+        if ($_SERVER["REQUEST_METHOD"] === 'POST' && $_POST['btn'] === 'quizUpdate') {
+            try {
+                $title = htmlspecialchars($_POST["title"]);
+                $description = htmlspecialchars($_POST["description"]);
+                $quizToUpdate->setTitle($title);
+                $quizToUpdate->setDescription($description);
+
+                $quizUpdated = $quizService->updateQuiz($quizToUpdate);
+
+            } catch (ArgumentOutOfRangeException|Exception $e) {
+                $error = $e->getMessage();
+            }
+        }
+    }
+
+    /**
+     * Cas ou l'action remove est choisie
+     */
+    if ($_GET['action'] == 'remove' && isset($_GET['quizId'])) {
+        $quizId = (int)$_GET['quizId'];
+        $quizToRemove = $quizService->getQuizById($quizId);
+        try {
+            $quizService->deleteQuiz($quizToRemove);
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
     }
 }
+
+$quizService = null;
 
 ?>
 
@@ -280,15 +307,20 @@ if (isset($_GET['action'])) {
                 <table class="fm-ct">
                     <tr>
                         <td><label for="quizId">Id</label></td>
-                        <td><input type="text" name="quizId" id="quizId" readonly value="<?php echo isset($newQuiz) ? $newQuiz->getId() : ''; ?>"></td>
+                        <td><input type="text" name="quizId" id="quizId" readonly
+                                   value="<?php echo isset($newQuiz) ? $newQuiz->getId() : ''; ?>"></td>
                     </tr>
                     <tr>
                         <td><label for="title">Titre</label></td>
-                        <td style="width: 350px;"><input type="text" name="title" id="title" required value="<?php echo isset($newQuiz) ? $newQuiz->getTitle() : ''; ?>"></td>
+                        <td style="width: 350px;"><input type="text" name="title" id="title" required
+                                                         value="<?php echo isset($newQuiz) ? $newQuiz->getTitle() : ''; ?>">
+                        </td>
                     </tr>
                     <tr>
                         <td><label for="description">Description</label></td>
-                        <td><textarea name="description" id="description" rows="3" required><?php echo isset($newQuiz) ? $newQuiz->getDescription() : ''; ?></textarea></td>
+                        <td><textarea name="description" id="description" rows="3"
+                                      required><?php echo isset($newQuiz) ? $newQuiz->getDescription() : ''; ?></textarea>
+                        </td>
                     </tr>
                     <tr>
                         <td><label for="date">Date&nbsp;Creation</label></td>
@@ -298,40 +330,47 @@ if (isset($_GET['action'])) {
                 <table class="fm-ct">
                     <tr>
                         <td><label for="questionId">Id</label></td>
-                        <td> <input type="text" name="questionId" id="questionId" readonly> </td>
+                        <td><input type="text" name="questionId" id="questionId" readonly></td>
                     </tr>
                     <tr>
                         <td><label for="questionText">Question?</label></td>
-                        <td style="width: 350px;"> <input type="text" name="questionText" id="questionText"> </td>
+                        <td style="width: 350px;"><input type="text" name="questionText" id="questionText"></td>
                     </tr>
                     <tr>
                         <td><label for="correctAnsw">Bonne rep.</label></td>
-                        <td> <input type="text" name="correctAnsw" id="correctAnsw"> </td>
+                        <td><input type="text" name="correctAnsw" id="correctAnsw"></td>
                     </tr>
                     <tr>
                         <td><label for="wrongAnsw1">Mauvaise rep.1</label></td>
-                        <td> <input type="text" name="wrongAnsw1" id="wrongAnsw1"> </td>
+                        <td><input type="text" name="wrongAnsw1" id="wrongAnsw1"></td>
                     </tr>
                     <tr>
                         <td><label for="wrongAnsw2">Mauvaise rep.2</label></td>
-                        <td> <input type="text" name="wrongAnsw2" id="wrongAnsw2"> </td>
+                        <td><input type="text" name="wrongAnsw2" id="wrongAnsw2"></td>
                     </tr>
                     <tr>
                         <td><label for="wrongAnsw3">Mauvaise rep.3</label></td>
-                        <td> <input type="text" name="wrongAnsw3" id="wrongAnsw3"> </td>
+                        <td><input type="text" name="wrongAnsw3" id="wrongAnsw3"></td>
                     </tr>
                     <tr>
                         <td><label for="imageUrl">Televerser une image</label></td>
-                        <td> <input type="file" name="imageUrl" id="imageUrl"> </td>
+                        <td><input type="file" name="imageUrl" id="imageUrl"></td>
                     </tr>
                 </table>
             </div>
             <div class="sbt">
-                <button type="submit" name="btn" value="quiz" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;un&nbsp;quiz</button> <br>
-                <button type="submit" name="btn" value="question" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;question</button>
+                <button type="submit" name="btn" value="quiz" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;un&nbsp;quiz</button>
+
+                <button type="submit" name="btn" value="question" class="bttn" style="width: 200px; height: 40px;">
+                    Ajouter&nbsp;question
+                </button>
+
+                <button type="submit" name="btn" value="quizUpdate" class="bttn">MAJ&nbsp;Quiz</button>
             </div>
             <p class="error">
-                <?php if (isset($error)) {echo $error;} ?>
+                <?php if (isset($error)) {
+                    echo $error;
+                } ?>
             </p>
         </form>
     </div>

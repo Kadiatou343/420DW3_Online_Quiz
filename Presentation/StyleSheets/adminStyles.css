@@ -154,19 +154,21 @@ button[type=submit]{
     
 }
 
-.sbt {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-left: 200px;
-    margin-right: 200px;
-}
-
 .sbt .bttn{
     width: 300px;
 }
+
+.sbt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+
 
 a {
     text-decoration: none;
