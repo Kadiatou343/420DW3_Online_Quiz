@@ -90,6 +90,7 @@ class QuestionDAO
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $questions = new ListQuestion();
 
         foreach ($results as $id => $question) {
@@ -129,7 +130,7 @@ class QuestionDAO
         $statement->bindValue(":imageUrl", $question->getImageUrl());
 
         $statement->execute();
-
+        $statement->closeCursor();
         $createdId = (int)$this->connection->lastInsertId();
         return $this->getById($createdId);
     }
@@ -161,7 +162,7 @@ class QuestionDAO
         if ($statement->rowCount()=== 0) {
             throw new Exception("Unable to update question with id {$question->getId()}. No rows modified !");
         }
-
+        $statement->closeCursor();
         return $this->getById($question->getId());
     }
 
@@ -181,6 +182,7 @@ class QuestionDAO
         if ($statement->rowCount()=== 0) {
             throw new Exception("Unable to delete question with id {$question->getId()}. No rows deleted !");
         }
+        $statement->closeCursor();
     }
 
     /**
@@ -195,6 +197,7 @@ class QuestionDAO
         $statement->bindValue(":quizId", $quiz->getId());
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         foreach ($results as $id => $question) {
             $quiz->getQuestions()->addQuestion(

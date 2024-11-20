@@ -47,6 +47,7 @@ class QuizDAO
         $statement->bindParam(":id", $id);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         if ($result) {
             return new Quiz(
@@ -69,6 +70,7 @@ class QuizDAO
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $quizzes = new ListQuiz();
         foreach ($results as $id => $quiz) {
             $quizzes->addQuiz(new Quiz(
@@ -87,12 +89,13 @@ class QuizDAO
      */
     public function create(Quiz $quiz): Quiz
     {
-        $query = "INSERT INTO $this->tableName (Title, Description) VALUES (:title, :description) ;)";
+        $query = "INSERT INTO $this->tableName (Title, Description) VALUES (:title, :description) ;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":title", $quiz->getTitle());
         $statement->bindValue(":description", $quiz->getDescription());
         $statement->execute();
         $createdId = (int)$this->connection->lastInsertId();
+        $statement->closeCursor();
 
         return $this->getById($createdId);
     }
@@ -115,6 +118,7 @@ class QuizDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to update quiz with id {$quiz->getId()}. No rows modified !");
         }
+        $statement->closeCursor();
         return $this->getById($quiz->getId());
     }
 
@@ -134,6 +138,7 @@ class QuizDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete quiz with id {$quiz->getId()}. No row deleted !");
         }
+        $statement->closeCursor();
     }
 
     /**
@@ -150,6 +155,7 @@ class QuizDAO
         $statement->bindParam(":offset", $offset);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $quizzes = new ListQuiz();
 
         foreach ($results as $id => $quiz) {
@@ -173,6 +179,7 @@ class QuizDAO
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         return (int) $result["total"];
     }

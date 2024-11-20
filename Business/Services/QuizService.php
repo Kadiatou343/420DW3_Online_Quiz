@@ -27,14 +27,12 @@ class QuizService
     }
 
     /**
-     * @param string $title
-     * @param string $description
+     * @param Quiz $quiz
      * @return Quiz
      * Création d'un quiz
      */
-    public function createQuiz(string $title, string $description) : Quiz
+    public function createQuiz(Quiz $quiz) : Quiz
     {
-        $quiz = new Quiz($title, $description);
         return $this->quizDAO->create($quiz);
     }
 

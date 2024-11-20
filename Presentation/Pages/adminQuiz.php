@@ -23,11 +23,17 @@ $questionService = new QuestionService();
 $listQuizzes = $quizService->getAllQuizzes();
 
 /**
+ * L'instruction qui va entrainer la fermeture de la connexion a travers le DAO
+ */
+$quizService = null;
+
+/**
  * L'envoi du formulaire par post
  */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Verification pour determiner si c'est le bouton pour ajouter un quiz
-    if (isset($_POST["quiz"])) {
+    if ($_POST['btn'] === 'quiz') {
+        $quizService = new QuizService();
         $title = htmlspecialchars($_POST["title"]);
         $description = htmlspecialchars($_POST["description"]);
 
@@ -35,37 +41,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $quiz = new Quiz('', '');
             $quiz->setTitle($title);
             $quiz->setDescription($description);
+
+            $newQuiz = $quizService->createQuiz($quiz);
+            $listQuizzes = $quizService->getAllQuizzes();
+
+            /**
+             * Pour déclencher la fermeture de la connexion
+             */
+            $quizService = null;
         } catch (ArgumentOutOfRangeException $e) {
             $error = $e->getMessage();
         }
     }
 
     //Verification si c'est le bouton pour ajouter une question a un quiz
-    if (isset($_POST["question"])) {
+    if ($_POST['btn'] === 'question') {
         try {
             $questionText = htmlspecialchars($_POST["questionText"]);
-            $correctAnswer = htmlspecialchars($_POST["correctAns"]);
-            $wrongAnswer1 = htmlspecialchars($_POST["wrongAns1"]);
-            $wrongAnswer2 = htmlspecialchars($_POST["wrongAns2"]);
-            $wrongAnswer3 = htmlspecialchars($_POST["wrongAns3"]);
+            $correctAnswer = htmlspecialchars($_POST["correctAnsw"]);
+            $wrongAnswer1 = htmlspecialchars($_POST["wrongAnsw1"]);
+            $wrongAnswer2 = htmlspecialchars($_POST["wrongAnsw2"]);
+            $wrongAnswer3 = htmlspecialchars($_POST["wrongAnsw3"]);
             $quizId = (int)$_POST["quizId"] ?? null;
-            $tempPath = $_FILES["imageUrl"]["tmp_name"];
-            $fileName = basename($_FILES["imageUrl"]["name"]);
-            $fileSize = (int)filesize($_FILES["imageUrl"]["size"]);
+
+            echo "<pre>";
+            print_r($_POST);
+            echo "</pre>";
+
+            echo "<pre>";
+            print_r($_FILES);
+            echo "</pre>";
+//            $tempPath = (string)$_FILES["imageUrl"]["tmp_name"];
+//            $fileName = basename($_FILES["imageUrl"]["name"]);
+//            $fileSize = (int)filesize($_FILES["imageUrl"]["size"]);
 
             /**
              * Validation du fichier en tant qu'image permise
              */
-            if (!FileManager::IsFileTypeAllowed($tempPath)) {
-                throw new InvalidArgumentException("Le type de fichier n'est pas autorisé !");
-            }
+//            if (!FileManager::IsFileTypeAllowed($tempPath)) {
+//                throw new InvalidArgumentException("Le type de fichier n'est pas autorisé !");
+//            }
 
             /**
              * Validation de la taille de l'image
              */
-            if (!FileManager::verifyImageSize($fileSize)) {
-                throw new ArgumentOutOfRangeException("L'image depasse la taille mmaximale!");
-            }
+//            if (!FileManager::verifyImageSize($fileSize)) {
+//                throw new ArgumentOutOfRangeException("L'image depasse la taille mmaximale!");
+//            }
 
             /**
              * Verification de la nullabilite de l'id du quiz
@@ -84,14 +106,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              * Creation de l'objet Question qui va contenir toutes les informations
              */
             $question = new Question('', '', '',
-                '', '', $quiz);
+                '', '', $quiz ?? new Quiz('',''));
 
             $question->setQuestionText($questionText);
             $question->setCorrectAnswer($correctAnswer);
             $question->setWrongAnswer1($wrongAnswer1);
             $question->setWrongAnswer2($wrongAnswer2);
             $question->setWrongAnswer3($wrongAnswer3);
-            $question->setImageUrl(FileManager::TARGET_DIR . $fileName);
+//            $question->setImageUrl(FileManager::TARGET_DIR . $fileName);
 
             /**
              * Ajout dans la base de données
@@ -101,11 +123,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             /**
              * Ajout de l'image en local si elle n'existe pas déjà
              */
-            if (!FileManager::VerifyIfFileExists($fileName)) {
-                FileManager::moveFileToLocal($tempPath, $fileName);
-            } else {
-                $warningFile = "L'image existe deja !";
-            }
+//            if (!FileManager::VerifyIfFileExists($fileName)) {
+//                FileManager::moveFileToLocal($tempPath, $fileName);
+//            } else {
+//                $warningFile = "L'image existe deja !";
+//            }
+
+            /**
+             * L'instruction qui va declencher la fermeture de la connexion
+             */
+            $questionService = null;
 
         } catch (InvalidArgumentException|ArgumentOutOfRangeException $e) {
             $error = $e->getMessage();
@@ -248,20 +275,20 @@ if (isset($_GET['action'])) {
         </table>
     </div>
     <div class="add-quiz">
-        <form action="#" method="post">
+        <form action="#" method="post" enctype="multipart/form-data">
             <div class="form-ct">
                 <table class="fm-ct">
                     <tr>
                         <td><label for="quizId">Id</label></td>
-                        <td><input type="text" name="quizId" id="quizId" readonly></td>
+                        <td><input type="text" name="quizId" id="quizId" readonly value="<?php echo isset($newQuiz) ? $newQuiz->getId() : ''; ?>"></td>
                     </tr>
                     <tr>
                         <td><label for="title">Titre</label></td>
-                        <td style="width: 350px;"><input type="text" name="title" id="title" required></td>
+                        <td style="width: 350px;"><input type="text" name="title" id="title" required value="<?php echo isset($newQuiz) ? $newQuiz->getTitle() : ''; ?>"></td>
                     </tr>
                     <tr>
                         <td><label for="description">Description</label></td>
-                        <td><input type="text" name="description" id="description" required></td>
+                        <td><textarea name="description" id="description" rows="3" required><?php echo isset($newQuiz) ? $newQuiz->getDescription() : ''; ?></textarea></td>
                     </tr>
                     <tr>
                         <td><label for="date">Date&nbsp;Creation</label></td>
@@ -286,8 +313,8 @@ if (isset($_GET['action'])) {
                         <td> <input type="text" name="wrongAnsw1" id="wrongAnsw1"> </td>
                     </tr>
                     <tr>
-                        <td><label for="wrongAnws2">Mauvaise rep.2</label></td>
-                        <td> <input type="text" name="wrongAnws2" id="wrongAnws2"> </td>
+                        <td><label for="wrongAnsw2">Mauvaise rep.2</label></td>
+                        <td> <input type="text" name="wrongAnsw2" id="wrongAnsw2"> </td>
                     </tr>
                     <tr>
                         <td><label for="wrongAnsw3">Mauvaise rep.3</label></td>
@@ -295,13 +322,13 @@ if (isset($_GET['action'])) {
                     </tr>
                     <tr>
                         <td><label for="imageUrl">Televerser une image</label></td>
-                        <td> <input type="file" name="imageUrl" id="imageUrl" readonly> </td>
+                        <td> <input type="file" name="imageUrl" id="imageUrl"> </td>
                     </tr>
                 </table>
             </div>
             <div class="sbt">
-                <button type="submit" name="quiz" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;un&nbsp;quiz</button> <br>
-                <button type="submit" name="question" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;question</button>
+                <button type="submit" name="btn" value="quiz" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;un&nbsp;quiz</button> <br>
+                <button type="submit" name="btn" value="question" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;question</button>
             </div>
             <p class="error">
                 <?php if (isset($error)) {echo $error;} ?>
