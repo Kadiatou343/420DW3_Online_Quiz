@@ -20,6 +20,8 @@ class ResultService
      * Le DAO du résultat
      */
     private ?ResultDAO $resultDAO;
+    private UserService $userService;
+    private QuizService $quizService;
 
     /**
      * Le constructeur initialise le DAO
@@ -90,7 +92,7 @@ class ResultService
      */
     public function filterResultsByQuizId(int $quizId) : ListResult
     {
-        $quiz = $this->resultDAO->getQuizDAO()->getById($quizId);
+        $quiz = $this->quizService->getQuizById($quizId);
         return $this->resultDAO->filterByQuiz($quiz);
     }
 
@@ -101,7 +103,7 @@ class ResultService
      */
     public function filterResultsByUserId(int $userId) : ListResult
     {
-        $user = $this->resultDAO->getUserDAO()->getById($userId);
+        $user = $this->userService->getUserById($userId);
         return $this->resultDAO->filterByUser($user);
     }
 

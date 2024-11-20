@@ -19,6 +19,7 @@ class QuestionService
      * Le DAO de la question
      */
     private ?QuestionDAO $questionDAO;
+    private QuizService $quizService;
 
     /**
      * Le constructeur initialise le DAO
@@ -26,16 +27,17 @@ class QuestionService
     public function __construct()
     {
         $this->questionDAO = new QuestionDAO();
+        $this->quizService = new QuizService();
     }
 
-    public function getQuestionDAO(): ?QuestionDAO
+    public function getQuizService(): QuizService
     {
-        return $this->questionDAO;
+        return $this->quizService;
     }
 
-    public function setQuestionDAO(?QuestionDAO $questionDAO): void
+    public function setQuizService(QuizService $quizService): void
     {
-        $this->questionDAO = $questionDAO;
+        $this->quizService = $quizService;
     }
 
     /**
@@ -96,10 +98,8 @@ class QuestionService
      */
     public function filterQuestionsByQuizId(int $quizId): ListQuestion
     {
-        $quiz = $this->questionDAO->getQuizDAO()->getById($quizId);
-        if ($quiz === null) {
-            return new ListQuestion();
-        }
+        $quiz = $this->quizService->getQuizById($quizId);
+
         return $this->questionDAO->filterByQuiz($quiz);
     }
 

@@ -49,25 +49,7 @@ class ResultDAO
         $this->userDAO = new UserDAO();
     }
 
-    public function getQuizDAO(): QuizDAO
-    {
-        return $this->quizDAO;
-    }
 
-    public function setQuizDAO(QuizDAO $quizDAO): void
-    {
-        $this->quizDAO = $quizDAO;
-    }
-
-    public function getUserDAO(): UserDAO
-    {
-        return $this->userDAO;
-    }
-
-    public function setUserDAO(UserDAO $userDAO): void
-    {
-        $this->userDAO = $userDAO;
-    }
 
     /**
      * @param int $id

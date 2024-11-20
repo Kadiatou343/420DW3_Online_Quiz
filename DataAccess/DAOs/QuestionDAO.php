@@ -40,16 +40,6 @@ class QuestionDAO
         $this->quizDAO = new QuizDAO();
     }
 
-    public function getQuizDAO(): QuizDAO
-    {
-        return $this->quizDAO;
-    }
-
-    public function setQuizDAO(QuizDAO $quizDAO): void
-    {
-        $this->quizDAO = $quizDAO;
-    }
-
     /**
      * @param int $id
      * @return Question|null
@@ -65,7 +55,7 @@ class QuestionDAO
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result){
-            $quiz = $this->quizDAO->getById((int)$result[0]['QuizId']); // ?? new Quiz("",""); Double Check
+            $quiz = $this->quizDAO->getById((int)$result['QuizId']); // ?? new Quiz("",""); Double Check
             return new Question(
                 $result['QuestionText'],
                 $result['CorrectAnswer'],
