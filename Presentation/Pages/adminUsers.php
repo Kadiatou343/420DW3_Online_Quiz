@@ -1,5 +1,58 @@
 <?php
+
+use Business\Domain\User;
+use Business\Services\UserService;
+use ProjectUtilities\ArgumentOutOfRangeException;
+use ProjectUtilities\UserRole;
+
 require_once "../../psr4_autoloader.php";
+
+/**
+ * Le service de l'utilisateur utilisé pour effectuer les divers oprérations
+ */
+$userService = new UserService();
+
+/**
+ * Recupération de tous les utilisateurs du système
+ */
+$usersList = $userService->getAllUsers();
+
+/**
+ * Traitement des données si envoi confirmé par post
+ */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    /**
+     * Actions à faire si c'est le bouton ajouter qui est cliqué
+     */
+    if (isset($_POST["btn"]) && $_POST["btn"] == "add") {
+        $lastName = $_POST["lastName"];
+        $firstName = $_POST["firstName"];
+        $password = $_POST["password"];
+        $email = $_POST["email"];
+
+        try {
+            $user = new User('','','','');
+            $user->setLastName($lastName);
+            $user->setFirstName($firstName);
+            $user->setRole(UserRole::ADMIN->value);
+            $user->setEmail($email);
+            $user->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
+
+            $newUser = $userService->addUserAdmin($user);
+            
+            /**
+             * Refresh de la liste des utilisateurs
+             */
+            $usersList = $userService->getAllUsers();
+
+        } catch (ArgumentOutOfRangeException $e) {
+            $error = $e->getMessage();
+        }
+    }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -37,66 +90,21 @@ require_once "../../psr4_autoloader.php";
                         <th scope="col">Action</th>
                     </thead>
                     <tbody>
+                        <?php if (!empty($usersList->getListUsers())) {
+                            foreach ($usersList->getListUsers() as $user) : ?>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Jane</td>
-                            <td>Doe</td>
-                            <td>JaneDo@ja.vd</td>
-                            <td>gamer</td>
-                            <td>2024-01-01</td>
+                            <th scope="row"> <?php echo $user->getId(); ?> </th>
+                            <td> <?php echo $user->getFirstName(); ?> </td>
+                            <td> <?php echo $user->getLastName(); ?> </td>
+                            <td> <?php echo $user->getEmail(); ?> </td>
+                            <td> <?php echo $user->getRole(); ?> </td>
+                            <td> <?php echo $user->getRegistrationDate()->format('Y-m-d'); ?> </td>
                             <td>
-                                <a href="#"><i class="bi bi-trash"></i></a>&nbsp;
-                                <a href="#"><i class="bi bi-pencil"></i></a>
+                                <a href="?action=edit&userId=<?php echo $user->getId(); ?>"><i class="bi bi-pencil"></i></a>&nbsp;
+                                <a href="?action=remove&userId=<?php echo $user->getId(); ?>"><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Jane</td>
-                            <td>Doe</td>
-                            <td>JaneDo@ja.vd</td>
-                            <td>gamer</td>
-                            <td>2024-01-01</td>
-                            <td>
-                                <a href="#"><i class="bi bi-trash"></i></a>&nbsp;
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Jane</td>
-                            <td>Doe</td>
-                            <td>JaneDo@ja.vd</td>
-                            <td>gamer</td>
-                            <td>2024-01-01</td>
-                            <td>
-                                <a href="#"><i class="bi bi-trash"></i></a>&nbsp;
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Jane</td>
-                            <td>Doe</td>
-                            <td>JaneDo@ja.vd</td>
-                            <td>gamer</td>
-                            <td>2024-01-01</td>
-                            <td>
-                                <a href="#"><i class="bi bi-trash"></i></a>&nbsp;
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Jane</td>
-                            <td>Doe</td>
-                            <td>JaneDo@ja.vd</td>
-                            <td>gamer</td>
-                            <td>2024-01-01</td>
-                            <td>
-                                <a href="#"><i class="bi bi-trash"></i></a>&nbsp;
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                            </td>
-                        </tr>
+                        <?php endforeach; }?>
                     </tbody>
                 </table>
                 <div class="table-footer">
@@ -139,9 +147,12 @@ require_once "../../psr4_autoloader.php";
                             <input type="text" name="date" id="date" readonly>
                         </div>
                     </div>
-                    <p class="error"></p>
+                    <p class="error">
+                        <?php if (isset($error)) { echo $error; } ?>
+                    </p>
                     <div class="sbm">
-                        <button type="submit" class="bttn">Ajouter Admin</button>
+                        <div><button type="submit" class="bttn" name="btn" value="add">Ajouter&nbsp;Admin</button></div>
+                        <div><button type="submit" class="bttn" name="btn" value="update">MAJ&nbsp;Admin</button></div>
                     </div>
                 </form>
             </div>

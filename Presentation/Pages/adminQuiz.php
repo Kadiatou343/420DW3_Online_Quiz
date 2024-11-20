@@ -358,14 +358,22 @@ $quizService = null;
                     </tr>
                 </table>
             </div>
-            <div class="sbt">
-                <button type="submit" name="btn" value="quiz" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;un&nbsp;quiz</button>
+            <div class="sbm">
+                <div>
+                    <button type="submit" name="btn" value="quiz" class="bttn" style="width: 200px; height: 40px;">
+                        Ajouter&nbsp;un&nbsp;quiz
+                    </button>
+                </div>
 
-                <button type="submit" name="btn" value="question" class="bttn" style="width: 200px; height: 40px;">
-                    Ajouter&nbsp;question
-                </button>
+                <div>
+                    <button type="submit" name="btn" value="question" class="bttn" style="width: 200px; height: 40px;">
+                        Ajouter&nbsp;question
+                    </button>
+                </div>
 
-                <button type="submit" name="btn" value="quizUpdate" class="bttn">MAJ&nbsp;Quiz</button>
+                <div>
+                    <button type="submit" name="btn" value="quizUpdate" class="bttn">MAJ&nbsp;Quiz</button>
+                </div>
             </div>
             <p class="error">
                 <?php if (isset($error)) {

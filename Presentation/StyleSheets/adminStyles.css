@@ -154,21 +154,6 @@ button[type=submit]{
     
 }
 
-.sbt .bttn{
-    width: 300px;
-}
-
-.sbt {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-left: 100px;
-    margin-right: 100px;
-}
-
-
 
 a {
     text-decoration: none;
@@ -185,6 +170,24 @@ span {
     color: #023459;
     font-weight: bold;
 }
+
+.sbm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.sbm button[type=submit] {
+    width: 150px;
+    height: auto;
+    text-align: center;
+}
+
+.sbm div {
+    margin-bottom: 25px;
+}
+
 
 /* .fm-ct td input{
     width: 400px;
