@@ -56,11 +56,25 @@
 .add-quiz {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-left: 10px;
     margin-right: 10px;
+    background: #f1f1f1;
 }
+
+.form-ct {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
 
 .add-admin {
     display: flex;
@@ -85,14 +99,15 @@
     gap : 10px
 }
 
-.add-quiz .quiz, .add-quiz .question {
+/* .add-quiz .quiz, .add-quiz .question {
     border: 1px solid slategray;
     width: 48%;
-}
+} */
 
-.add-quiz .quiz, .add-admin .admin {
+.add-admin .admin {
     margin-left: 20px;
 }
+
 .form-gr {
     display: flex;
     flex-direction: column;
@@ -139,6 +154,20 @@ button[type=submit]{
     
 }
 
+.sbt {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.sbt .bttn{
+    width: 300px;
+}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -154,6 +183,10 @@ span {
     color: #023459;
     font-weight: bold;
 }
+
+/* .fm-ct td input{
+    width: 400px;
+} */
 
 
 

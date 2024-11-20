@@ -248,75 +248,65 @@ if (isset($_GET['action'])) {
         </table>
     </div>
     <div class="add-quiz">
-        <div class="quiz">
-            <form action="#" method="post">
-                <div class="form-gr">
-                    <div class="input-gr">
-                        <label for="quizId">Id</label>
-                        <input type="text" name="id" id="quizId" readonly>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="title">Titre</label>
-                        <input type="text" name="title" id="title" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="description">Description</label>
-                        <input type="text" name="description" id="description" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="date">Date&nbsp;création</label>
-                        <input type="text" name="date" id="date" readonly>
-                    </div>
-
-                    <button type="submit" name="quiz" class="bttn">Créer</button>
-                </div>
-            </form>
-        </div>
-        <div class="question">
-            <form action="#" method="post">
-                <div>
-                    <div class="input-gr">
-                        <label for="questionId">Id</label>
-                        <input type="text" name="questionId" id="questionId" readonly>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="questionText">Question?</label>
-                        <input type="text" name="questionText" id="questionText" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="correctAnsw">Bonne&nbsp;rep.</label>
-                        <input type="text" name="correctAnsw" id="correctAnsw" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="wrongAnsw1">Bonne&nbsp;rep.</label>
-                        <input type="text" name="wrongAnsw1" id="wrongAnsw1" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="wrongAnsw2">Bonne&nbsp;rep.</label>
-                        <input type="text" name="wrongAnsw2" id="wrongAnsw2" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="wrongAnsw3">Bonne&nbsp;rep.</label>
-                        <input type="text" name="wrongAnsw3" id="wrongAnsw3" required>
-                    </div>
-
-                    <div class="input-gr">
-                        <label for="imageUrl">Televerser image</label>
-                        <input type="file" name="imageUrl" id="imageUrl" required>
-                    </div>
-
-                    <button type="submit" name="question" class="bttn">Ajouter au quiz</button>
-                </div>
-            </form>
-        </div>
+        <form action="#" method="post">
+            <div class="form-ct">
+                <table class="fm-ct">
+                    <tr>
+                        <td><label for="quizId">Id</label></td>
+                        <td><input type="text" name="quizId" id="quizId" readonly></td>
+                    </tr>
+                    <tr>
+                        <td><label for="title">Titre</label></td>
+                        <td style="width: 350px;"><input type="text" name="title" id="title" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="description">Description</label></td>
+                        <td><input type="text" name="description" id="description" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="date">Date&nbsp;Creation</label></td>
+                        <td><input type="text" name="date" id="date" readonly></td>
+                    </tr>
+                </table>
+                <table class="fm-ct">
+                    <tr>
+                        <td><label for="questionId">Id</label></td>
+                        <td> <input type="text" name="questionId" id="questionId" readonly> </td>
+                    </tr>
+                    <tr>
+                        <td><label for="questionText">Question?</label></td>
+                        <td style="width: 350px;"> <input type="text" name="questionText" id="questionText"> </td>
+                    </tr>
+                    <tr>
+                        <td><label for="correctAnsw">Bonne rep.</label></td>
+                        <td> <input type="text" name="correctAnsw" id="correctAnsw"> </td>
+                    </tr>
+                    <tr>
+                        <td><label for="wrongAnsw1">Mauvaise rep.1</label></td>
+                        <td> <input type="text" name="wrongAnsw1" id="wrongAnsw1"> </td>
+                    </tr>
+                    <tr>
+                        <td><label for="wrongAnws2">Mauvaise rep.2</label></td>
+                        <td> <input type="text" name="wrongAnws2" id="wrongAnws2"> </td>
+                    </tr>
+                    <tr>
+                        <td><label for="wrongAnsw3">Mauvaise rep.3</label></td>
+                        <td> <input type="text" name="wrongAnsw3" id="wrongAnsw3"> </td>
+                    </tr>
+                    <tr>
+                        <td><label for="imageUrl">Televerser une image</label></td>
+                        <td> <input type="file" name="imageUrl" id="imageUrl" readonly> </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="sbt">
+                <button type="submit" name="quiz" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;un&nbsp;quiz</button> <br>
+                <button type="submit" name="question" class="bttn" style="width: 200px; height: 40px;">Ajouter&nbsp;question</button>
+            </div>
+            <p class="error">
+                <?php if (isset($error)) {echo $error;} ?>
+            </p>
+        </form>
     </div>
 </div>
 </body>
