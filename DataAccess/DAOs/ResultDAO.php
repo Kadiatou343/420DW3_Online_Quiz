@@ -82,6 +82,7 @@ class ResultDAO
         $statement->bindParam(':id', $id);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         if ($result){
             $quiz = $this->quizDAO->getById($result[0]['QuizId']);
@@ -108,6 +109,7 @@ class ResultDAO
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $queryResults = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $results = new ListResult();
 
         foreach ($queryResults as $id => $result) {
@@ -139,6 +141,7 @@ class ResultDAO
         $statement->bindValue(":quizId", $result->getQuiz()->getId());
         $statement->bindValue(":score", $result->getScore());
         $statement->execute();
+        $statement->closeCursor();
 
         $createdId = (int)$this->connection->lastInsertId();
         return $this->getById($createdId);
@@ -164,6 +167,7 @@ class ResultDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to update result with id {$result->getId()}. No rows modified !");
         }
+        $statement->closeCursor();
         return $this->getById($result->getId());
     }
 
@@ -183,6 +187,7 @@ class ResultDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete result with id {$result->getId()}. No rows deleted !");
         }
+        $statement->closeCursor();
     }
 
     /**
@@ -197,6 +202,7 @@ class ResultDAO
         $statement->bindValue(":quizId", $quiz->getId());
         $statement->execute();
         $queryResults = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         foreach ($queryResults as $id => $result) {
             $quiz->getResults()->addResult(
@@ -225,6 +231,7 @@ class ResultDAO
         $statement->bindValue(":userId", $user->getId());
         $statement->execute();
         $queryResults = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         foreach ($queryResults as $id => $result) {
             $user->getResults()->addResult(

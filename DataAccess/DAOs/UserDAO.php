@@ -48,6 +48,7 @@ class UserDAO
         $statement->bindParam(":id", $id);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         if ($result) {
             return new User(
                 $result['LastName'],
@@ -71,6 +72,7 @@ class UserDAO
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $users = new ListUser();
         foreach ($results as $id => $user) {
             $users->addUser(new User(
@@ -103,6 +105,7 @@ class UserDAO
         $statement->execute();
         $createdId = (int)$this->connection->lastInsertId();
 
+        $statement->closeCursor();
         return $this->getById($createdId);
     }
 
@@ -131,6 +134,7 @@ class UserDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to update user with id {$user->getId()}. No rows modified !");
         }
+        $statement->closeCursor();
         return $this->getById($user->getId());
     }
 
@@ -150,6 +154,7 @@ class UserDAO
         if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete user with id {$user->getId()}. No rows deleted !");
         }
+        $statement->closeCursor();
     }
 
     /**
@@ -165,6 +170,7 @@ class UserDAO
         $statement->bindParam(":email", $email);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
 
         if ($result) {
             return new User(
@@ -193,6 +199,7 @@ class UserDAO
         $statement->bindValue(":criteria", "%$criteria%");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $users = new ListUser();
 
         if ($result){
@@ -224,6 +231,7 @@ class UserDAO
         $statement->bindParam(":filter", $filter);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
         $users = new ListUser();
         foreach ($result as $id => $user){
             $users->addUser(new User(
