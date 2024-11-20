@@ -50,6 +50,7 @@ class ResultService
     /**
      * @param int $id
      * @return Result
+     * @throws \InvalidArgumentException
      * Obtenir un résultat par son identifiant
      */
     public function getResultById(int $id) : Result

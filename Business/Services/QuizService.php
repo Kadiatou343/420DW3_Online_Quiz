@@ -41,6 +41,7 @@ class QuizService
      * @param int $id
      * @return Quiz
      * Obtenir un quiz par son identifiant
+     * @throws \InvalidArgumentException
      */
     public function getQuizById(int $id) : Quiz
     {

@@ -54,7 +54,7 @@ class QuestionService
     /**
      * @param int $id
      * @return Question
-     * Obtenir une question par son identifiant
+     * @throws \InvalidArgumentException
      */
     public function getQuestionById(int $id): Question
     {

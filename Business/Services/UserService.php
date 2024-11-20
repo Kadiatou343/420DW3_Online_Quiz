@@ -43,6 +43,7 @@ class UserService
      * @param string $email
      * @param string $password
      * @return bool|User
+     * @throws InvalidArgumentException
      * Verifier les credentials d'un utilisateur lors de la connexion
      */
     public function logInUser(string $email, string $password) : bool|User
@@ -117,6 +118,7 @@ class UserService
     /**
      * @param int $id
      * @return User
+     * @throws InvalidArgumentException
      * Obtenir un utilisateur par son identifiant
      */
     public function getUserById(int $id) : User
