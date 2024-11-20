@@ -8,6 +8,7 @@ use Business\Domain\Result;
 use Business\Domain\User;
 use DataAccess\DAOs\ResultDAO;
 use Exception;
+use http\Exception\InvalidArgumentException;
 use ProjectUtilities\ListResult;
 
 /**
@@ -29,6 +30,8 @@ class ResultService
     public function __construct()
     {
         $this->resultDAO = new ResultDAO();
+        $this->userService = new UserService();
+        $this->quizService = new QuizService();
     }
 
     /**
@@ -51,7 +54,12 @@ class ResultService
      */
     public function getResultById(int $id) : Result
     {
-        return $this->resultDAO->getById($id);
+        $result = $this->resultDAO->getById($id);
+
+        if ($result === null) {
+            throw new InvalidArgumentException("Result with Id{$id} not found");
+        }
+        return $result;
     }
 
     /**

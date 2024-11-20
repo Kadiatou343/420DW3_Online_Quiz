@@ -121,7 +121,13 @@ class UserService
      */
     public function getUserById(int $id) : User
     {
-        return $this->userDAO->getById($id);
+        $user = $this->userDAO->getById($id);
+
+        if ($user === null) {
+            throw new InvalidArgumentException("User with Id{id} not found !");
+        }
+
+        return $user;
     }
 
     /**

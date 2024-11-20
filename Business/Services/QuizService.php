@@ -6,6 +6,7 @@ namespace Business\Services;
 use Business\Domain\Quiz;
 use DataAccess\DAOs\QuizDAO;
 use Exception;
+use http\Exception\InvalidArgumentException;
 use ProjectUtilities\ListQuiz;
 
 /**
@@ -43,7 +44,11 @@ class QuizService
      */
     public function getQuizById(int $id) : Quiz
     {
-        return $this->quizDAO->getById($id);
+        $quiz = $this->quizDAO->getById($id);
+        if ($quiz == null) {
+            throw new InvalidArgumentException("Quiz with id {$id} not found");
+        }
+        return $quiz;
     }
 
     /**
