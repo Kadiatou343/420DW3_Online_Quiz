@@ -188,15 +188,15 @@ class UserDAO
 
     /**
      * @param string $criteria
-     * @return ListUser|null
+     * @return ListUser
      * La méthode qui retourne les utilisateurs en fonction d'une chaine de caractères de recherche
      */
-    public function searchByString(string $criteria): ?ListUser
+    public function searchByString(string $criteria): ListUser
     {
-        $query = "SELECT * FROM $this->tableName WHERE LastName LIKE :criteria " .
-        "OR FirstName LIKE :criteria OR Email LIKE :criteria ;";
+        $query = "SELECT * FROM $this->tableName WHERE LOWER(LastName) LIKE :criteria " .
+        "OR LOWER(FirstName) LIKE :criteria OR LOWER(Email) LIKE :criteria ;";
         $statement = $this->connection->prepare($query);
-        $statement->bindValue(":criteria", "%$criteria%");
+        $statement->bindValue(":criteria", "%" . strtolower($criteria) ."%");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
@@ -216,7 +216,7 @@ class UserDAO
             }
             return $users;
         }
-        return null;
+        return $users;
     }
 
     /**

@@ -136,7 +136,7 @@ class QuestionDAO
         $query = "UPDATE $this->tableName SET QuestionText = :questionText, " .
         "CorrectAnswer = :correctAnswer, WrongAnswer1 = :wrongAnswer1, " .
         "WrongAnswer2 = :wrongAnswer2, WrongAnswer3 = :wrongAnswer3, " .
-        "QuizId = :quizId, ImageUrl = :imageUrl WHERE Id = :id ;";
+        "QuizId = :quizId, ImageUrl = :imageUrl WHERE Id = :id ";
 
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":questionText", $question->getQuestionText());
@@ -149,7 +149,7 @@ class QuestionDAO
         $statement->bindValue(":id", $question->getId());
         $statement->execute();
 
-        if ($statement->rowCount()=== 0) {
+        if ($statement->rowCount() === 0) {
             throw new Exception("Unable to update question with id {$question->getId()}. No rows modified !");
         }
         $statement->closeCursor();

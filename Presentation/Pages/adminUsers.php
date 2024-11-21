@@ -111,7 +111,7 @@ if (isset($_GET["filterRole"])) {
         /**
          * Liste des admins
          */
-        $usersList = $userService->filterUsersByRole();
+        $usersList = $userService->filterUsersByRole(UserRole::ADMIN->value);
     } elseif ($_GET["filterRole"] == "gamer") {
         /**
          * Liste des joueurs
@@ -121,7 +121,7 @@ if (isset($_GET["filterRole"])) {
 }
 
 /**
- * Reponse de la requete ajax pour faire une recherche d'utilisateur
+ * Actions pour la recherche
  */
 if (isset($_GET["search"])) {
     $criteria = (string)$_GET["search"];
@@ -152,8 +152,8 @@ if (isset($_GET["search"])) {
 <div class="main-container">
     <div class="list-user">
         <div class="filter">
-            <input type="text" name="filter" id="filter" placeholder="Recherche un utilisateur">
-            <button name="search" class="bttn" id="searchUser" onclick="rechercherUser()">Recherche</button>
+            <input type="text" name="filter" id="filter" placeholder="Recherche un utilisateur" value="<?php echo $criteria ?? '';?>">
+            <a id="searchLink" href="?search" class="bttn">Recherche</a>
         </div>
         <div class="table-content">
             <div class="table-title">
@@ -212,27 +212,27 @@ if (isset($_GET["search"])) {
                 <div class="form-gr">
                     <div class="input-gr">
                         <label for="userId">Id</label>
-                        <input type="text" name="userId" id="userId" readonly>
+                        <input type="text" name="userId" id="userId" readonly value="<?php echo isset($userToUpdate) ? $userToUpdate->getId() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="firstName">Prénom</label>
-                        <input type="text" name="firstName" id="lastName" required>
+                        <input type="text" name="firstName" id="lastName" required value="<?php echo isset($userToUpdate) ? $userToUpdate->getFirstName() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="lastName">Nom&nbsp;de&nbsp;famille</label>
-                        <input type="text" name="lastName" id="lastName" required>
+                        <input type="text" name="lastName" id="lastName" required value="<?php echo isset($userToUpdate) ? $userToUpdate->getLastName() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="email">Email</label>
-                        <input type="text" name="email" id="email" required>
+                        <input type="text" name="email" id="email" required value="<?php echo isset($userToUpdate) ? $userToUpdate->getEmail() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="password">Mot&nbsp;de&nbsp;passe&nbsp;par&nbsp;defaut</label>
-                        <input type="text" name="password" id="password" readonly value="0000">
+                        <input type="text" name="password" id="password" readonly value="<?php echo isset($userToUpdate) ? 'Ensuré' : '0000'; ?>">
                     </div>
 
                     <div class="input-gr">
@@ -258,18 +258,14 @@ if (isset($_GET["search"])) {
     </div>
 </div>
 
-    <script>
-        function rechercherUser() {
-            const criteria = document.getElementById("filter").value;
-            let xhr = new XMLHttpRequest;
-            xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById("filter").innerText = xhr.responseText;
-                    }
-                };
-            xhr.open("GET", "adminUsers.php?search=" + encodeURIComponent(criteria), true);
-            xhr.send();
-        }
-    </script>
+<script>
+    const input = document.getElementById('filter');
+    const link = document.getElementById('searchLink');
+
+    // Mise à jour l'attribut href du lien en fonction de l'entrée
+    input.addEventListener('input', () => {
+        link.href = `?search=${encodeURIComponent(input.value)}`;
+    });
+</script>
 </body>
 </html>

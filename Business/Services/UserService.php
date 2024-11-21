@@ -146,9 +146,8 @@ class UserService
      * @param string $role
      * @return ListUser
      * Filtrer les utilisateurs par leur role.
-     * Par defaut le role choisi est admin
      */
-    public function filterUsersByRole(string $role = UserRole::ADMIN->value) : ListUser
+    public function filterUsersByRole(string $role) : ListUser
     {
         return $this->userDAO->filterByRole($role);
     }

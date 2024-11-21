@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $wrongAnswer1 = htmlspecialchars($_POST["wrongAnsw1"]);
             $wrongAnswer2 = htmlspecialchars($_POST["wrongAnsw2"]);
             $wrongAnswer3 = htmlspecialchars($_POST["wrongAnsw3"]);
+
             $quizId = (int)$_POST["quizId"] ?? null;
 
             /**
@@ -187,7 +188,7 @@ if (isset($_GET['action'], $_GET['quizId'])) {
             /**
              * Refresh pour l'affichage
              */
-            $listQuizzes  = $quizService->getAllQuizzes();
+            $listQuizzes = $quizService->getAllQuizzes();
         } catch (Exception|InvalidArgumentException $e) {
             $error = $e->getMessage();
         }
@@ -204,10 +205,18 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
      * Cas ou l'action edit est choisie
      */
     if ($_GET["qAction"] == 'edit') {
+        /**
+         * Cette declaration est faite ainsi pour l'accessibilite globale dans le statement
+         */
+        $questionToUpdate = new Question("", "", "", "", "", new Quiz('', ''));
+        try {
+            $questionToUpdate = $questionService->getQuestionById($questionId);
+        } catch (InvalidArgumentException $e) {
+            $error = $e->getMessage();
+        }
 
         if ($_SERVER["REQUEST_METHOD"] === 'POST' && $_POST['btn'] === 'quesUpdate') {
             try {
-                $questionToUpdate = $questionService->getQuestionById($questionId);
 
                 $questionText = htmlspecialchars($_POST["questionText"]);
                 $correctAnswer = htmlspecialchars($_POST["correctAnsw"]);
@@ -252,6 +261,7 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
         }
     }
 }
+
 /**
  * Declencher la fermeture de la connexion
  */
@@ -278,7 +288,7 @@ $questionService = null;
     <div class="list-quiz">
         <div class="filter">
             <input type="text" name="filter" id="filter" placeholder="Recherche de quiz">
-            <button name="search" class="bttn">Recherche</button>
+            <button name="search" class="bttn" onclick="rechercherQuiz()">Recherche</button>
         </div>
         <div class="table-content">
             <div class="table-title">
@@ -381,6 +391,8 @@ $questionService = null;
                                        echo $newQuiz->getId();
                                    } elseif (isset($quizToUpdate)) {
                                        echo $quizToUpdate->getId();
+                                   } elseif (isset($questionToUpdate)) {
+                                       echo $questionToUpdate->getQuiz()->getId();
                                    } else {
                                        echo '';
                                    } ?>"></td>
@@ -392,6 +404,8 @@ $questionService = null;
                                                              echo $newQuiz->getTitle();
                                                          } elseif (isset($quizToUpdate)) {
                                                              echo $quizToUpdate->getTitle();
+                                                         } elseif (isset($questionToUpdate)) {
+                                                             echo $questionToUpdate->getQuiz()->getTitle();
                                                          } else {
                                                              echo '';
                                                          } ?>">
@@ -404,6 +418,8 @@ $questionService = null;
                                     echo $newQuiz->getDescription();
                                 } elseif (isset($quizToUpdate)) {
                                     echo $quizToUpdate->getDescription();
+                                } elseif (isset($questionToUpdate)) {
+                                    echo $questionToUpdate->getQuiz()->getDescription();
                                 } else {
                                     echo '';
                                 } ?></textarea>
@@ -416,6 +432,8 @@ $questionService = null;
                                        echo $newQuiz->getDateCreated()->format('Y-m-d');
                                    } elseif (isset($quizToUpdate)) {
                                        echo $quizToUpdate->getDateCreated()->format('Y-m-d');
+                                   } elseif (isset($questionToUpdate)) {
+                                       echo $questionToUpdate->getQuiz()->getDateCreated()->format('Y-m-d');
                                    } else {
                                        echo '';
                                    } ?>">
@@ -499,5 +517,6 @@ $questionService = null;
         </p>
     </div>
 </div>
+
 </body>
 </html>
