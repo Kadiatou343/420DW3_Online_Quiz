@@ -7,7 +7,7 @@ use Business\Domain\Question;
 use Business\Domain\Quiz;
 use DataAccess\DAOs\QuestionDAO;
 use Exception;
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 use ProjectUtilities\ListQuestion;
 
 /**
@@ -54,14 +54,13 @@ class QuestionService
     /**
      * @param int $id
      * @return Question
-     * @throws \InvalidArgumentException
      */
     public function getQuestionById(int $id): Question
     {
         $question = $this->questionDAO->getById($id);
 
         if ($question === null) {
-            throw new InvalidArgumentException("Question with {$id} not found!");
+            throw new InvalidArgumentException("Question with Id {$id} not found");
         }
         return $question;
     }

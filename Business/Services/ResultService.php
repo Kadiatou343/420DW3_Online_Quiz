@@ -8,7 +8,7 @@ use Business\Domain\Result;
 use Business\Domain\User;
 use DataAccess\DAOs\ResultDAO;
 use Exception;
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 use ProjectUtilities\ListResult;
 
 /**
@@ -50,7 +50,7 @@ class ResultService
     /**
      * @param int $id
      * @return Result
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * Obtenir un résultat par son identifiant
      */
     public function getResultById(int $id) : Result
@@ -58,7 +58,7 @@ class ResultService
         $result = $this->resultDAO->getById($id);
 
         if ($result === null) {
-            throw new InvalidArgumentException("Result with Id{$id} not found");
+            throw new InvalidArgumentException("Result with Id {$id} not found");
         }
         return $result;
     }

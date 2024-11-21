@@ -184,6 +184,11 @@ if (isset($_GET['action'], $_GET['quizId'])) {
         $quizToRemove = $quizService->getQuizById($quizId);
         try {
             $quizService->deleteQuiz($quizToRemove);
+
+            /**
+             * Refresh pour l'affichage
+             */
+//            $listQuizzes  = $quizService->getAllQuizzes();
         } catch (Exception $e) {
             $error = $e->getMessage();
         }
