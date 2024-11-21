@@ -160,10 +160,9 @@ if (isset($_GET['action'], $_GET['quizId'])) {
      * Cas ou l'action edit est choisie
      */
     if ($_GET['action'] == 'edit') {
-        $quizToUpdate = $quizService->getQuizById($quizId);
-
         if ($_SERVER["REQUEST_METHOD"] === 'POST' && $_POST['btn'] === 'quizUpdate') {
             try {
+                $quizToUpdate = $quizService->getQuizById($quizId);
                 $title = htmlspecialchars($_POST["title"]);
                 $description = htmlspecialchars($_POST["description"]);
                 $quizToUpdate->setTitle($title);
@@ -171,7 +170,7 @@ if (isset($_GET['action'], $_GET['quizId'])) {
 
                 $quizUpdated = $quizService->updateQuiz($quizToUpdate);
 
-            } catch (ArgumentOutOfRangeException|Exception $e) {
+            } catch (ArgumentOutOfRangeException|Exception|InvalidArgumentException $e) {
                 $error = $e->getMessage();
             }
         }
@@ -181,15 +180,15 @@ if (isset($_GET['action'], $_GET['quizId'])) {
      * Cas ou l'action remove est choisie
      */
     if ($_GET['action'] === 'remove') {
-        $quizToRemove = $quizService->getQuizById($quizId);
         try {
+            $quizToRemove = $quizService->getQuizById($quizId);
             $quizService->deleteQuiz($quizToRemove);
 
             /**
              * Refresh pour l'affichage
              */
-//            $listQuizzes  = $quizService->getAllQuizzes();
-        } catch (Exception $e) {
+            $listQuizzes  = $quizService->getAllQuizzes();
+        } catch (Exception|InvalidArgumentException $e) {
             $error = $e->getMessage();
         }
     }
@@ -205,16 +204,17 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
      * Cas ou l'action edit est choisie
      */
     if ($_GET["qAction"] == 'edit') {
-        $questionToUpdate = $questionService->getQuestionById($questionId);
 
         if ($_SERVER["REQUEST_METHOD"] === 'POST' && $_POST['btn'] === 'quesUpdate') {
-            $questionText = htmlspecialchars($_POST["questionText"]);
-            $correctAnswer = htmlspecialchars($_POST["correctAnsw"]);
-            $wrongAnswer1 = htmlspecialchars($_POST["wrongAnsw1"]);
-            $wrongAnswer2 = htmlspecialchars($_POST["wrongAnsw2"]);
-            $wrongAnswer3 = htmlspecialchars($_POST["wrongAnsw3"]);
-
             try {
+                $questionToUpdate = $questionService->getQuestionById($questionId);
+
+                $questionText = htmlspecialchars($_POST["questionText"]);
+                $correctAnswer = htmlspecialchars($_POST["correctAnsw"]);
+                $wrongAnswer1 = htmlspecialchars($_POST["wrongAnsw1"]);
+                $wrongAnswer2 = htmlspecialchars($_POST["wrongAnsw2"]);
+                $wrongAnswer3 = htmlspecialchars($_POST["wrongAnsw3"]);
+
                 $questionToUpdate->setQuestionText($questionText);
                 $questionToUpdate->setCorrectAnswer($correctAnswer);
                 $questionToUpdate->setWrongAnswer1($wrongAnswer1);
@@ -228,7 +228,7 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
                  */
                 $listQuestions = $questionService->filterQuestionsByQuizId($questionUpdated->getQuiz()->getId());
 
-            } catch (ArgumentOutOfRangeException|Exception $e) {
+            } catch (ArgumentOutOfRangeException|Exception|InvalidArgumentException $e) {
                 $error = $e->getMessage();
             }
         }
@@ -238,16 +238,16 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
      * Cas ou l'action remove est choisie
      */
     if ($_GET["qAction"] == 'remove') {
-        $questionToRemove = $questionService->getQuestionById($questionId);
 
         try {
+            $questionToRemove = $questionService->getQuestionById($questionId);
             $questionService->deleteQuestion($questionToRemove);
 
             /**
              * Refresh pour l'affichage
              */
             $listQuestions = $questionService->filterQuestionsByQuizId($questionToRemove->getQuiz()->getId());
-        } catch (Exception $e) {
+        } catch (Exception|InvalidArgumentException $e) {
             $error = $e->getMessage();
         }
     }
