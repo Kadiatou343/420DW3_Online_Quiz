@@ -153,7 +153,7 @@ if (isset($_GET["search"])) {
     <div class="list-user">
         <div class="filter">
             <input type="text" name="filter" id="filter" placeholder="Recherche un utilisateur" value="<?php echo $criteria ?? '';?>">
-            <a id="searchLink" href="?search" class="bttn">Recherche</a>
+            <a id="searchLink" href="" class="bttn">Recherche</a>
         </div>
         <div class="table-content">
             <div class="table-title">
@@ -262,7 +262,7 @@ if (isset($_GET["search"])) {
     const input = document.getElementById('filter');
     const link = document.getElementById('searchLink');
 
-    // Mise à jour l'attribut href du lien en fonction de l'entrée
+    // Mise à jour de l'attribut href du lien en fonction de l'entrée
     input.addEventListener('input', () => {
         link.href = `?search=${encodeURIComponent(input.value)}`;
     });

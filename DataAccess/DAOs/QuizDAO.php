@@ -185,6 +185,33 @@ class QuizDAO
     }
 
     /**
+     * @param string $criteria
+     * @return ListQuiz
+     * Rechercher à partir d'une chaine de caractères
+     */
+    public function SearchByString(string $criteria): ListQuiz
+    {
+        $query = "SELECT * FROM $this->tableName WHERE LOWER(Title) LIKE :criteria OR LOWER(Description) LIKE :criteria ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindValue(":criteria", "%" . strtolower($criteria) . "%");
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        $quizzes = new ListQuiz();
+
+        foreach ($results as $id => $quiz) {
+            $quizzes->addQuiz(new Quiz(
+                $quiz['Title'],
+                $quiz['Description'],
+                (int)$quiz['Id'],
+                DateTimeFromString::createDateTimeFromString($quiz['DateCreated'])
+            ));
+        }
+
+        return $quizzes;
+    }
+
+    /**
      * Desctructeur du DAO.
      * La méthode ferme la connexion
      */

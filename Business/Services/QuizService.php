@@ -104,6 +104,16 @@ class QuizService
     }
 
     /**
+     * @param string $string
+     * @return ListQuiz
+     * Rechercher des quiz à partir d'une chaine de caractères
+     */
+    public function searchQuizByString(string $string) : ListQuiz
+    {
+        return $this->quizDAO->searchByString($string);
+    }
+
+    /**
      * Desctructeur du service
      */
     public function __destruct()

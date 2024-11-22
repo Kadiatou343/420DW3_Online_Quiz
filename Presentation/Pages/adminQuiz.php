@@ -161,15 +161,20 @@ if (isset($_GET['action'], $_GET['quizId'])) {
      * Cas ou l'action edit est choisie
      */
     if ($_GET['action'] == 'edit') {
+        $quizToUpdate = $quizService->getQuizById($quizId);
         if ($_SERVER["REQUEST_METHOD"] === 'POST' && $_POST['btn'] === 'quizUpdate') {
             try {
-                $quizToUpdate = $quizService->getQuizById($quizId);
                 $title = htmlspecialchars($_POST["title"]);
                 $description = htmlspecialchars($_POST["description"]);
                 $quizToUpdate->setTitle($title);
                 $quizToUpdate->setDescription($description);
 
                 $quizUpdated = $quizService->updateQuiz($quizToUpdate);
+
+                /**
+                 * Refresh pour l'affichage
+                 */
+                $listQuizzes = $quizService->getAllQuizzes();
 
             } catch (ArgumentOutOfRangeException|Exception|InvalidArgumentException $e) {
                 $error = $e->getMessage();
@@ -205,15 +210,9 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
      * Cas ou l'action edit est choisie
      */
     if ($_GET["qAction"] == 'edit') {
-        /**
-         * Cette declaration est faite ainsi pour l'accessibilite globale dans le statement
-         */
-        $questionToUpdate = new Question("", "", "", "", "", new Quiz('', ''));
-        try {
-            $questionToUpdate = $questionService->getQuestionById($questionId);
-        } catch (InvalidArgumentException $e) {
-            $error = $e->getMessage();
-        }
+
+        $questionToUpdate = $questionService->getQuestionById($questionId);
+        $listQuestions = $questionService->filterQuestionsByQuizId($questionToUpdate->getQuiz()->getId());
 
         if ($_SERVER["REQUEST_METHOD"] === 'POST' && $_POST['btn'] === 'quesUpdate') {
             try {
@@ -263,6 +262,18 @@ if (isset($_GET["qAction"], $_GET['quesId'])) {
 }
 
 /**
+ * Actions pour la recherche de questions
+ */
+if ($_GET['search']) {
+    $criteria = (string)$_GET['search'];
+
+    /**
+     * Les quiz concernés par la recherche
+     */
+    $listQuizzes = $quizService->searchQuizByString($criteria);
+}
+
+/**
  * Declencher la fermeture de la connexion
  */
 $quizService = null;
@@ -287,8 +298,8 @@ $questionService = null;
 <div class="main-container">
     <div class="list-quiz">
         <div class="filter">
-            <input type="text" name="filter" id="filter" placeholder="Recherche de quiz">
-            <button name="search" class="bttn" onclick="rechercherQuiz()">Recherche</button>
+            <input type="text" name="filter" id="filter" placeholder="Recherche de quiz" value="<?php echo $criteria ?? ''; ?>">
+            <a id="searchLink" href="" class="bttn">Recherche</a>
         </div>
         <div class="table-content">
             <div class="table-title">
@@ -518,5 +529,14 @@ $questionService = null;
     </div>
 </div>
 
+<script>
+    const input = document.getElementById('filter');
+    const link = document.getElementById('searchLink');
+
+    // Mise à jour de l'attribut href du lien en fonction de l'entrée
+    input.addEventListener('input', () => {
+        link.href = `?search=${encodeURIComponent(input.value)}`;
+    });
+</script>
 </body>
 </html>
