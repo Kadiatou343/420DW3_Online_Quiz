@@ -20,6 +20,7 @@
                 <li><a href="adminQuiz.php" target="contentFrame"><img src="../images/icons8-quizlet-50 (1).png" alt="">&nbsp; <span>Quiz</span></a></li>
                 <li><a href="./adminUsers.php" target="contentFrame"><img src="../images/icons8-user-50.png" alt="">&nbsp; <span>Utilisateurs</span></a></li>
                 <li><a href="./adminResults.php" target="contentFrame"><img src="../images/icons8-test-results-50 (1).png" alt="">&nbsp; <span>Résultats</span></a></li>
+                <li><a href="./changePassword.php" target="contentFrame"><img src="../images/icons8-user-50.png" alt="">&nbsp; <span>Mon&nbsp;compte</span></a></li>
             </ul>
     </div>
     <div class="container">

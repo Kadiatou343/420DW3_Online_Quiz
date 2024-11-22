@@ -74,18 +74,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         if (isset($_POST['remember']) && $_POST["remember"] === "accepted") {
-            CookieManager::createUserCookie($user->getEmail(), $user->getRole());
-            SessionManager::createUserSession($user->getEmail(), $user->getRole());
+            CookieManager::createUserCookie($user->getEmail(), $user->getRole(), $user->getId());
         }
 
-        if ($user !== false) {
-            if ($user->getRole() === UserRole::GAMER->value) {
-                header("Location: gamerHome.php");
-            } else {
-                header("Location: adminQuiz.php");
-            }
-            exit();
+        SessionManager::createUserSession($user->getEmail(), $user->getRole(), $user->getId());
+        if ($user->getRole() === UserRole::GAMER->value) {
+            header("Location: gamerHome.php");
+        } else {
+            header("Location: adminQuiz.php");
         }
+        exit();
 
     } catch (InvalidArgumentException|Exception $e) {
         $error = $e->getMessage();

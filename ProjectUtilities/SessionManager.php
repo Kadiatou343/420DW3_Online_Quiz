@@ -9,17 +9,19 @@ namespace ProjectUtilities;
 class SessionManager
 {
     /**
-     * @param $userSessionValue
-     * @param $userRoleValue
+     * @param string $userSessionValue
+     * @param string $userRoleValue
+     * @param int $userId
      * @return void
      * La méthode pour créer une session d'utilisateur.
      * Les variables de session user et role vont representer la session utilisateur.
-     * user pour stocker l'email, role pour stocker le role de l'utilisateur
+     * user pour stocker le prénom, role pour stocker le role de l'utilisateur, userId pour l'identifiant
      */
-    public static function createUserSession(string $userSessionValue, string $userRoleValue): void
+    public static function createUserSession(string $userSessionValue, string $userRoleValue, int $userId = 0): void
     {
         $_SESSION["user"] = $userSessionValue;
         $_SESSION["role"] = $userRoleValue;
+        $_SESSION["userId"] = $userId;
     }
 
     /**
@@ -28,7 +30,7 @@ class SessionManager
      */
     public static function doesUserSessionExit(): bool
     {
-        if (isset($_SESSION["user"], $_SESSION["role"])) {
+        if (isset($_SESSION["user"], $_SESSION["role"], $_SESSION["userId"])) {
             return true;
         }
         return false;

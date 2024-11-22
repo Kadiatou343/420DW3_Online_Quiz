@@ -120,12 +120,14 @@ class UserDAO
         $query = "UPDATE $this->tableName SET " .
             "LastName = :lastName, " .
             "FirstName = :firstName, " .
+            "PasswordHash = :passwordHash, " .
             "Email = :email, " .
             "Role = :role " .
             "WHERE Id = :id;";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":lastName", $user->getLastName());
         $statement->bindValue(":firstName", $user->getFirstName());
+        $statement->bindValue(":passwordHash", $user->getPasswordHash());
         $statement->bindValue(":email", $user->getEmail());
         $statement->bindValue(":role", $user->getRole());
         $statement->bindValue(":id", $user->getId());
