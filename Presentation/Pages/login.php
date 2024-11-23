@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="container">
     <div class="login-form">
-        <h2>Online&nbsp;Quiz&nbsp;-&nbsp;Connexion</h2>
+        <h2>Quizzy&nbsp;Dev&nbsp;-&nbsp;Connexion</h2>
         <form action="#" method="post">
             <input type="email" name="email" id="email" required placeholder="Email">
             <input type="password" name="password" id="password" required placeholder="Mot de passe">

@@ -9,7 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../StyleSheets/homeAdminStyle.css">
-    <title>Panel - Admin</title>
+    <title>Panel - Gamer</title>
+    <style>
+
+        .side-menu ul li span{
+            font-size: 0.8em;
+        }
+
+    </style>
 </head>
 <body>
     <div class="side-menu">
@@ -17,10 +24,9 @@
                 <h1><i>Quizzy&nbsp;Dev</i></h1>
             </div>
             <ul>
-                <li><a href="adminQuiz.php" target="contentFrame"><img src="../images/icons8-quizlet-50 (1).png" alt="">&nbsp; <span>Quiz</span></a></li>
-                <li><a href="./adminUsers.php" target="contentFrame"><img src="../images/icons8-user-50.png" alt="">&nbsp; <span>Utilisateurs</span></a></li>
-                <li><a href="./adminResults.php" target="contentFrame"><img src="../images/icons8-test-results-50 (1).png" alt="">&nbsp; <span>Résultats</span></a></li>
+                <li><a href="./gamerQuiz.php" target="contentFrame"><img src="../images/icons8-quizlet-50 (1).png" alt="">&nbsp; <span>Quiz</span></a></li>
                 <li><a href="./changePassword.php" target="contentFrame"><img src="../images/icons8-user-50.png" alt="">&nbsp; <span>Mon&nbsp;compte</span></a></li>
+                <li><a href="./gamerResults.php" target="contentFrame"><img src="../images/icons8-test-results-50 (1).png" alt="">&nbsp; <span>Résultats</span></a></li>
             </ul>
     </div>
     <div class="container">
@@ -32,9 +38,8 @@
 
         </div>
         <div class="iframe-container">
-            <iframe name="contentFrame" src="adminQuiz.php"></iframe>
+            <iframe name="contentFrame" src="changePassword.php"></iframe>
         </div>
     </div>
-    
 </body>
 </html>

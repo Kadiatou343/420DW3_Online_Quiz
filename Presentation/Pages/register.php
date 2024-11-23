@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <div class="register-form">
-        <h2>Online&nbsp;Quiz&nbsp;-&nbsp;Inscription</h2>
+        <h2>Quizzy&nbsp;Dev&nbsp;-&nbsp;Inscription</h2>
         <form action="#" method="post">
             <input type="text" name="firstName" id="firstName" required placeholder="Prénom" min="2">
             <input type="text" name="lastName" id="lastName" required placeholder="Nom de Famille" min="5">
