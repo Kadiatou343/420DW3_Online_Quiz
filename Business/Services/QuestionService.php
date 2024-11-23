@@ -109,6 +109,16 @@ class QuestionService
     }
 
     /**
+     * Obtenir le nombre de questions à partir du quiz auquel elles sont liées
+     * @param Quiz $quiz
+     * @return int
+     */
+    public function getQuestionsCountByQuiz(Quiz $quiz): int
+    {
+        return $this->questionDAO->getCountByQuiz($quiz);
+    }
+
+    /**
      * Desctructeur du service
      */
     public function __destruct()

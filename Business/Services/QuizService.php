@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Business\Services;
 
@@ -23,7 +23,8 @@ class QuizService
     /**
      * Le constructeur initialise le DAO
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->quizDAO = new QuizDAO();
     }
 
@@ -32,7 +33,7 @@ class QuizService
      * @return Quiz
      * Création d'un quiz
      */
-    public function createQuiz(Quiz $quiz) : Quiz
+    public function createQuiz(Quiz $quiz): Quiz
     {
         return $this->quizDAO->create($quiz);
     }
@@ -43,7 +44,7 @@ class QuizService
      * @throws InvalidArgumentException
      * Obtenir un quiz par son identifiant
      */
-    public function getQuizById(int $id) : Quiz
+    public function getQuizById(int $id): Quiz
     {
         $quiz = $this->quizDAO->getById($id);
         if ($quiz == null) {
@@ -56,7 +57,7 @@ class QuizService
      * @return ListQuiz
      * Obtenir tous les quiz
      */
-    public function getAllQuizzes() : ListQuiz
+    public function getAllQuizzes(): ListQuiz
     {
         return $this->quizDAO->getAll();
     }
@@ -67,7 +68,7 @@ class QuizService
      * @throws Exception
      * Mettre à jour un quiz
      */
-    public function updateQuiz(Quiz $quiz) : Quiz
+    public function updateQuiz(Quiz $quiz): Quiz
     {
         return $this->quizDAO->update($quiz);
     }
@@ -78,7 +79,7 @@ class QuizService
      * @throws Exception
      * Supprimer un utilisateur
      */
-    public function deleteQuiz(Quiz $quiz) : void
+    public function deleteQuiz(Quiz $quiz): void
     {
         $this->quizDAO->delete($quiz);
     }
@@ -89,7 +90,7 @@ class QuizService
      * @return ListQuiz
      * Obtenir les enregistrements de quiz selon une limite et un point de départ
      */
-    public function getQuizzesByLimitAndOffset(int $limit, int $offset) : ListQuiz
+    public function getQuizzesByLimitAndOffset(int $limit, int $offset): ListQuiz
     {
         return $this->quizDAO->getByLimitAndOffset($limit, $offset);
     }
@@ -98,7 +99,7 @@ class QuizService
      * @return int
      * Obtenir le nombre d'enregistrement de la table De Quiz
      */
-    public function getQuizzesCount() : int
+    public function getQuizzesCount(): int
     {
         return $this->quizDAO->getCount();
     }
@@ -108,7 +109,7 @@ class QuizService
      * @return ListQuiz
      * Rechercher des quiz à partir d'une chaine de caractères
      */
-    public function searchQuizByString(string $string) : ListQuiz
+    public function searchQuizByString(string $string): ListQuiz
     {
         return $this->quizDAO->searchByString($string);
     }

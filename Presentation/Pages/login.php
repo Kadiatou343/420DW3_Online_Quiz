@@ -21,9 +21,9 @@ require_once "../../psr4_autoloader.php";
 
 if (CookieManager::doesUserCookieExist()) {
     if (CookieManager::IsUserRoleAdmin()) {
-        header("location: adminQuiz.php");
+        header("location: homeAdmin.php");
     } else {
-        header("location: gamerHome.php");
+        header("location: homeGamer.php");
     }
     exit();
 }
@@ -62,6 +62,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = htmlspecialchars($_POST["password"]);
     $captchaUser = htmlspecialchars($_POST["captcha"]);
 
+    /**
+     * Pour être sur que la vérification sera toujours faite avec le captcha qui est affiché dans le login
+     */
+    $idCaptcha = (int)($_POST["idCaptcha"]);
+    $captcha = $captchaDao->getById($idCaptcha);
+
     try {
         // Appel de la méthode du service en charge de la connexion d'un utilisateur
         $user = $userService->logInUser($email, $password);
@@ -77,12 +83,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             CookieManager::createUserCookie($user->getEmail(), $user->getRole(), $user->getId());
         }
 
-        SessionManager::createUserSession($user->getEmail(), $user->getRole(), $user->getId());
+        SessionManager::createUserSession($user->getFirstName(), $user->getRole(), $user->getId());
         if ($user->getRole() === UserRole::GAMER->value) {
-            header("Location: gamerHome.php");
+            header("Location: homeGamer.php");
         } else {
-            header("Location: adminQuiz.php");
+            header("Location: homeAdmin.php");
         }
+        $userService = null;
         exit();
 
     } catch (InvalidArgumentException|Exception $e) {
@@ -111,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form action="#" method="post">
             <input type="email" name="email" id="email" required placeholder="Email">
             <input type="password" name="password" id="password" required placeholder="Mot de passe">
-
+            <input type="hidden" name="idCaptcha" value="<?php echo $captcha->getId(); ?>">
             <div class="section-captcha">
                 <img src="<?php echo $imageSrc ?? '../../../img_two.png' ?>" alt="captcha">
                 <input type="text" name="captcha" id="captcha" required placeholder="Entrez le texte de l'image">

@@ -38,7 +38,7 @@
 
         </div>
         <div class="iframe-container">
-            <iframe name="contentFrame" src="changePassword.php"></iframe>
+            <iframe name="contentFrame" src="./gamerQuiz.php"></iframe>
         </div>
     </div>
 </body>

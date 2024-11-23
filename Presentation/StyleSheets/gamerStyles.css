@@ -1,0 +1,99 @@
+* {
+    font-family: "Parkinsans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.main-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.data {
+    min-height: auto;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column;
+    margin: 0 15px 15px 15px;
+}
+
+.table-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: 2px solid #E1DCD9;
+    align-items: center;
+}
+
+.table-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #E1DCD9;
+    height: 50px;
+}
+
+.bttn {
+    background: #023459;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.bttn:hover{
+    background: white;
+    color: #023459;
+    padding: 3px 8px;
+    border: 2px solid;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.table-footer .disabled {
+    padding: 5px 10px;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+
+.quiz {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.title {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.question-text {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+#game, #result {
+    display: none;
+}
+
+.score {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+

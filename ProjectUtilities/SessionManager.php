@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace ProjectUtilities;
+session_start();
 
 /**
  * Classe représente le gestionnaire de la connexion utilisateur avec les sessions
@@ -17,7 +18,7 @@ class SessionManager
      * Les variables de session user et role vont representer la session utilisateur.
      * user pour stocker le prénom, role pour stocker le role de l'utilisateur, userId pour l'identifiant
      */
-    public static function createUserSession(string $userSessionValue, string $userRoleValue, int $userId = 0): void
+    public static function createUserSession(string $userSessionValue, string $userRoleValue, int $userId): void
     {
         $_SESSION["user"] = $userSessionValue;
         $_SESSION["role"] = $userRoleValue;

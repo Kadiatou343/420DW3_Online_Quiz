@@ -151,8 +151,8 @@ class QuizDAO
     {
         $query = "SELECT * FROM $this->tableName LIMIT :limit OFFSET :offset ;";
         $statement = $this->connection->prepare($query);
-        $statement->bindParam(":limit", $limit);
-        $statement->bindParam(":offset", $offset);
+        $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindValue(":offset", $offset, PDO::PARAM_INT);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();

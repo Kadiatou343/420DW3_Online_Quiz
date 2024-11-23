@@ -35,15 +35,12 @@ class ResultService
     }
 
     /**
-     * @param int $score
-     * @param User $user
-     * @param Quiz $quiz
+     * @param Result $result
      * @return Result
      * Créer un résultat
      */
-    public function createResult(int $score, User $user, Quiz $quiz) : Result
+    public function createResult(Result $result) : Result
     {
-        $result = new Result($score, $quiz, $user);
         return $this->resultDAO->create($result);
     }
 

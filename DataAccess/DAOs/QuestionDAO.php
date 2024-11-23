@@ -207,6 +207,23 @@ class QuestionDAO
     }
 
     /**
+     * Obtenir le nombre de questions pour un quiz
+     * @param Quiz $quiz
+     * @return int
+     */
+    public function getCountByQuiz(Quiz $quiz): int
+    {
+        $query = "SELECT COUNT(*) AS total FROM $this->tableName WHERE QuizId = :quizId ;";
+        $statement = $this->connection->prepare($query);
+        $statement->bindValue(":quizId", $quiz->getId());
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+
+        return (int) $result['total'];
+    }
+
+    /**
      * Desctructeur du DAO.
      * La méthode ferme la connexion
      */
