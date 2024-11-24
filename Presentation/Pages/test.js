@@ -23,20 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             console.log("Erreur : " + xhr.status + " " + xhr.statusText);
                         }
                     }
-                };
-                xhr.open("GET", "gamerQuiz.php?answer=" + encodeURIComponent(value) + "&quesId=" + encodeURIComponent(quesId), true);
+                }
+                xhr.open("GET", "gamerQuiz.php?answer=" + encodeURIComponent(value) + "&quesId=" +encodeURIComponent(quesId), true);
                 xhr.send();
             });
         });
 
-        let game = document.getElementById('game');
-        let result = document.getElementById('result');
-        let play = document.getElementById('play')
-        let endQuiz = document.getElementById('endQuiz');
 
-        
+        const play = document.getElementById('play')
+        const endQuiz = document.getElementById('endQuiz');
+        const game = document.getElementById('game');
+        const result = document.getElementById('result');
 
-        // /*Faire apparaitre la fenetre de jeu */
+         /*Faire apparaitre la fenetre de jeu */
         play.addEventListener('click', function(event) {
             event.preventDefault();
             console.log("Click detecte");

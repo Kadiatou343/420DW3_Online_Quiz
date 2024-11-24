@@ -31,18 +31,14 @@ $resultService = new ResultService();
 
 
 /**
- * Verification de la reception de la requête d'ajax
+ * Verification de la reponse
  */
-if (isset($_GET['answer'], $_GET['quesId'])) {
-    $quesId = (int) $_GET['quesId'];
+if (isset($_GET['answer'], $_GET['questionId'])) {
+    $quesId = (int) $_GET['questionId'];
     $answer = (string) $_GET['answer'];
     if (!isset($_SESSION['score'])) {
         $_SESSION['score'] = 0;
     }
-    /**
-     * Pour enlever le prefix de reponse ex : A. ou B.
-     */
-    $answer = substr($answer, 3);
 
     $questionToCheck = $questionService->getQuestionById($quesId);
 
@@ -52,7 +48,6 @@ if (isset($_GET['answer'], $_GET['quesId'])) {
     if ($questionToCheck->getCorrectAnswer() === $answer) {
         $_SESSION['score'] = (int)($_SESSION['score']) + 1;
     }
-    exit();
 }
 
 /**
@@ -88,16 +83,16 @@ $listQuizzes = $quizService->getQuizzesByLimitAndOffset($limit, $offset);
 /**
  * Le jeu de quiz commence si l'action play est bien choisie
  */
-if (isset($_GET['action']) && $_GET['action'] == "play") {
+if ($_GET["action"] === "play") {
     /**
      * L'id du quiz choisi
      */
-    $quizId = (int) $_GET['quizId'];
+    $quizToPlayId = (int) $_GET['quizId'];
 
     /**
      * Le quiz lui-même
      */
-    $quiz = $quizService->getQuizById($quizId);
+    $quiz = $quizService->getQuizById($quizToPlayId);
 
     /**
      * Les questions du quiz
@@ -122,7 +117,7 @@ $counterGlobal = 0;
 /**
  * Passer à la prochaine question
  */
-if (isset($_GET['action']) && $_GET['action'] == "next") {
+if (isset($_GET['action']) && ($_GET['action'] === "next")) {
     $counter = (int) $_GET['counter'];
     $counterGlobal = $counter + 1;
 }
@@ -211,65 +206,5 @@ if (isset($_GET['action']) && $_GET['action'] == "end") {
                 <?php } ?>
             </div>
         </div>
-        <div class="game" id="game">
-            <div class="quiz">
-                <div class="title">
-                    <p>
-                        <?php echo isset($quiz) ? $quiz->getTitle() : ''; ?>
-                    </p>
-                </div>
-                <?php if (isset($questions)) {
-                    $counter = $counterGlobal;
-                    $answers = array($questions[$counter]->getCorrectAnswer(), $questions[$counter]->getWrongAnswer1(),
-                        $questions[$counter]->getWrongAnswer2(), $questions[$counter]->getWrongAnswer3());
-                    shuffle($answers);
-                    ?>
-                <div class="question-text">
-                    <p>
-                        <?php echo $questions[$counter]->getQuestionText(); ?>
-                    </p>
-                </div>
-                <div class="answer">
-                    <a href="questionId=<?php echo $questions[$counter]->getId(); ?>" class="ans">A.&nbsp;<?php echo $answers[0]; ?></a>
-                </div>
-                <div class="answer">
-                    <a href="questionId=<?php echo $questions[$counter]->getId(); ?>" class="ans">B.&nbsp;<?php echo $answers[1]; ?></a>
-                </div>
-                <div class="answer">
-                    <a href="questionId=<?php echo $questions[$counter]->getId(); ?>" class="ans">C.&nbsp;<?php echo $answers[2]; ?></a>
-                </div>
-                <div class="answer">
-                    <a href="questionId=<?php echo $questions[$counter]->getId(); ?>" class="ans">D.&nbsp;<?php echo $answers[3]; ?></a>
-                </div>
-                <div class="exit">
-                    <a href="" id="cancelQuiz">Quitter</a>
-                </div>
-                <div class="next">
-                    <?php if (isset($totalQuestions)){ if ($counter < $totalQuestions - 1){ ?>
-                    <a href="?action=next&count=<?php echo $counter; ?>">Suivant</a>
-                    <?php } elseif ($counter === $totalQuestions - 1) {?>
-                    <a href="?action=end&quesId=<?php echo $questions[$counter]->getId(); ?>" id="endQuiz">Terminer</a>
-                    <?php } }?>
-                    <p id="quesId" style="visibility:hidden;" class="quesId"><?php echo $questions[$counter]->getId(); ?></p>
-                </div>
-                <?php } ?>
-            </div>
-        </div>
-        <div class="result" id="result">
-            <div class="score">
-                <?php if (isset($result)) { ?>
-                <div class="note">
-                    <p><strong>Score</strong>&nbsp;=&nbsp;<?php echo $result->getScore();?></p>
-                </div>
-                <div class="quiz-note">
-                    <p>Quiz&nbsp;:&nbsp;<?php echo $result->getQuiz()->getTitle(); ?></p>
-                </div>
-                <?php } ?>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript" src="./test.js">
-
-    </script>
 </body>
 </html>
