@@ -20,37 +20,6 @@ $quizService = new QuizService();
 $questionService = new QuestionService();
 
 /**
- * Le service de l'utilisateur utilisé pour les divers opérations sur l'utilisateur
- */
-$userService = new UserService();
-
-/**
- * Le service du résultat utilisé pour les divers opérations sur les résultats
- */
-$resultService = new ResultService();
-
-
-/**
- * Verification de la reponse
- */
-if (isset($_GET['answer'], $_GET['questionId'])) {
-    $quesId = (int) $_GET['questionId'];
-    $answer = (string) $_GET['answer'];
-    if (!isset($_SESSION['score'])) {
-        $_SESSION['score'] = 0;
-    }
-
-    $questionToCheck = $questionService->getQuestionById($quesId);
-
-    /**
-     * Attribution du score
-     */
-    if ($questionToCheck->getCorrectAnswer() === $answer) {
-        $_SESSION['score'] = (int)($_SESSION['score']) + 1;
-    }
-}
-
-/**
  * Le nombre total de quiz dispo dans la base de données
  */
 $totalQuizzes = $quizService->getQuizzesCount();
@@ -79,75 +48,6 @@ $offset = (int) (($page - 1) * $limit);
  * Les quiz correspondant avec la limite et le delimiteur
  */
 $listQuizzes = $quizService->getQuizzesByLimitAndOffset($limit, $offset);
-
-/**
- * Le jeu de quiz commence si l'action play est bien choisie
- */
-if ($_GET["action"] === "play") {
-    /**
-     * L'id du quiz choisi
-     */
-    $quizToPlayId = (int) $_GET['quizId'];
-
-    /**
-     * Le quiz lui-même
-     */
-    $quiz = $quizService->getQuizById($quizToPlayId);
-
-    /**
-     * Les questions du quiz
-     */
-    $listQuestions = $questionService->filterQuestionsByQuizId($quiz->getId());
-
-    /**
-     * Un array qui contient les question pour une bonne gestion visuelle du code
-     */
-    $questions = $listQuestions->getListQuestions();
-
-    /**
-     * Le nombre de questions pour le quiz
-     */
-    $totalQuestions = count($listQuestions->getListQuestions());
-}
-/**
- * Le compteur pour un acces global
- */
-$counterGlobal = 0;
-
-/**
- * Passer à la prochaine question
- */
-if (isset($_GET['action']) && ($_GET['action'] === "next")) {
-    $counter = (int) $_GET['counter'];
-    $counterGlobal = $counter + 1;
-}
-
-if (isset($_GET['action']) && $_GET['action'] == "end") {
-    $userId = (int) $_SESSION['userId'] ?? null;
-    $quesId = (int) $_GET['quesId'];
-
-    if ($userId !== null) {
-        try {
-            throw new Exception("Session Introuvable Erreur du système");
-        }catch (Exception $e){
-            echo $e->getMessage();
-        }
-    }
-
-    $user = $userService->getUserById($userId);
-    $quizRes = $questionService->getQuestionById($quesId)->getQuiz();
-    $score = (int) $_SESSION['score'];
-
-    $result = new Result($score, $quizRes, $user);
-
-    /**
-     * Enregistrement du nouveau résultat pour l'utilisateur
-     */
-    $resultService->createResult($result);
-
-}
-
-
 
 ?>
 
