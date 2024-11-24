@@ -1,3 +1,10 @@
+* {
+    font-family: "Parkinsans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .main-container {
     position: absolute;
     right: 0;
@@ -125,7 +132,7 @@
 }
 
 .bttn {
-    background: #023459;
+    background: #1E646E;
     color: white;
     padding: 5px 10px;
     text-align: center;
@@ -134,7 +141,7 @@
 
 .bttn:hover{
     background: white;
-    color: #023459;
+    color: #1E646E;
     padding: 3px 8px;
     border: 2px solid;
 }
@@ -192,7 +199,6 @@ span {
 /* .fm-ct td input{
     width: 400px;
 } */
-
 
 
 

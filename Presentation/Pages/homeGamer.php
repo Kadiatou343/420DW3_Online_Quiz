@@ -1,4 +1,16 @@
 <?php
+
+require_once "../../psr4_autoloader.php";
+
+use ProjectUtilities\CookieManager;
+use ProjectUtilities\SessionManager;
+
+if (isset($_GET["action"]) && $_GET["action"] == "logout") {
+    SessionManager::killUserSession();
+    CookieManager::killUserCookie();
+    header("Location: index.php");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -7,6 +19,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +31,7 @@
     <style>
 
         .side-menu ul li span{
-            font-size: 0.8em;
+            font-size: 0.7em;
         }
 
     </style>
@@ -35,7 +50,8 @@
     <div class="container">
         <div class="header">
             <img src="../images/quizzy_dev_logo.png" alt="logo" width="70" height="60">
-            <p class="username">Bonjour&nbsp;</p>
+            <p class="username">Bonjour&nbsp;<?php echo (SessionManager::doesUserSessionExit()) ? $_SESSION["user"] : '';?></p>
+            <a class="btn btn-danger" href="?action=logout" style="background: #1E646E; border: #1E646E;"><i class="bi bi-box-arrow-right"></i></a>
         </div>
         <div class="card">
 

@@ -41,10 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $newUser = $userService->registerUserGamer($user);
 
-        if ($newUser !== null) {
-            header("Location: login.php");
-            exit;
-        }
+        header("Location: login.php");
+        exit;
+
+//        if ($newUser !== null) {
+//
+//        }
 
     } catch (ArgumentOutOfRangeException|InvalidArgumentException|Exception $e) {
         $error = $e->getMessage();

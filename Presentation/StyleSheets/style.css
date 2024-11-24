@@ -1,3 +1,10 @@
+* {
+    font-family: "Parkinsans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
 body{
     margin: 0;
     display: flex;
@@ -5,7 +12,6 @@ body{
     align-items: center;
     min-height: 100vh;
     background: linear-gradient(to bottom, #B2A59F, #023459,#1E646E,#002C2F);
-    font-family: Georgia, sans-serif;
 }
 
 .login-form, .register-form{

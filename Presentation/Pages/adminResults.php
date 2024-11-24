@@ -1,5 +1,35 @@
 <?php
+
+use Business\Services\ResultService;
+
 require_once "../../psr4_autoloader.php";
+
+/**
+ * Le service utilisé pour les divers opérations sur les résultats
+ */
+$resultService = new ResultService();
+
+/**
+ * Liste des résultats
+ */
+$results = $resultService->getAllResults();
+
+/**
+ * Filtrage par utilisateur
+ */
+if (isset($_GET["filterByUser"])){
+    $userId = (int) $_GET["filterByUser"];
+    $results = $resultService->filterResultsByUserId($userId);
+}
+
+/**
+ * Filtrage par quiz
+ */
+if (isset($_GET["filterByQuiz"])){
+    $quizId = (int) $_GET["filterByQuiz"];
+    $results = $resultService->filterResultsByQuizId($quizId);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -27,67 +57,50 @@ require_once "../../psr4_autoloader.php";
             <div class="table-content">
                 <div class="table-title">
                     <h3>Resultats</h3>
-                    <button class="bttn">Filtrer par Quiz</button>
-                    <button class="bttn">Filtrer par Utilisateur</button>
+                    <a class="bttn" id="byQuiz">Filtrer par Quiz</a>
+                    <a class="bttn" id="byUser">Filtrer par Utilisateur</a>
                 </div>
-                <table class="table table-stripped"> 
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Id-joueur</th>
-                            <th scope="col">Email&nbsp;Utilisateur</th>
+                            <th scope="col">Email&nbsp;Joueur</th>
                             <th scope="col">Id-quiz</th>
                             <th scope="col">Titre&nbsp;Quiz</th>
                             <th scope="col">Score</th>
-                            <th scope="col">Nombre&nbsp;question</th>
                             <th scope="col">Date</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($results->getListResults() as $result) { ?>
                         <tr>
-                            <td>1</td>
-                            <td>wree@gn.com</td>
-                            <td>1</td>
-                            <td>YYYYYY</td>
-                            <td>10</td>
-                            <td>20</td>
-                            <td>2024-01-01</td>
+                            <td><?php echo $result->getUser()->getId(); ?></td>
+                            <td><?php echo $result->getUser()->getEmail(); ?></td>
+                            <td><?php echo $result->getQuiz()->getId();?></td>
+                            <td><?php echo $result->getQuiz()->getTitle();?></td>
+                            <td><?php echo $result->getScore();?></td>
+                            <td><?php echo $result->getDateCreated()->format('Y-m-d H:i:s')?></td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>wree@gn.com</td>
-                            <td>1</td>
-                            <td>YYYYYY</td>
-                            <td>10</td>
-                            <td>20</td>
-                            <td>2024-01-01</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>wree@gn.com</td>
-                            <td>1</td>
-                            <td>YYYYYY</td>
-                            <td>10</td>
-                            <td>20</td>
-                            <td>2024-01-01</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>wree@gn.com</td>
-                            <td>1</td>
-                            <td>YYYYYY</td>
-                            <td>10</td>
-                            <td>20</td>
-                            <td>2024-01-01</td>
-                        </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
             <div class="details">
-                <p>Pour plus de details des quiz , <a href="./adminQuiz.php" target="contentFrame"><span>c'est ici</span></a></p>
-                <p>Pour plus de details des joueurs , <a href="./adminUsers.php" target="contentFrame"><span>c'est ici</span></a></p>
+                <p>Pour plus de détails des quiz , <a href="./adminQuiz.php"><span>c'est ici</span></a></p>
+                <p>Pour plus de détails des joueurs , <a href="./adminUsers.php"><span>c'est ici</span></a></p>
             </div>
         </div>
     </div>
-    
+    <script>
+        const input = document.getElementById('filter');
+        const link = document.getElementById('byUser');
+        const link2 = document.getElementById('byQuiz');
+
+        // Mise à jour de l'attribut href du lien en fonction de l'entrée
+        input.addEventListener('input', () => {
+            link.href = `?filterByUser=${encodeURIComponent(input.value)}`;
+            link2.href = `?filterByQuiz=${encodeURIComponent(input.value)}`;
+        });
+    </script>
 </body>
 </html>

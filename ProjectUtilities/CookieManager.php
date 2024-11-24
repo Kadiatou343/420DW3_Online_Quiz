@@ -14,6 +14,11 @@ class CookieManager
     private const COOKIE_LIFETIME = 86400 * 4;
 
     /**
+     * La valeur à rendre negative pour detruire les cookies
+     */
+    private const COOKIE_KILL_TIME = 3600;
+
+    /**
      * @param string $userCookieValue
      * @param string $userRole
      * @param int $userId
@@ -49,5 +54,12 @@ class CookieManager
             return true;
         }
         return false;
+    }
+
+    public static function killUserCookie(): void
+    {
+        setcookie("user", '', time() - self::COOKIE_KILL_TIME, "/");
+        setcookie("role", '', time() - self::COOKIE_KILL_TIME, "/");
+        setcookie("userId", '', time() - self::COOKIE_KILL_TIME, "/");
     }
 }

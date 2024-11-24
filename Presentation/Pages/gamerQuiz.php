@@ -49,6 +49,15 @@ $offset = (int) (($page - 1) * $limit);
  */
 $listQuizzes = $quizService->getQuizzesByLimitAndOffset($limit, $offset);
 
+/**
+ * Faire passer passer les informations du quiz choisi à travers la session pour que la page de jeu puisse y acceder
+ * Redirection vers la page de jeu
+ */
+if (isset($_GET["action"]) && $_GET["action"] == "play") {
+    $_SESSION['quizId'] = (int) $_GET["quizId"];
+    header("Location: jeuQuiz.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -78,6 +87,7 @@ $listQuizzes = $quizService->getQuizzesByLimitAndOffset($limit, $offset);
                     <tr>
                         <th scope="col">Titre du quiz</th>
                         <th scope="col">Description du quiz</th>
+                        <th scope="col">Disponibilité</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -87,9 +97,15 @@ $listQuizzes = $quizService->getQuizzesByLimitAndOffset($limit, $offset);
                     <tr>
                         <td><?php echo $quiz->getTitle(); ?></td>
                         <td><?php echo $quiz->getDescription(); ?></td>
+                        <?php if (count($questionService->filterQuestionsByQuizId($quiz->getId())->getListQuestions()) > 3) { ?>
+                        <td>Disponible</td>
                         <td>
                             <a href="?action=play&quizId=<?php echo $quiz->getId(); ?>" id="play" class="play"><i class="bi bi-play-fill"></i></a>
                         </td>
+                        <?php } else {?>
+                        <td>Indisponible</td>
+                        <td>No&nbsp;action</td>
+                                <?php } ?>
                     </tr>
                     <?php } } ?>
                 </tbody>

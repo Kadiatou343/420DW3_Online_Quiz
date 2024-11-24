@@ -309,7 +309,7 @@ $questionService = null;
                 <h3>Liste des quiz</h3>
                 <a href="#" class="bttn">Ajouter Quiz</a>
             </div>
-            <table class="table table-stripped">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -355,10 +355,10 @@ $questionService = null;
     </div>
     <div class="table-content">
         <div class="table-title">
-            <h3>Questions du quiz N°</h3>
-            <h3>Titre du quiz</h3>
+            <h3>Questions du quiz N°<?php echo isset($newQuiz)? $newQuiz->getId(): '';?></h3>
+            <h3>Titre du quiz : <?php echo isset($newQuiz)? $newQuiz->getTitle(): '';?></h3>
         </div>
-        <table class="table table-stripped">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">Id</th>

@@ -67,8 +67,8 @@ class ResultDAO
         $statement->closeCursor();
 
         if ($result){
-            $quiz = $this->quizDAO->getById($result[0]['QuizId']);
-            $user = $this->userDAO->getById($result[0]['UserId']);
+            $quiz = $this->quizDAO->getById($result['QuizId']);
+            $user = $this->userDAO->getById($result['UserId']);
             return new Result(
                 $result['Score'],
                 $quiz,

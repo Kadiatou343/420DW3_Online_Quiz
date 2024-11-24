@@ -37,4 +37,15 @@ class SessionManager
         return false;
     }
 
+    /**
+     * @return void
+     * Detruire la session utilisateur
+     */
+    public static function killUserSession(): void
+    {
+        unset($_SESSION["user"]);
+        unset($_SESSION["role"]);
+        unset($_SESSION["userId"]);
+    }
+
 }
