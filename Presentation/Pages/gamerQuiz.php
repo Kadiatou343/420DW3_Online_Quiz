@@ -42,7 +42,7 @@ $page = $_GET['page'] ?? 1;
 /**
  * Le delimiteur dans la base de données
  */
-$offset = (int) (($page - 1) * $limit);
+$offset = (int)(($page - 1) * $limit);
 
 /**
  * Les quiz correspondant avec la limite et le delimiteur
@@ -54,7 +54,7 @@ $listQuizzes = $quizService->getQuizzesByLimitAndOffset($limit, $offset);
  * Redirection vers la page de jeu
  */
 if (isset($_GET["action"]) && $_GET["action"] == "play") {
-    $_SESSION['quizId'] = (int) $_GET["quizId"];
+    $_SESSION['quizId'] = (int)$_GET["quizId"];
     header("Location: jeuQuiz.php");
     exit();
 }
@@ -76,51 +76,54 @@ if (isset($_GET["action"]) && $_GET["action"] == "play") {
     <title>Jeu - Quiz</title>
 </head>
 <body>
-    <div class="main-container">
-        <div class="data" id="data">
-            <div class="table-title">
-                <h3>Selectionnez le quiz que vous voulez</h3>
-                <a href="./gamerResults.php" target="contentFrame" class="bttn">Mes résultats</a>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Titre du quiz</th>
-                        <th scope="col">Description du quiz</th>
-                        <th scope="col">Disponibilité</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($listQuizzes->getListQuizzes())){
-                        foreach ($listQuizzes->getListQuizzes() as $quiz) { ?>
+<div class="main-container">
+    <div class="data" id="data">
+        <div class="table-title">
+            <h3>Selectionnez le quiz que vous voulez</h3>
+            <a href="./gamerResults.php" target="contentFrame" class="bttn">Mes résultats</a>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Titre du quiz</th>
+                <th scope="col">Description du quiz</th>
+                <th scope="col">Disponibilité</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if (!empty($listQuizzes->getListQuizzes())) {
+                foreach ($listQuizzes->getListQuizzes() as $quiz) { ?>
                     <tr>
                         <td><?php echo $quiz->getTitle(); ?></td>
                         <td><?php echo $quiz->getDescription(); ?></td>
                         <?php if (count($questionService->filterQuestionsByQuizId($quiz->getId())->getListQuestions()) > 3) { ?>
-                        <td>Disponible</td>
-                        <td>
-                            <a href="?action=play&quizId=<?php echo $quiz->getId(); ?>" id="play" class="play"><i class="bi bi-play-fill"></i></a>
-                        </td>
-                        <?php } else {?>
-                        <td>Indisponible</td>
-                        <td>No&nbsp;action</td>
-                                <?php } ?>
+                            <td>Disponible</td>
+                            <td>
+                                <a href="?action=play&quizId=<?php echo $quiz->getId(); ?>" id="play" class="play"><i
+                                            class="bi bi-play-fill"></i></a>
+                            </td>
+                        <?php } else { ?>
+                            <td>Indisponible</td>
+                            <td>No&nbsp;action</td>
+                        <?php } ?>
                     </tr>
-                    <?php } } ?>
-                </tbody>
-            </table>
-            <div class="table-footer">
-                <?php if ($page > 1) { ?>
+                <?php }
+            } ?>
+            </tbody>
+        </table>
+        <div class="table-footer">
+            <?php if ($page > 1) { ?>
                 <a href="?page=<?php echo $page - 1 ?>" class="bttn">Précédant</a>
-                <?php } else { ?>
+            <?php } else { ?>
                 <div><span class="disabled">Précédant</span></div>
-                <?php } if ($page < $totalPages) { ?>
+            <?php }
+            if ($page < $totalPages) { ?>
                 <a href="?page=<?php echo $page + 1 ?>" class="bttn">Suivant</a>
-                <?php } else { ?>
+            <?php } else { ?>
                 <div><span class="disabled">Suivant</span></div>
-                <?php } ?>
-            </div>
+            <?php } ?>
         </div>
+    </div>
 </body>
 </html>

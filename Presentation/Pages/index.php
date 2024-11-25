@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 ?>
 
@@ -18,35 +18,38 @@
     <title>Presentation</title>
 </head>
 <body>
-        <div class="header">
-            <img src="../images/quizzy_dev_logo.png" alt="logo" width="70" height="60">
-        </div>
-        <div class="content">
-            <div class="section">
-                <p>Etes-vous developpeur junior🧑🏼‍💻? Ou bien étudiant en programmation informatique?</p>
-                <p>Ou tout simplement fan de ce domaine?</p>
-                <p>Si oui, restez🙃&nbsp;! <strong>Quizzy&nbsp;Dev</strong> est fait pour vous&nbsp;! Vous ne serez pas deçu😊&nbsp;!</p>
-                <p>
-                    Et bien, pour la petite histoire, <strong>Quizzy&nbsp;Dev</strong> est partie d'un projet academique et 
-                    <br> ça a finit par une histoire d'amour avec sa créatrice❤️
-                </p>
-                <p>
-                    <strong>Quizzy&nbsp;Dev</strong> est un site web qui vous permet de participer à des quiz
-                    qui ont tous <br> un rapport avec la programmation informatique, principalement les celèbres <br> langages de programmation.
-                </p>
-                <p>
-                    Croyez-moi quand je vous dis que vous allez vous amusez😁
-                </p>
-            </div>
-            <div class="section">
-                <p>Pour s'incrire et commencer à avoir du fun,&nbsp;<a href="./register.php">c'est&nbsp;par&nbsp;ici</a></p>
-                <p>Vous avez déjà un compte?&nbsp;<a href="./login.php">Continuez&nbsp;ici</a></p>
-                <p>Voulez-vous devenir administrateur&nbsp;? Veuillez contactez le support!&nbsp; <a href="#">Plus&nbsp;d'infos</a></p>
-            </div>
-        </div>
-        <div class="footer">
-            <p>Made by Kadiatou Doumbia</p>
-            <p><i class="bi bi-c-circle"></i>&nbsp;Tous droits réservés</p>
-        </div>
+<div class="header">
+    <img src="../images/quizzy_dev_logo.png" alt="logo" width="70" height="60">
+</div>
+<div class="content">
+    <div class="section">
+        <p>Etes-vous developpeur junior🧑🏼‍💻? Ou bien étudiant en programmation informatique?</p>
+        <p>Ou tout simplement fan de ce domaine?</p>
+        <p>Si oui, restez🙃&nbsp;! <strong>Quizzy&nbsp;Dev</strong> est fait pour vous&nbsp;! Vous ne serez pas deçu😊&nbsp;!
+        </p>
+        <p>
+            Et bien, pour la petite histoire, <strong>Quizzy&nbsp;Dev</strong> est partie d'un projet academique et
+            <br> ça a finit par une histoire d'amour avec sa créatrice❤️
+        </p>
+        <p>
+            <strong>Quizzy&nbsp;Dev</strong> est un site web qui vous permet de participer à des quiz
+            qui ont tous <br> un rapport avec la programmation informatique, principalement les celèbres <br> langages
+            de programmation.
+        </p>
+        <p>
+            Croyez-moi quand je vous dis que vous allez vous amusez😁
+        </p>
+    </div>
+    <div class="section">
+        <p>Pour s'incrire et commencer à avoir du fun,&nbsp;<a href="./register.php">c'est&nbsp;par&nbsp;ici</a></p>
+        <p>Vous avez déjà un compte?&nbsp;<a href="./login.php">Continuez&nbsp;ici</a></p>
+        <p>Voulez-vous devenir administrateur&nbsp;? Veuillez contactez le support!&nbsp; <a
+                    href="#">Plus&nbsp;d'infos</a></p>
+    </div>
+</div>
+<div class="footer">
+    <p>Made by Kadiatou Doumbia</p>
+    <p><i class="bi bi-c-circle"></i>&nbsp;Tous droits réservés</p>
+</div>
 </body>
 </html>

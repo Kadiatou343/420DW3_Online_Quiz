@@ -39,7 +39,7 @@ class ResultService
      * @return Result
      * Créer un résultat
      */
-    public function createResult(Result $result) : Result
+    public function createResult(Result $result): Result
     {
         return $this->resultDAO->create($result);
     }
@@ -50,7 +50,7 @@ class ResultService
      * @throws InvalidArgumentException
      * Obtenir un résultat par son identifiant
      */
-    public function getResultById(int $id) : Result
+    public function getResultById(int $id): Result
     {
         $result = $this->resultDAO->getById($id);
 
@@ -64,7 +64,7 @@ class ResultService
      * @return ListResult
      * Obtenir tous les résultats
      */
-    public function getAllResults() : ListResult
+    public function getAllResults(): ListResult
     {
         return $this->resultDAO->getAll();
     }
@@ -75,7 +75,7 @@ class ResultService
      * @throws Exception
      * Mettre à jour un résultat
      */
-    public function updateResult(Result $result) : Result
+    public function updateResult(Result $result): Result
     {
         return $this->resultDAO->update($result);
     }
@@ -86,7 +86,7 @@ class ResultService
      * @throws Exception
      * Supprimer un résultat
      */
-    public function deleteResult(Result $result) : void
+    public function deleteResult(Result $result): void
     {
         $this->resultDAO->delete($result);
     }
@@ -96,7 +96,7 @@ class ResultService
      * @return ListResult
      * Retourne les resultats à partir de l'id d'un quiz
      */
-    public function filterResultsByQuizId(int $quizId) : ListResult
+    public function filterResultsByQuizId(int $quizId): ListResult
     {
         $quiz = $this->quizService->getQuizById($quizId);
         return $this->resultDAO->filterByQuiz($quiz);
@@ -107,7 +107,7 @@ class ResultService
      * @return ListResult
      * Retourne les résultats à partir de l'id d'un utilisateur
      */
-    public function filterResultsByUserId(int $userId) : ListResult
+    public function filterResultsByUserId(int $userId): ListResult
     {
         $user = $this->userService->getUserById($userId);
         return $this->resultDAO->filterByUser($user);

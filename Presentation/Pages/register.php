@@ -72,9 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="register-form">
         <h2>Quizzy&nbsp;Dev&nbsp;-&nbsp;Inscription</h2>
         <form action="#" method="post">
-            <input type="text" name="firstName" id="firstName" required placeholder="Prénom" min="2" value="<?php echo isset($user) ? $user->getFirstName(): '';?>">
-            <input type="text" name="lastName" id="lastName" required placeholder="Nom de Famille" min="5" value="<?php echo isset($user) ? $user->getLastName(): '';?>">
-            <input type="email" name="email" id="email" required placeholder="Email" value="<?php echo isset($user) ? $user->getEmail(): '';?>">
+            <input type="text" name="firstName" id="firstName" required placeholder="Prénom" min="2"
+                   value="<?php echo isset($user) ? $user->getFirstName() : ''; ?>">
+            <input type="text" name="lastName" id="lastName" required placeholder="Nom de Famille" min="5"
+                   value="<?php echo isset($user) ? $user->getLastName() : ''; ?>">
+            <input type="email" name="email" id="email" required placeholder="Email"
+                   value="<?php echo isset($user) ? $user->getEmail() : ''; ?>">
             <input type="password" name="password" id="password" required placeholder="Mot de passe" min="8">
             <input type="password" name="confirmPassword" id="confirmPassword" required
                    placeholder="Confirmer Mot de passe">

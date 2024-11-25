@@ -50,14 +50,13 @@ class ResultDAO
     }
 
 
-
     /**
      * @param int $id
      * @return Result|null
      * La méthode pour obtenir un utilisateur par son identifiant
      * Elle retourne null si l'identifiant passé en paramètre n'existe pas dans la table
      */
-    public function getById(int $id) : ?Result
+    public function getById(int $id): ?Result
     {
         $query = "SELECT * FROM $this->tableName WHERE id = :id ;";
         $statement = $this->connection->prepare($query);
@@ -66,7 +65,7 @@ class ResultDAO
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
 
-        if ($result){
+        if ($result) {
             $quiz = $this->quizDAO->getById($result['QuizId']);
             $user = $this->userDAO->getById($result['UserId']);
             return new Result(
@@ -85,7 +84,7 @@ class ResultDAO
      * @return ListResult
      * La méthode qui retourne tous les tuples de la table 'results'
      */
-    public function getAll() : ListResult
+    public function getAll(): ListResult
     {
         $query = "SELECT * FROM $this->tableName ;";
         $statement = $this->connection->prepare($query);
@@ -114,7 +113,7 @@ class ResultDAO
      * @return Result
      * La méthode pour insérer un nouveau résultat
      */
-    public function create(Result $result) : Result
+    public function create(Result $result): Result
     {
         $query = "INSERT INTO $this->tableName (UserId, QuizId, Score) VALUES (:userId, :quizId, :score) ;";
         $statement = $this->connection->prepare($query);
@@ -135,7 +134,7 @@ class ResultDAO
      * @throws Exception
      * La méthode pour mettre à jour un résultat
      */
-    public function update(Result $result) : Result
+    public function update(Result $result): Result
     {
         $query = "UPDATE $this->tableName SET UserId = :userId, QuizId = :quizId, Score = :score WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
@@ -159,7 +158,7 @@ class ResultDAO
      * @throws Exception
      * La méthode pour supprimer un résultat
      */
-    public function delete(Result $result) : void
+    public function delete(Result $result): void
     {
         $query = "DELETE FROM $this->tableName WHERE Id = :id ;";
         $statement = $this->connection->prepare($query);
@@ -177,7 +176,7 @@ class ResultDAO
      * @return ListResult
      * La méthode qui retourne les résultats en fonction d'un quiz
      */
-    public function filterByQuiz(Quiz $quiz) : ListResult
+    public function filterByQuiz(Quiz $quiz): ListResult
     {
         $query = "SELECT * FROM $this->tableName WHERE QuizId = :quizId ;";
         $statement = $this->connection->prepare($query);
@@ -206,7 +205,7 @@ class ResultDAO
      * @return ListResult
      * La méthode qui retourne les résultats en fonction d'un utilisateur
      */
-    public function filterByUser(User $user) : ListResult
+    public function filterByUser(User $user): ListResult
     {
         $query = "SELECT * FROM $this->tableName WHERE UserId = :userId ;";
         $statement = $this->connection->prepare($query);
@@ -218,11 +217,11 @@ class ResultDAO
         foreach ($queryResults as $id => $result) {
             $user->getResults()->addResult(
                 new Result(
-                 $result['Score'],
-                 $this->quizDAO->getById($result['QuizId']),
-                 $user,
-                 (int)$result['Id'],
-                 DateTimeFromString::createDateTimeFromString($result['Date'])
+                    $result['Score'],
+                    $this->quizDAO->getById($result['QuizId']),
+                    $user,
+                    (int)$result['Id'],
+                    DateTimeFromString::createDateTimeFromString($result['Date'])
                 )
             );
         }

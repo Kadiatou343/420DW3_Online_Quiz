@@ -46,7 +46,7 @@ class UserService
      * @throws InvalidArgumentException
      * Verifier les credentials d'un utilisateur lors de la connexion
      */
-    public function logInUser(string $email, string $password) : bool|User
+    public function logInUser(string $email, string $password): bool|User
     {
         $user = $this->userDAO->getByEmail($email);
 
@@ -54,7 +54,7 @@ class UserService
             throw new InvalidArgumentException("User not found !");
         }
 
-        if (password_verify($password, $user->getPasswordHash())){
+        if (password_verify($password, $user->getPasswordHash())) {
             return $user;
         }
         return false;
@@ -66,9 +66,9 @@ class UserService
      * La methode pour verifier le role d'un utilisateur.
      * Elle retourne true si l'utilisateur a le rôle d'admin et false pour rôle de gamer
      */
-    public function VerifyUserRoleAfterLogIn(User $user) : bool
+    public function VerifyUserRoleAfterLogIn(User $user): bool
     {
-        if ($user->getRole() == UserRole::GAMER->value){
+        if ($user->getRole() == UserRole::GAMER->value) {
             return false;
         }
         return true;
@@ -90,7 +90,7 @@ class UserService
      * @throws Exception
      * Mise à jour
      */
-    public function updateUser(User $user) : User
+    public function updateUser(User $user): User
     {
         return $this->userDAO->update($user);
     }
@@ -101,7 +101,7 @@ class UserService
      * @throws Exception
      * Suppresion
      */
-    public function deleteUser(User $user) : void
+    public function deleteUser(User $user): void
     {
         $this->userDAO->delete($user);
     }
@@ -110,7 +110,7 @@ class UserService
      * @return ListUser
      * Obtenir tous les utilisateurs
      */
-    public function getAllUsers() : ListUser
+    public function getAllUsers(): ListUser
     {
         return $this->userDAO->getAll();
     }
@@ -121,7 +121,7 @@ class UserService
      * @throws InvalidArgumentException
      * Obtenir un utilisateur par son identifiant
      */
-    public function getUserById(int $id) : User
+    public function getUserById(int $id): User
     {
         $user = $this->userDAO->getById($id);
 
@@ -137,7 +137,7 @@ class UserService
      * @return ListUser|null
      * Faire une recherche d'utilisateurs à partir d'une chaine de recherche
      */
-    public function searchUsersByString(string $criteria) : ?ListUser
+    public function searchUsersByString(string $criteria): ?ListUser
     {
         return $this->userDAO->searchByString($criteria);
     }
@@ -147,7 +147,7 @@ class UserService
      * @return ListUser
      * Filtrer les utilisateurs par leur role.
      */
-    public function filterUsersByRole(string $role) : ListUser
+    public function filterUsersByRole(string $role): ListUser
     {
         return $this->userDAO->filterByRole($role);
     }

@@ -181,7 +181,7 @@ class QuizDAO
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
 
-        return (int) $result["total"];
+        return (int)$result["total"];
     }
 
     /**

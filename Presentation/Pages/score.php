@@ -24,20 +24,20 @@ $result = $resultService->getResultById((int)$_SESSION['resultId']);
     <title>Document</title>
 </head>
 <body>
-    <div class="main-container">
-            <div class="result" id="result">
-                <div class="score">
-                    <div class="note">
-                        <p><strong>Score</strong>&nbsp;=&nbsp;<?php echo $result->getScore();?></p>
-                    </div>
-                    <div class="quiz-note">
-                        <p>Quiz&nbsp;:&nbsp;<?php echo $result->getQuiz()->getTitle(); ?></p>
-                    </div>
-                </div>
-                <div class="back">
-                    <a href="./gamerQuiz.php" class="bttn">Retour aux quiz</a>
-                </div>
+<div class="main-container">
+    <div class="result" id="result">
+        <div class="score">
+            <div class="note">
+                <p><strong>Score</strong>&nbsp;=&nbsp;<?php echo $result->getScore(); ?></p>
             </div>
+            <div class="quiz-note">
+                <p>Quiz&nbsp;:&nbsp;<?php echo $result->getQuiz()->getTitle(); ?></p>
+            </div>
+        </div>
+        <div class="back">
+            <a href="./gamerQuiz.php" class="bttn">Retour aux quiz</a>
+        </div>
     </div>
+</div>
 </body>
 </html>

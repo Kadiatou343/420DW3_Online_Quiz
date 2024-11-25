@@ -54,7 +54,7 @@ class QuestionDAO
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if ($result){
+        if ($result) {
             $quiz = $this->quizDAO->getById((int)$result['QuizId']); // ?? new Quiz("",""); Double Check
             return new Question(
                 $result['QuestionText'],
@@ -134,9 +134,9 @@ class QuestionDAO
     public function update(Question $question): Question
     {
         $query = "UPDATE $this->tableName SET QuestionText = :questionText, " .
-        "CorrectAnswer = :correctAnswer, WrongAnswer1 = :wrongAnswer1, " .
-        "WrongAnswer2 = :wrongAnswer2, WrongAnswer3 = :wrongAnswer3, " .
-        "QuizId = :quizId, ImageUrl = :imageUrl WHERE Id = :id ";
+            "CorrectAnswer = :correctAnswer, WrongAnswer1 = :wrongAnswer1, " .
+            "WrongAnswer2 = :wrongAnswer2, WrongAnswer3 = :wrongAnswer3, " .
+            "QuizId = :quizId, ImageUrl = :imageUrl WHERE Id = :id ";
 
         $statement = $this->connection->prepare($query);
         $statement->bindValue(":questionText", $question->getQuestionText());
@@ -169,7 +169,7 @@ class QuestionDAO
         $statement->bindValue(":id", $question->getId());
         $statement->execute();
 
-        if ($statement->rowCount()=== 0) {
+        if ($statement->rowCount() === 0) {
             throw new Exception("Unable to delete question with id {$question->getId()}. No rows deleted !");
         }
         $statement->closeCursor();
@@ -220,7 +220,7 @@ class QuestionDAO
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
 
-        return (int) $result['total'];
+        return (int)$result['total'];
     }
 
     /**

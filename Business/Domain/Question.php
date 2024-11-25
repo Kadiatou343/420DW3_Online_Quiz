@@ -206,7 +206,8 @@ class Question
      * @return bool
      * La méthode pour valider la taille des mauvaises réponses
      */
-    public function validateWrongAnswer($wrongAnswer): bool{
+    public function validateWrongAnswer($wrongAnswer): bool
+    {
         return mb_strlen($wrongAnswer, "UTF-8") <= self::QUESTION_WRONG_ANSWER_MAX_LENGTH;
     }
 
@@ -227,7 +228,7 @@ class Question
     public function __toString(): string
     {
         return "Question: $this->questionText - Bonne reponse : $this->correctAnswer - " .
-        "Mauvaises réponses : $this->wrongAnswer1, $this->wrongAnswer2, $this->wrongAnswer3";
+            "Mauvaises réponses : $this->wrongAnswer1, $this->wrongAnswer2, $this->wrongAnswer3";
     }
 
 

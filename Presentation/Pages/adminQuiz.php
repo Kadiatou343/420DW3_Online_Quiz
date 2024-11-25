@@ -301,7 +301,8 @@ $questionService = null;
 <div class="main-container">
     <div class="list-quiz">
         <div class="filter">
-            <input type="text" name="filter" id="filter" placeholder="Recherche de quiz" value="<?php echo $criteria ?? ''; ?>">
+            <input type="text" name="filter" id="filter" placeholder="Recherche de quiz"
+                   value="<?php echo $criteria ?? ''; ?>">
             <a id="searchLink" href="" class="bttn">Recherche</a>
         </div>
         <div class="table-content">
@@ -355,8 +356,8 @@ $questionService = null;
     </div>
     <div class="table-content">
         <div class="table-title">
-            <h3>Questions du quiz N°<?php echo isset($newQuiz)? $newQuiz->getId(): '';?></h3>
-            <h3>Titre du quiz : <?php echo isset($newQuiz)? $newQuiz->getTitle(): '';?></h3>
+            <h3>Questions du quiz N°<?php echo isset($newQuiz) ? $newQuiz->getId() : ''; ?></h3>
+            <h3>Titre du quiz : <?php echo isset($newQuiz) ? $newQuiz->getTitle() : ''; ?></h3>
         </div>
         <table class="table table-striped">
             <thead>

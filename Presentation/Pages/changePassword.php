@@ -13,17 +13,17 @@ require_once "../../psr4_autoloader.php";
  */
 $userService = new UserService();
 
-if (SessionManager::doesUserSessionExit()){
-    $userId = (int) $_SESSION['userId'];
+if (SessionManager::doesUserSessionExit()) {
+    $userId = (int)$_SESSION['userId'];
 
     $user = $userService->getUserById($userId);
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             $password = htmlspecialchars($_POST["password"]);
             $confirmPassword = htmlspecialchars($_POST["confirmPassword"]);
 
-            if (!User::confirmPassword($password, $confirmPassword)){
+            if (!User::confirmPassword($password, $confirmPassword)) {
                 throw new Exception("Les mot de passe ne correspondent pas");
             }
 
@@ -86,14 +86,14 @@ if (SessionManager::doesUserSessionExit()){
             border-radius: 5px;
         }
 
-        .bttn:hover{
+        .bttn:hover {
             background: white;
             color: #023459;
             padding: 3px 8px;
             border: 2px solid;
         }
 
-        td input[type=password]{
+        td input[type=password] {
             width: 200px;
         }
 
@@ -105,29 +105,29 @@ if (SessionManager::doesUserSessionExit()){
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="update">
-            <form action="#" method="post">
-                <div class="fr-tb">
-                    <table>
-                        <tr>
-                            <td><label for="password">Nouveau&nbsp;mot&nbsp;de&nbsp;passe</label></td>
-                            <td><input type="password" name="password" id="password" required></td>
-                        </tr>
-                        <tr>
-                            <td><label for="confirmPassword">Confirmer&nbsp;Mot&nbsp;de&nbsp;passe</label></td>
-                            <td><input type="password" name="confirmPassword" id="confirmPassword" required></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="sbm">
-                    <button type="submit" class="bttn" name="changePassword">Changer&nbsp;Mot&nbsp;de&nbsp;passe</button>
-                </div>
-            </form>
-            <p class="message">
-                <?php echo isset($message, $error) ? $message . "\n" . $error : ''; ?>
-            </p>
-        </div>
+<div class="main-container">
+    <div class="update">
+        <form action="#" method="post">
+            <div class="fr-tb">
+                <table>
+                    <tr>
+                        <td><label for="password">Nouveau&nbsp;mot&nbsp;de&nbsp;passe</label></td>
+                        <td><input type="password" name="password" id="password" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="confirmPassword">Confirmer&nbsp;Mot&nbsp;de&nbsp;passe</label></td>
+                        <td><input type="password" name="confirmPassword" id="confirmPassword" required></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="sbm">
+                <button type="submit" class="bttn" name="changePassword">Changer&nbsp;Mot&nbsp;de&nbsp;passe</button>
+            </div>
+        </form>
+        <p class="message">
+            <?php echo isset($message, $error) ? $message . "\n" . $error : ''; ?>
+        </p>
     </div>
+</div>
 </body>
 </html>

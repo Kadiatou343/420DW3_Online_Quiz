@@ -155,7 +155,8 @@ if (isset($_GET["search"])) {
 <div class="main-container">
     <div class="list-user">
         <div class="filter">
-            <input type="text" name="filter" id="filter" placeholder="Recherche un utilisateur" value="<?php echo $criteria ?? '';?>">
+            <input type="text" name="filter" id="filter" placeholder="Recherche un utilisateur"
+                   value="<?php echo $criteria ?? ''; ?>">
             <a id="searchLink" href="" class="bttn">Recherche</a>
         </div>
         <div class="table-content">
@@ -215,27 +216,32 @@ if (isset($_GET["search"])) {
                 <div class="form-gr">
                     <div class="input-gr">
                         <label for="userId">Id</label>
-                        <input type="text" name="userId" id="userId" readonly value="<?php echo isset($userToUpdate) ? $userToUpdate->getId() : ''; ?>">
+                        <input type="text" name="userId" id="userId" readonly
+                               value="<?php echo isset($userToUpdate) ? $userToUpdate->getId() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="firstName">Prénom</label>
-                        <input type="text" name="firstName" id="lastName" required value="<?php echo isset($userToUpdate) ? $userToUpdate->getFirstName() : ''; ?>">
+                        <input type="text" name="firstName" id="lastName" required
+                               value="<?php echo isset($userToUpdate) ? $userToUpdate->getFirstName() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="lastName">Nom&nbsp;de&nbsp;famille</label>
-                        <input type="text" name="lastName" id="lastName" required value="<?php echo isset($userToUpdate) ? $userToUpdate->getLastName() : ''; ?>">
+                        <input type="text" name="lastName" id="lastName" required
+                               value="<?php echo isset($userToUpdate) ? $userToUpdate->getLastName() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="email">Email</label>
-                        <input type="text" name="email" id="email" required value="<?php echo isset($userToUpdate) ? $userToUpdate->getEmail() : ''; ?>">
+                        <input type="text" name="email" id="email" required
+                               value="<?php echo isset($userToUpdate) ? $userToUpdate->getEmail() : ''; ?>">
                     </div>
 
                     <div class="input-gr">
                         <label for="password">Mot&nbsp;de&nbsp;passe&nbsp;par&nbsp;defaut</label>
-                        <input type="text" name="password" id="password" readonly value="<?php echo isset($userToUpdate) ? 'Ensuré' : '0000'; ?>">
+                        <input type="text" name="password" id="password" readonly
+                               value="<?php echo isset($userToUpdate) ? 'Ensuré' : '0000'; ?>">
                     </div>
 
                     <div class="input-gr">

@@ -16,7 +16,7 @@ $resultService = new ResultService();
 $questionService = new QuestionService();
 
 if (SessionManager::doesUserSessionExit()) {
-    $userId = (int) $_SESSION["userId"];
+    $userId = (int)$_SESSION["userId"];
 }
 
 $results = $resultService->filterResultsByUserId($userId ?? 0);
@@ -44,33 +44,33 @@ $results = $resultService->filterResultsByUserId($userId ?? 0);
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="table-content">
-                <div class="table-title">
-                    <h3>Resultats</h3>
-                    <h3>Nombre de participation&nbsp;:&nbsp;<?php echo count($results->getListResults());?></h3>
-                </div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Titre&nbsp;Quiz</th>
-                            <th scope="col">Nombre&nbsp;de&nbsp;questions</th>
-                            <th scope="col">Score</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($results->getListResults() as $result) { ?>
-                        <tr>
-                            <td><?php echo $result->getQuiz()->getTitle(); ?></td>
-                            <td><?php echo count($questionService->filterQuestionsByQuizId($result->getQuiz()->getId())->getListQuestions()); ?></td>
-                            <td><?php echo $result->getScore(); ?></td>
-                            <td><?php echo $result->getDateCreated()->format('Y-m-d H:i:s');?></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+<div class="main-container">
+    <div class="table-content">
+        <div class="table-title">
+            <h3>Resultats</h3>
+            <h3>Nombre de participation&nbsp;:&nbsp;<?php echo count($results->getListResults()); ?></h3>
         </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Titre&nbsp;Quiz</th>
+                <th scope="col">Nombre&nbsp;de&nbsp;questions</th>
+                <th scope="col">Score</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($results->getListResults() as $result) { ?>
+                <tr>
+                    <td><?php echo $result->getQuiz()->getTitle(); ?></td>
+                    <td><?php echo count($questionService->filterQuestionsByQuizId($result->getQuiz()->getId())->getListQuestions()); ?></td>
+                    <td><?php echo $result->getScore(); ?></td>
+                    <td><?php echo $result->getDateCreated()->format('Y-m-d H:i:s'); ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
     </div>
+</div>
 </body>
 </html>

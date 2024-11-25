@@ -153,8 +153,7 @@ class User
     {
         if (!$this->validateEmail($email)) {
             throw new ArgumentOutOfRangeException("La taille de l'email devrait être inférieure à " . self::USER_EMAIL_MAX_LENGTH . " !");
-        }
-        elseif (!$this->validateEmailFormat($email)) {
+        } elseif (!$this->validateEmailFormat($email)) {
             throw new InvalidArgumentException("Le format de l'email n'est pas valide !");
         }
         $this->email = $email;
@@ -185,7 +184,6 @@ class User
     {
         $this->role = $role;
     }
-
 
 
     public function getRegistrationDate(): DateTime
@@ -223,7 +221,8 @@ class User
      * @return bool
      * La méthode pour valider la taille du prénom
      */
-    public function validateFirstName(string $firstName): bool {
+    public function validateFirstName(string $firstName): bool
+    {
         return strlen($firstName) <= self::USER_FIRSTNAME_MAX_LENGTH;
     }
 
@@ -232,7 +231,8 @@ class User
      * @return bool
      * La méthode pour valider la taille le hash du mot de passe
      */
-    public function validatePasswordHash(string $passwordHash): bool {
+    public function validatePasswordHash(string $passwordHash): bool
+    {
         return strlen($passwordHash) <= self::USER_PASSWORD_HASH_MAX_LENGTH;
     }
 
@@ -241,11 +241,12 @@ class User
      * @return bool
      * La méthode pour valider le format de l'email
      */
-    public function validateEmailFormat(string $email): bool {
-         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-             return false;
-         }
-         return true;
+    public function validateEmailFormat(string $email): bool
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -253,7 +254,8 @@ class User
      * @return bool
      * La méthode pour valider la taille de l'email
      */
-    public function validateEmail(string $email): bool {
+    public function validateEmail(string $email): bool
+    {
         return strlen($email) <= self::USER_EMAIL_MAX_LENGTH;
     }
 

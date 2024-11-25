@@ -196,16 +196,16 @@ class UserDAO
     public function searchByString(string $criteria): ListUser
     {
         $query = "SELECT * FROM $this->tableName WHERE LOWER(LastName) LIKE :criteria " .
-        "OR LOWER(FirstName) LIKE :criteria OR LOWER(Email) LIKE :criteria ;";
+            "OR LOWER(FirstName) LIKE :criteria OR LOWER(Email) LIKE :criteria ;";
         $statement = $this->connection->prepare($query);
-        $statement->bindValue(":criteria", "%" . strtolower($criteria) ."%");
+        $statement->bindValue(":criteria", "%" . strtolower($criteria) . "%");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
         $users = new ListUser();
 
-        if ($result){
-            foreach ($result as $user){
+        if ($result) {
+            foreach ($result as $user) {
                 $users->addUser(new User(
                     $user['LastName'],
                     $user['FirstName'],
@@ -226,7 +226,7 @@ class UserDAO
      * @return ListUser
      * Filtrer les utilisateurs par leur role
      */
-    public function filterByRole(string $filter) : ListUser
+    public function filterByRole(string $filter): ListUser
     {
         $query = "SELECT * FROM $this->tableName WHERE Role = :filter ;";
         $statement = $this->connection->prepare($query);
@@ -235,7 +235,7 @@ class UserDAO
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
         $users = new ListUser();
-        foreach ($result as $id => $user){
+        foreach ($result as $id => $user) {
             $users->addUser(new User(
                 $user['LastName'],
                 $user['FirstName'],
