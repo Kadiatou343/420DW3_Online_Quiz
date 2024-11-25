@@ -308,7 +308,7 @@ $questionService = null;
         <div class="table-content">
             <div class="table-title">
                 <h3>Liste des quiz</h3>
-                <a href="#" class="bttn">Ajouter Quiz</a>
+                <a href="#add-quiz" class="bttn">Ajouter Quiz</a>
             </div>
             <table class="table table-striped">
                 <thead>
