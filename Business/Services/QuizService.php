@@ -47,8 +47,12 @@ class QuizService
     public function getQuizById(int $id): Quiz
     {
         $quiz = $this->quizDAO->getById($id);
-        if ($quiz == null) {
-            throw new InvalidArgumentException("Quiz with Id {$id} not found");
+        try {
+            if ($quiz == null) {
+                throw new InvalidArgumentException("Quiz with Id {$id} not found");
+            }
+        } catch (InvalidArgumentException $e) {
+            $error = $e->getMessage();
         }
         return $quiz;
     }

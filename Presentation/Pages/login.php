@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="login-form">
         <h2>Quizzy&nbsp;Dev&nbsp;-&nbsp;Connexion</h2>
         <form action="#" method="post">
-            <input type="email" name="email" id="email" required placeholder="Email">
+            <input type="email" name="email" id="email" required placeholder="Email" value="<?php echo isset($user) ? $user->getEmail() : '';?>">
             <input type="password" name="password" id="password" required placeholder="Mot de passe">
             <input type="hidden" name="idCaptcha" value="<?php echo $captcha->getId(); ?>">
             <div class="section-captcha">

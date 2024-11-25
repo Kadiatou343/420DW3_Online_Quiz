@@ -31,8 +31,10 @@ if (SessionManager::doesUserSessionExit()) {
 
             $userPasswordUpdated = $userService->updateUser($user);
 
+            $success = "Votre mot de passe a été changé avec succès !";
+
         } catch (ArgumentOutOfRangeException|Exception $e) {
-            $error = $e->getMessage();
+            $message = $e->getMessage();
         }
     }
 
@@ -125,7 +127,7 @@ if (SessionManager::doesUserSessionExit()) {
             </div>
         </form>
         <p class="message">
-            <?php echo isset($message, $error) ? $message . "\n" . $error : ''; ?>
+            <?php echo $success ?? $message ?? ''; ?>
         </p>
     </div>
 </div>

@@ -59,8 +59,12 @@ class QuestionService
     {
         $question = $this->questionDAO->getById($id);
 
-        if ($question === null) {
-            throw new InvalidArgumentException("Question with Id {$id} not found");
+        try {
+            if ($question === null) {
+                throw new InvalidArgumentException("Question with Id {$id} not found");
+            }
+        } catch (InvalidArgumentException $e){
+            $error = $e->getMessage();
         }
         return $question;
     }

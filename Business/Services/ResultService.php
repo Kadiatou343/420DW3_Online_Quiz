@@ -54,8 +54,12 @@ class ResultService
     {
         $result = $this->resultDAO->getById($id);
 
-        if ($result === null) {
-            throw new InvalidArgumentException("Result with Id {$id} not found");
+        try {
+            if ($result === null) {
+                throw new InvalidArgumentException("Result with Id {$id} not found");
+            }
+        } catch (InvalidArgumentException $e) {
+            $error = $e->getMessage();
         }
         return $result;
     }

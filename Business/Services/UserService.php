@@ -125,8 +125,12 @@ class UserService
     {
         $user = $this->userDAO->getById($id);
 
-        if ($user === null) {
-            throw new InvalidArgumentException("User with Id{id} not found !");
+        try {
+            if ($user === null) {
+                throw new InvalidArgumentException("User with Id{$id} not found !");
+            }
+        } catch (InvalidArgumentException $e) {
+            $error = $e->getMessage();
         }
 
         return $user;
