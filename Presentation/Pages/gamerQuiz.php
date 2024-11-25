@@ -1,10 +1,7 @@
 <?php
 
-use Business\Domain\Result;
 use Business\Services\QuestionService;
 use Business\Services\QuizService;
-use Business\Services\ResultService;
-use Business\Services\UserService;
 
 require_once "../../psr4_autoloader.php";
 session_start();
@@ -27,7 +24,7 @@ $totalQuizzes = $quizService->getQuizzesCount();
 /**
  * Le nombre de quiz à chercher dans la base de données
  */
-$limit = 4;
+$limit = 5;
 
 /**
  * Pour obtenir le nombre de pagination possible
