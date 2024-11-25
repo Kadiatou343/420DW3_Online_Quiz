@@ -354,7 +354,7 @@ $questionService = null;
             </table>
         </div>
     </div>
-    <div class="table-content">
+    <div class="table-content" id="ques">
         <div class="table-title">
             <h3>Questions du quiz N°<?php echo isset($newQuiz) ? $newQuiz->getId() : ''; ?></h3>
             <h3>Titre du quiz : <?php echo isset($newQuiz) ? $newQuiz->getTitle() : ''; ?></h3>
@@ -382,7 +382,7 @@ $questionService = null;
                         <td> <?php echo $question->getWrongAnswer1(); ?> </td>
                         <td> <?php echo $question->getWrongAnswer2(); ?> </td>
                         <td> <?php echo $question->getWrongAnswer3(); ?> </td>
-                        <td><img src="<?php echo $question->getImageUrl(); ?>" alt="err" width="50" height="50"></td>
+                        <td><img src="<?php echo $question->getImageUrl(); ?>" alt="No img" width="50" height="50"></td>
                         <td>
                             <a href="?qAction=remove&quesId=<?php echo $question->getId(); ?>"><i
                                         class="bi bi-trash"></i></a>&nbsp;
@@ -395,10 +395,10 @@ $questionService = null;
             </tbody>
         </table>
     </div>
-    <div class="add-quiz">
+    <div class="add-quiz" id="add-quiz">
         <form action="#" method="post" enctype="multipart/form-data">
             <div class="form-ct">
-                <table class="fm-ct">
+                <table class="fm-ct" id="fm">
                     <tr>
                         <td><label for="quizId">Id</label></td>
                         <td><input type="text" name="quizId" id="quizId" readonly

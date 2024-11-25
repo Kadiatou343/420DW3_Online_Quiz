@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../StyleSheets/style.css">
-    <title>Login - Panel</title>
+    <title>Sign in</title>
 
 </head>
 <body>
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="login-form">
         <h2>Quizzy&nbsp;Dev&nbsp;-&nbsp;Connexion</h2>
         <form action="#" method="post">
-            <input type="email" name="email" id="email" required placeholder="Email" value="<?php echo isset($user) ? $user->getEmail() : '';?>">
+            <input type="email" name="email" id="email" required placeholder="Email">
             <input type="password" name="password" id="password" required placeholder="Mot de passe">
             <input type="hidden" name="idCaptcha" value="<?php echo $captcha->getId(); ?>">
             <div class="section-captcha">

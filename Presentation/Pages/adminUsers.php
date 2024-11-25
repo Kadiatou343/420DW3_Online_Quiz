@@ -94,6 +94,7 @@ if (isset($_GET["action"])) {
 
         try {
             $userService->deleteUser($userToRemove);
+            $usersList = $userService->getAllUsers();
         } catch (Exception $e) {
             $error = $e->getMessage();
         }

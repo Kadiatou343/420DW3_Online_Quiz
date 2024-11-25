@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user->setRole(UserRole::GAMER->value);
 
         if (!User::confirmPassword($password, $confirmPassword)) {
-            throw new Exception("Les mot de passes ne correspondent pas");
+            throw new Exception("Les mots de passe ne correspondent pas");
         }
 
         $user->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../StyleSheets/style.css">
-    <title>Document</title>
+    <title>Sign up</title>
 </head>
 <body>
 

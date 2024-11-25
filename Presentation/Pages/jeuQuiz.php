@@ -153,6 +153,7 @@ shuffle($answers);
                 <p>
                     <?php echo $question->getQuestionText() ?>
                 </p>
+                <img src="<?php echo $question->getImageUrl();?>" alt="No img" width="50" height="50">
             </div>
             <div class="answers1">
                 <strong>A.</strong>&nbsp;

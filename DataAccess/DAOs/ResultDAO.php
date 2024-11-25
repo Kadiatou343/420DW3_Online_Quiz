@@ -6,6 +6,8 @@ namespace DataAccess\DAOs;
 use Business\Domain\Quiz;
 use Business\Domain\Result;
 use Business\Domain\User;
+use Business\Services\QuizService;
+use Business\Services\UserService;
 use DataAccess\DbConnectionProvider;
 use Exception;
 use PDO;
@@ -28,15 +30,15 @@ class ResultDAO
      */
     private string $tableName = 'results';
     /**
-     * @var QuizDAO
+     * @var QuizService
      * Le DAO du quiz qui va permettre de chercher le quiz auquel le résultat est liée
      */
-    private QuizDAO $quizDAO;
+    private QuizService $quizService;
     /**
-     * @var UserDAO
+     * @var UserService
      * Le DAO du l'utilisateur qui va permettre de chercher l'utilisateur auquel le résultat est liée
      */
-    private UserDAO $userDAO;
+    private UserService $userService;
 
     /**
      * Le contructeur initiale la connection avec la classe fournisseur
@@ -45,8 +47,8 @@ class ResultDAO
     public function __construct()
     {
         $this->connection = DbConnectionProvider::getConnection();
-        $this->quizDAO = new QuizDAO();
-        $this->userDAO = new UserDAO();
+        $this->quizService = new QuizService();
+        $this->userService = new UserService();
     }
 
 
@@ -66,8 +68,8 @@ class ResultDAO
         $statement->closeCursor();
 
         if ($result) {
-            $quiz = $this->quizDAO->getById($result['QuizId']);
-            $user = $this->userDAO->getById($result['UserId']);
+            $quiz = $this->quizService->getQuizById((int)$result['QuizId']);
+            $user = $this->userService->getUserById((int)$result['UserId']);
             return new Result(
                 $result['Score'],
                 $quiz,
@@ -94,8 +96,8 @@ class ResultDAO
         $results = new ListResult();
 
         foreach ($queryResults as $id => $result) {
-            $quiz = $this->quizDAO->getById($result['QuizId']);
-            $user = $this->userDAO->getById($result['UserId']);
+            $quiz = $this->quizService->getQuizById((int)$result['QuizId']);
+            $user = $this->userService->getUserById((int)$result['UserId']);
             $results->addResult(new Result(
                 $result['Score'],
                 $quiz,
@@ -190,7 +192,7 @@ class ResultDAO
                 new Result(
                     $result['Score'],
                     $quiz,
-                    $this->userDAO->getById($result['UserId']),
+                    $this->userService->getUserById((int)$result['UserId']),
                     (int)$result['Id'],
                     DateTimeFromString::createDateTimeFromString($result['Date'])
                 )
@@ -218,7 +220,7 @@ class ResultDAO
             $user->getResults()->addResult(
                 new Result(
                     $result['Score'],
-                    $this->quizDAO->getById($result['QuizId']),
+                    $this->quizService->getQuizById((int)$result['QuizId']),
                     $user,
                     (int)$result['Id'],
                     DateTimeFromString::createDateTimeFromString($result['Date'])

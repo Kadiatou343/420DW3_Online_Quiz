@@ -93,6 +93,13 @@ a {
     grid-column-end: 3;
     grid-row: 1;
     border: 2px solid #ccc;
+    background: #002C2F;
+}
+
+.quiz-title p {
+    color: white;
+    font-weight: bold;
+    margin: 0;
 }
 
 .question-text {
@@ -149,6 +156,10 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.question-text {
+    gap: 20px;
 }
 
 .back {
